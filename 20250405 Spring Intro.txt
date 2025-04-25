@@ -1,0 +1,46 @@
+							Java Full Stack Development
+									05-04-2025
+							   Mr.Akash(NSA IT-POINT) 							   
+===============================================================================
+
+
+A framework is a semi-developed software structure that provides reusable components, libraries, and tools to support the development of applications.
+
+Spring is an application development framework
+
+UI Layer -> Web Layer -> Service Layer -> Persistance Layer -> DB 
+*) Spring is open Source Framework
+*)By Spring spring we can develop end to end application
+*)Spring is versatile, cz we can develop even half application in spring and half by any other framework
+*)Spring dont force to implement or extends any class/interface so we can say that spring is non Invasive framework
+*)Spring is loosely coupled framework. It is developed in modular fashion.
+
+===============
+Spring Modules
+===============
+Below are the modules availble in spring framework
+
+   -> Sprig core
+   -> Sprig context
+   -> Sprig AOP
+   -> Sprig dao
+   -> Sprig web mvc 
+   -> Sprig orm
+   
+Spring Core : It is a base module for spring framework. This module providing fundamental concepts of spring they are IOC and DI.
+       IOC: Inversion Of Control
+       DI : Dependency Injection
+
+Sprig context module will take care of configuration required in our applications.
+
+Sprig AOP(Aspect-Oriented Programming) is used seperate business logic and secondary logic in our application. Just like db logic or security logic we write in seperate class. 
+
+DB -> Spring App(DAO -> Service -> Controller) -> UI	   
+
+Spring DAO(Datavase Access Object) / Spring JDBC module is used to developed persistance layer(logic which is used communicate with database). It is developed on top of JDBC Api.
+
+Spring web MVC module is used to web applications.
+
+Spring ORM module is used to develop Persistance Layer.
+     ORM -> Object Relational Mpping
+	           is is used to represent data in the form of objects

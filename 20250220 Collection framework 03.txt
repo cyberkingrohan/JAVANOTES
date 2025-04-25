@@ -1,0 +1,378 @@
+							Java Full Stack Development
+								20-02-2025
+						   Mr.Akash(NSA IT-POINT)  
+=========================================================================================
+
+
+===============================
+         LinkedList
+===============================
+
+-> Implementation of List interface
+
+-> Internal data structure is double linked list
+
+-> insertion order preserved
+
+-> duplicate objects are allowed
+
+-> Underlying data structure is double linked list.
+
+-> null objects also allowed
+
+-> homogenious & hetereogenious data we can store
+
+-> LinkedList will implements serializable and clonable interface but not 
+random access interface.
+
+-> LinkedList is best choice if our frequent operation is insertion and 
+deletion in middle.
+
+->LinkedList is worst choice if our frequent operation is retrival.
+
+===========================
+LinkedList Growth Mechanism
+===========================
+
+LinkedList is implemented using a doubly linked list, meaning elements are stored in nodes, and each node has:
+
+Data (value)
+Pointer to the next node
+Pointer to the previous node
+
+-> How Does LinkedList Grow?
+Each time a new element is added, a new node is created in the heap memory.
+The previous node is updated to point to the new node.
+There is no pre-defined capacity like in ArrayList.
+
+No need for resizing, as nodes are dynamically allocated.
+More memory is used per element because each node stores pointers (next and previous references).
+Slower random access (O(n) for get(index)) because it requires traversal from the head.
+
+================
+Internal Working
+================
+Linked List is a part of the Collection framework present in java.util package. This class is an implementation of the LinkedList data structure which is a linear data structure where the elements are not stored in contiguous locations and every element is a separate object with a data part and address part. The elements are linked using pointers and addresses. Each element is known as a node. 
+
+Due to the dynamicity and ease of insertions and deletions, they are preferred over the arrays. It also has a few disadvantages like the nodes cannot be accessed directly instead we need to start from the head and follow through the link to reach a node we wish to access.
+
+How Does LinkedList work Internally?
+Since a LinkedList acts as a dynamic array and we do not have to specify the size while creating it, the size of the list automatically increases when we dynamically add and remove items. And also, the elements are not stored in a continuous fashion. Therefore, there is no need to increase the size. Internally, the LinkedList is implemented using the doubly linked list data structure. 
+
+The main difference between a normal linked list and a doubly LinkedList is that a doubly linked list contains an extra pointer, typically called the previous pointer, together with the next pointer and data which are there in the singly linked list
+=======================
+Singly Linked List: Each node points to the next node, and traversal is only possible in one direction (from head to tail).
+
+Doubly Linked List: Each node has two references: one to the next node and one to the previous node, allowing traversal in both directions.
+
+Circular Linked List: The last node points back to the head, creating a circular structure. It can be singly or doubly linked.
+
+==============================
+Methods
+	1. void addFirst();
+	2. void addLast();
+	3. object getFirst();
+	4. object getLast();
+	5. object removeFirst();
+	6. object removeLast();
+	
+Constructor
+	1. LinkedList l= new LinkedList();
+	 Create the empty linkedlist object.
+	 
+	2. LinkedList ll= new LinkedList(Collection c);
+	 Create the object for given collection
+
+public class Demo {
+
+	public static void main(String[] args) {
+
+		LinkedList<Integer> ll = new LinkedList<>();
+
+		ll.add(10); // 1 node
+		ll.add(20); // 1 node
+		ll.add(30); // 1 node
+		ll.add(40); // 1 node
+
+		System.out.println(ll); // 10, 20, 30, 40
+		ll.add(1, 15);
+		System.out.println(ll); // 10, 15, 20, 30, 40
+		
+		System.out.println(ll.getLast());
+
+	}
+}
+
+Difference between ArrayList and LinkedList.
+ArrayList  : It is best choice if our frequent operation is retrieval.     
+LinkedList : It is the best choice if our frequent operation is insertion and deletion.
+ArrayList  : It is worst choice if our frequent operation is insertion and deletion.
+LinkedList : It is the worst choice if our frequent operation is retrieval.
+ArrayList  : Underlying data structure for arraylist is resizable or growable array.
+LinkedList : Underlying data structure is double
+
+=======
+Vector
+======
+
+-> Implementation class of List interface
+-> Internal data structure is growable array
+-> duplicates are allowed
+-> insertion order preserved
+-> This is synchronized and hence thread safe
+-> Heterogenous objects are allowed.
+-> Best choice if frequent operation is retrieval.
+-> Vector is called as legacy class ( jdk v 1.0)
+
+-> To traverse vector we can use Enumeration as a cursor
+-> Enumeration is called as Legacy Cursor (jdk 1.0v)
+
+Methods : 
+  For adding objects
+	add(Object o)-
+	add(int index, object o)-
+	addElement(object o)-
+	
+For removing objects
+    remove(object o)
+	remove(int index)
+	removeElement(object o)
+
+For accessing elements
+	Object get(int index)
+	Object ElementAt(int index)
+	Object firstElement()
+	Object lastElement()
+
+--------------
+
+Constructor
+	1. Vector v= new Vector();
+	 Create the empty object with default initial capacity 10, once the vector reaches its max capacity a new vector object will be created with
+	New capacity= 2*current capacity.
+	
+	2. Vector v= new Vector(int initialcapacity);
+	 Create the empty vector object with specified initial capacity.
+	
+	3. Vector v= new Vector(int initialcapacity, int incrementalcapacity)
+	
+	4. Vector v= new Vector(Collection c);
+
+
+public class Demo {
+
+	public static void main(String[] args) {
+
+		Vector<Integer> v = new Vector<>();
+
+		v.add(100);
+		v.add(200);
+		v.add(300);
+		v.add(null);
+
+		Enumeration<Integer> elements = v.elements();
+		while (elements.hasMoreElements()) {
+			System.out.println(elements.nextElement());
+		}
+	}
+}
+
+
+
+ArrayList : Every method present in arraylist is non synchronized.
+Vector    : Every method present in vector is synchronized.
+ArrayList : At a time multiple threads are allowed to operate on arraylist object, hence  arraylist is not thread safe.
+Vector    : At a time only one threads is allowed to operate on vector object, hence vector is thread safe
+ArrayList : Threads are not required to wait to operate on arraylist, hence performance is high
+Vector    : Threads are required to wait to operate on vector, hence performance is low
+ArrayList : troducted in 1.2 version, it is non-legacy class
+Vector    : ntroducted in 1.0 version, it is legacy class
+
+
+====
+Stack
+=====
+
+-> Implementation class of List interface
+
+-> Extending from Vector class
+
+-> Data Structure of Stack is LIFO (last in first out)
+
+push ( ) ---> to insert object
+peek ( ) ---> to get last element
+pop ( ) ---> to remove last element
+
+Methods
+
+1. Object push(Object obj) : For inserting an object to stack.
+
+2. Object pop() : To remove the return top of stack
+
+3. Object peak() :to get last element.
+
+4. int Search(Object obj) : if specified object is available it returns its offset from top of stack. If object is not available then it return -1.
+
+package com.nsa.list.linkedlist;
+
+import java.util.Stack;
+
+public class DemoStack {
+
+	public static void main(String[] args) {
+
+		Stack<Integer> s = new Stack<Integer>();
+
+		boolean add = s.add(20);
+		s.add(10);
+		s.add(10);
+		s.add(25);
+		s.add(null);
+		int age = 50;
+
+		Integer peek = s.peek();
+		System.out.println(peek);
+
+		Integer pop = s.pop();
+		System.out.println(pop);
+
+		Integer push = s.push(500);
+		System.out.println(" push " + push);
+		System.out.println(s.add(1000));
+		System.out.println(s);
+		System.out.println(s.pop());
+
+		if (s.add(30)) {   //
+			System.out.println(s);
+		}
+
+		if (s.push(30) > 20) {
+
+		}
+
+	}
+}
+
+
+Note- Legacy class means which comes from old generation called as Legacy, 
+ Stack and vector are legacy classes.
+
+
+1) ArrayList    --------->  Growable Array
+
+2) LinkedList   ----------> Double Linked List
+
+3) Vector  -------------> Growable Array & Thread Safe
+
+4) Stack  -----------> L I F O
+			
+=============================================
+=============================================
+List Interface Questions
+=========================
+1) Remove duplicates from an ArrayList without using Set
+input  :1, 2, 2, 3, 4, 4, 5
+output :1, 2, 3, 4, 5
+
+2)10. Reverse an ArrayList using a loop
+Input:1, 2, 3, 4, 5
+Output:5, 4, 3, 2, 1
+
+3)Convert an ArrayList into an Array
+Input:
+"Java", "Python", "C++"
+Output: ["Java", "Python", "C++"] // as a String array
+
+4)Iterate over an ArrayList using an iterator
+Input: "Apple", "Banana", "Mango"
+Output:
+Apple
+Banana
+Mango
+
+5) Stack Operations (push, pop, peek)
+Input: Stack<Integer> stack = new Stack<>();
+stack.push(10);
+stack.push(20);
+stack.push(30);
+stack.pop();
+Output:
+Stack after pop: [10, 20]
+Peek element: 20
+
+14. Remove even numbers from an ArrayList
+Input:10, 15, 20, 25, 30
+Output:
+[15, 25]
+
+15. Sort an ArrayList in ascending and descending order
+Input:5, 2, 8, 1, 3
+Output:
+Ascending Order: [1, 2, 3, 5, 8]
+Descending Order: [8, 5, 3, 2, 1]
+
+16. Find the middle element of a LinkedList
+Input:10, 20, 30, 40, 50
+Output:
+Middle element: 30
+
+18. Check if a LinkedList is a palindrome
+Input:'r', 'a', 'c', 'e', 'c', 'a', 'r'
+Output:
+true
+
+
+19. Merge two sorted ArrayLists
+Input:
+1, 3, 5
+2, 4, 6
+Output:
+Merged List: [1, 2, 3, 4, 5, 6]
+
+
+20. Remove element from an ArrayList while iterating
+Input:1, 2, 3, 4, 5
+Output:
+List after removing even numbers: [1, 3, 5]
+
+21. Swap two elements in an ArrayList without Collections.swap()
+Input:
+10, 20, 30, 40
+swap(list, 1, 3);
+Output:
+List after swap: [10, 40, 30, 20]
+
+
+22. Find frequency of elements in an ArrayList
+Input:"apple", "banana", "apple", "orange", "banana"
+Output:{apple=2, banana=2, orange=1}
+
+
+23. Find intersection of two ArrayLists
+Input:
+List<Integer> list1 = Arrays.asList(1, 2, 3, 4);
+List<Integer> list2 = Arrays.asList(3, 4, 5, 6);
+Output:
+Intersection: [3, 4]
+
+24. Reverse a Stack without another Stack
+Input:Stack<Integer> stack = new Stack<>();
+stack.push(1);
+stack.push(2);
+stack.push(3);
+Output:
+Reversed Stack: [3, 2, 1]
+
+25. Implement Min Stack
+Input:
+push(5);
+push(2);
+push(7);
+getMin();
+pop();
+getMin();
+
+Output:
+Min element: 2
+Min element after pop: 2
+

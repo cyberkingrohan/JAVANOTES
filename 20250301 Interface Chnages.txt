@@ -1,0 +1,148 @@
+								Java Full Stack Development
+									    01-03-2025
+								   Mr.Akash(NSA IT-POINT)   
+================================================================================================
+                                
+								Java 8 New Features 
+								*******************
+								
+Java 8 introduce lot of new features which changes java programming style and make it functional programming lang
+
+Main Objective of java 8 feature 
+: Simplify Java Programming
+: Enable Functional Programming
+: Write more readable and consice code 
+
+Java 8 Features :
+
+1)Interface Cahnges :
+    1.1) Default method
+	1.2) static method
+	
+2) Functional Interface (@Functional)	
+        2.1) Predicate & BiPredicate
+	2.2) Consumer & BiConsumer
+	2.3) Supplier
+	2.4) Function & BiFunctional
+	
+3)Lambda Expression
+
+4)Method Reference and Constructor Reference
+
+5) Optional Class
+
+6) Spliterator
+
+7) String Joiner
+
+8) forEach method
+
+9) Data and Time Api
+
+10) Stream API	
+
+11) Nashron Engine 
+
+12)I/O stream Cahnges (Files.lines(Path p))
+
+13)Base64 Encoding and Decoding 
+								
+===============================		
+
+================
+Interface changes
+================
+
+-> Interface means collection of abstract methods
+
+Note: The method which doesn't contain body is called as abstract method
+
+-> A class can implement interface using "implements"
+
+-> When a class is implementing interface its mandatory that class should implement all abstract methods of that interface othewise class can't be compile.
+
+=> Here i am taking one interface with one abstract method. All the classes which are implementing that interface should overide interface method(s).
+
+
+interface Vehicle {
+
+	public abstract void startVechicle ( );
+}
+
+class Car implements Vehicle {
+
+	public void startVehicle ( ) {
+		// logic to start car
+	}
+}
+
+class Bus implements Vehicle {
+	public void startVehicle ( ) {
+		// logic to start  bus
+	}
+}
+
+class Bike implements Vehicle {
+	public void startVehicle ( ) {
+		// logic to start  bike
+	}
+}
+
+=> If we add new method in interface then Car, Bike and Bus will fail at compile time.
+
+=> To overcome above problem we will use Default & Static methods
+
+
+
+1) Interface can have concreate methods from 1.8v
+
+2) Interface concrete method should be default or static
+
+3) interface default methods we can override in impl classes
+
+4) interface static methods we can't overide in impl classes
+
+5) We can write multiple default & static methods in interface
+
+6) Default & Static method introduced to provide backward compatability
+
+
+Ex:  forEach ( ) method added in java.util.Iterable interface as default method in 1.8v
+
+
+===========
+package com.java8.nsa.byAkash;
+
+interface Vehicle {
+	public void start();
+
+	public default void m1() {
+
+	}
+
+	public default void m2() {
+
+	}
+
+	public static void clean() {
+		System.out.println("cleaning completed...");
+	}
+}
+
+public class Car implements Vehicle {
+
+	public void start() {
+		System.out.println("car started...");
+	}
+
+	public static void main(String[] args) {
+		Car c = new Car();
+		Vehicle.clean();
+		c.start();
+	}
+}
+============================================
+
+
+static method : can not be override so when we want some logic not to be overridden by implementation classes we can go with static methods.
+default methods : if some impl classes want to override and some not then we can go with default method

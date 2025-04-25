@@ -1,0 +1,142 @@
+								Java Full Stack Development
+									    24-02-2025
+								   Mr.Akash(NSA IT-POINT)   
+================================================================================================
+============================
+Fail Fast and Fail Safe Collections
+============================
+
+-> Collections are divided into 2 types
+
+1) Fail Fast Collections
+
+2) Fail Safe Collections
+
+
+-> Fail Fast collections will throw error immediatley when we modify collection object while traversing the collection
+
+	Ex: ArrayList, LinkedList, Vector, HashSet, LHS etc...
+
+Note: Fail Fast collections will throw concurrent modification exception when collection is modified
+
+
+-> FailSafe collections will not throw any error even if we modify collection object data (Add / Remove) while traversing
+
+	Ex: CopyOnWriteArrayList,  ConcurrentHashMap etc...
+
+
+
+
+public class Demo {
+
+	public static void main(String[] args) {
+
+		// Fail Fast Collection
+		ArrayList<Integer> al = new ArrayList<>();
+
+		al.add(100);
+		al.add(200);
+		al.add(300);
+		al.add(400);
+
+		for (int i : al) {
+			System.out.println(i);
+			if (i == 100) {
+				al.add(150);
+			}
+		}
+	}
+}
+
+public class Demo1 {
+
+	public static void main(String[] args) {
+
+		// Fail Safe Collection
+		CopyOnWriteArrayList<Integer> al = new CopyOnWriteArrayList<>();
+
+		al.add(100);
+		al.add(200);
+		al.add(300);
+		al.add(400);
+
+		for (int i : al) {
+			System.out.println(i);
+			if (i == 100) {
+				al.add(150);
+			}
+		}
+		System.out.println(al);
+	}
+}
+
+
+
+package com.nsait.akash.collectionworkshop;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
+public class Demo2 {
+	
+	public static void main(String[] args) {
+		
+		HashMap<Integer,String> map = new HashMap<>();
+		
+		map.put(101, "one");
+		map.put(102, "two");
+		map.put(103, "three");
+		
+		Set<Integer> keySet = map.keySet();
+		Iterator<Integer> iterator = keySet.iterator();
+		while(iterator.hasNext()) {
+			System.out.println(iterator.next());
+			map.put(104, "four");
+		}
+		
+	}
+}
+
+
+package com.nsait.akash.collectionworkshop;
+
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Demo3 {
+
+	public static void main(String[] args) {
+
+		ConcurrentHashMap<Integer, String> map = new ConcurrentHashMap<>();
+
+		map.put(101, "one");
+		map.put(102, "two");
+		map.put(103, "three");
+
+		Set<Integer> keySet = map.keySet();
+		Iterator<Integer> iterator = keySet.iterator();
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next());
+			map.put(104, "four");
+		}
+		
+		System.out.println(map);
+
+	}
+}
+
+=============
+Fail Safe :
+ConcurrentHashMap
+CopyOnWriteArrayList
+CopyOnWriteArraySet
+
+Fail Fast :
+ArrayList
+LinkedList
+HashMap
+
+==========================XXXXX===================
+

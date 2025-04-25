@@ -1,0 +1,155 @@
+								Java Full Stack Development
+									    25-02-2025
+								   Mr.Akash(NSA IT-POINT)   
+================================================================================================
+
+
+Internal working of HashSet and HashMap?
+
+How HashSet internally works?
+
+ Each and every element in set is unique. So that there is no duplicate 
+element in set. So In Java, if we want to add element in set then write a code like 
+this.
+
+Example
+
+package com.nsa.akash;
+import java.util.HashSet;
+	public class HashSetDemo {
+		public static void main(String[] args) {
+			HashSet hs= new HashSet();
+			hs.add(3);
+			hs.add("ram");
+			hs.add("Pune");
+			System.out.println(hs);
+		}
+	}
+Output-
+[3, Pune, ram]
+ Now, let add the duplicate element in the above code as
+	package com. nsa.akash;
+	import java.util.HashSet;
+		public class HashSetDemo {
+			public static void main(String[] args) {
+			HashSet hashSet = new HashSet();
+			hashSet.add(3);
+			hashSet.add("ram");
+			hashSet.add("Pune");
+			hashSet.add(3);
+			hashSet.add("Pune");
+			System.out.println(hashSet); 
+		}
+	}
+Output-
+[3, Pune, ram]
+ Now what happen internally when you pass duplicate element 
+in set then add () method of set object, it will return false and do not add to 
+hashset as element is already present.
+ But main problem is arising that how it return false, here is the 
+answer.
+ When you open hashset implementation of add method () in 
+Java API’s you will find the following code-
+Public class HashSet <E> extends AbstractSet<E> implements Set<E>, clonable 
+java.o.serializable
+{
+Private transient Hashmap<E, Object> Map;
+/* dummy value associate with object in map */
+Private static final object Present= new object();
+Public HashSet(){
+Map= new Hashmap<>();
+//some code, other method in hashset
+}
+Public Boolean add (E e) {
+return map. Put(e, PRESENT)==null;
+}
+We are achieving uniqueness in set, internally java through hashmap. Whenever 
+you create the object of hashset it will create the object of hashmap as see in 
+above.
+As we know, in hashmap each key is unique. We do in set is that we pass argument 
+in add(Element E) that is E as key in hashmap, now we need to associate some 
+value to key, so what java developer did to pass dummy value that is(new 
+Object()); which is referred by object reference PRESENT.
+So actually when you are adding line in hashset like hashset.add(3) what java 
+internally is that it will put that element as E here as 3 key in hashmap and some 
+dummy value that object is passed as value to key.
+If you see code of hashmap put(K k, value v) method, you will find something like 
+this,
+Public v put (K Key, V value){
+//some code
+}
+The main point is that .put(key,value) will return 
+1. Null, if key is unique and added to map.
+2. Old value of key, if key is duplicate.
+So in Hashset add() method, we check return value of map.put(key,value) method 
+will null value i.e.
+Public Boolean add(E e){
+// code here
+}
+So If Map.put(key,value) return null, then map.put(e,PRESENT)==null, then 
+map.put(e,PRESENT)==null will return true & element added to hashset.
+So If Map.put(key,value) return old value of key, then map.put(e,PRESENT)==null, 
+then map.put(e,PRESENT)==null will return false & element is not added to 
+hashset.
+
+==============Working of HashMap in Java=========================
+What is Hashing
+It is the process of converting an object into an integer value. The integer value helps in indexing and faster searches.
+
+What is HashMap
+HashMap is a part of the Java collection framework. It uses a technique called Hashing. It implements the map interface. It stores the data in the pair of Key and Value. HashMap contains an array of the nodes, and the node is represented as a class. It uses an array and LinkedList data structure internally for storing Key and Value. There are four fields in HashMap.
+
+Working of HashMap in Java
+Before understanding the internal working of HashMap, you must be aware of hashCode() and equals() method.
+
+equals(): It checks the equality of two objects. It compares the Key, whether they are equal or not. It is a method of the Object class. It can be overridden. If you override the equals() method, then it is mandatory to override the hashCode() method.
+hashCode(): This is the method of the object class. It returns the memory reference of the object in integer form. The value received from the method is used as the bucket number. The bucket number is the address of the element inside the map. Hash code of null Key is 0.
+Buckets: Array of the node is called buckets. Each node has a data structure like a LinkedList. More than one node can share the same bucket. It may be different in capacity.
+Working of HashMap in Java
+Insert Key, Value pair in HashMap
+We use put() method to insert the Key and Value pair in the HashMap. The default size of HashMap is 16 (0 to 15).
+
+
+Example
+In the following example, we want to insert three (Key, Value) pair in the HashMap.
+
+HashMap<String, Integer> map = new HashMap<>();  
+map.put("Aman", 19);  
+map.put("Sunny", 29);  
+map.put("Ritesh", 39);  
+Let's see at which index the Key, value pair will be saved into HashMap. When we call the put() method, then it calculates the hash code of the Key "Aman." Suppose the hash code of "Aman" is 2657860. To store the Key in memory, we have to calculate the index.
+
+Calculating Index
+Index minimizes the size of the array. The Formula for calculating the index is:
+
+Index = hashcode(Key) & (n-1)  
+Where n is the size of the array. Hence the index value for "Aman" is:
+
+Index = 2657860 & (16-1) = 4  
+The value 4 is the computed index value where the Key and value will store in HashMap.
+&
+Working of HashMap in Java
+Hash Collision
+This is the case when the calculated index value is the same for two or more Keys. Let's calculate the hash code for another Key "Sunny." Suppose the hash code for "Sunny" is 63281940. To store the Key in the memory, we have to calculate index by using the index formula.
+
+Index=63281940 & (16-1) = 4  
+The value 4 is the computed index value where the Key will be stored in HashMap. In this case, equals() method check that both Keys are equal or not. If Keys are same, replace the value with the current value. Otherwise, connect this node object to the existing node object through the LinkedList. Hence both Keys will be stored at index 4.
+
+Working of HashMap in Java
+Similarly, we will store the Key "Ritesh." Suppose hash code for the Key is 2349873. The index value will be 1. Hence this Key will be stored at index 1.
+
+Working of HashMap in Java
+
+get() method in HashMap
+get() method is used to get the value by its Key. It will not fetch the value if you don't know the Key. When get(K Key) method is called, it calculates the hash code of the Key.
+
+Suppose we have to fetch the Key "Aman." The following method will be called.
+
+map.get(new Key("Aman"));  
+It generates the hash code as 2657860. Now calculate the index value of 2657860 by using index formula. The index value will be 4, as we have calculated above. get() method search for the index value 4. It compares the first element Key with the given Key. If both keys are equal, then it returns the value else check for the next element in the node if it exists. In our scenario, it is found as the first element of the node and return the value 19.
+
+Let's fetch another Key "Sunny."
+
+The hash code of the Key "Sunny" is 63281940. The calculated index value of 63281940 is 4, as we have calculated for put() method. Go to index 4 of the array and compare the first element's Key with the given Key. It also compares Keys. In our scenario, the given Key is the second element, and the next of the node is null. It compares the second element Key with the specified Key and returns the value 29. It returns null if the next of the node is null.
+
+Theory Source : https://www.javatpoint.com/working-of-hashmap-in-java

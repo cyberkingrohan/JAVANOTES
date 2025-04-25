@@ -1,0 +1,87 @@
+								Java Full Stack Development
+									    20-03-2025
+								   Mr.Akash(NSA IT-POINT)   
+=========================================================================================
+
+Factory Design Pattern
+----------------------
+The Factory Design Pattern is a creational design pattern used to create objects without exposing the instantiation logic to the client. Instead of directly using the new keyword, a factory method is used to create and return objects.
+
+Why Use Factory Pattern?
+------------------------
+Encapsulation: Hides object creation logic.
+Flexibility: Makes code scalable for future changes.
+Loose Coupling: Reduces dependencies between classes.
+Improved Maintainability: Easy to modify and extend.
+
+Example: Factory Design Pattern Implementation
+------------------------------------------------
+Let's say we have different types of notifications (SMS, Email, and Whatsapp Notification). Instead of creating objects manually, we use a factory class.
+
+------Step 1: Create an Interface-----------
+public interface Notification {
+    public void notifyUser();
+}
+------Step 1: IMPL classes------
+public class SMSNotification implements Notification {
+
+    @Override
+    public void notifyUser() {
+        System.out.println("SMS Notification Logic");
+    }
+}
+--------
+public class EmailNotification implements Notification {
+
+    @Override
+    public void notifyUser() {
+        System.out.println("EMAIL Notification Logic");
+    }
+}
+-------
+public class WhatsappNotification implements Notification {
+    
+    @Override
+    public void notifyUser() {
+        System.out.println("WHATSAPP Notification Logic");
+    }
+}
+-------Step 3: Create the Factory Class-----------
+
+public class NotificationFactory {
+
+    public static Notification sendNotification(String type) {
+
+        if (type == null || type.isEmpty()) {
+            throw new IllegalArgumentException("Invalid notification type");
+        }
+
+/*         switch (type.toLowerCase()) {
+             case "sms" : return new SMSNotification();
+            case "email" : return new EmailNotification();
+            case "whatsapp" : return new WhatsappNotification();
+            default: throw new IllegalArgumentException("Notification type does not exists");
+        }*/
+
+        return switch (type.toLowerCase()) {
+            case "sms" -> new SMSNotification();
+            case "email" -> new EmailNotification();
+            case "whatsapp" -> new WhatsappNotification();
+            default -> throw new IllegalArgumentException("Notification type does not exists");
+        };
+    }
+}
+
+------Step 4: Use the Factory Pattern in the Main Class------
+public class TestMain {
+
+    public static void main(String[] args) {
+        System.out.println("Enter Notification Type");
+        Scanner sc = new Scanner(System.in);
+        String notificationType = sc.next();
+        Notification notification = NotificationFactory.sendNotification(notificationType);
+        notification.notifyUser();
+    }
+}
+=====================================
+=====================================

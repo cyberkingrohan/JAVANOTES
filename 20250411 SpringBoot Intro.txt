@@ -1,0 +1,105 @@
+							Java Full Stack Development
+									11-04-2025
+							   Mr.Akash(NSA IT-POINT) 							   
+===============================================================================
+
+Spring Boot is an open-source, Java-based framework
+It is built on top of the Spring Framework and provides auto-configuration, embedded servers
+
+Key Features of Spring Boot
+============================
+1. Auto-Configuration
+-> Automatically configures Spring and third-party libraries based on dependencies.
+-> Reduces manual configuration (e.g., no need for XML or @Configuration in many cases).
+
+2. Standalone Applications
+-> Creates self-contained applications with embedded servers (Tomcat, Jetty, Undertow).
+-> No need for external server deployment; just run as a Java executable (JAR).
+
+3. Opinionated Defaults
+-> Provides sensible defaults (e.g., database setup, security) that can be overridden.
+
+4. Spring Boot Starters
+-> Simplifies dependency management with starter POMs (e.g., spring-boot-starter-web, spring-boot-starter-data-jpa).
+-> Reduces conflicts between library versions.
+
+5. Embedded Servers
+-> No need for external Tomcat or Jetty setup; includes them by default.
+-> Just run java -jar app.jar to start the server.
+
+6. Production-Ready Features
+-> Built-in Actuator for monitoring (health checks, metrics, logs).
+-> Supports Spring Security for authentication & authorization.
+
+7. No XML Configuration
+-> Uses Java-based (@Bean, @Configuration) or properties/YAML configuration.
+
+8. Easy Database Integration
+-> Works seamlessly with Spring Data JPA, Hibernate, JDBC, and NoSQL databases (MongoDB, Redis).
+
+9. Microservices Support
+-> Ideal for building RESTful APIs and microservices.
+-> Works well with Spring Cloud for distributed systems.
+
+10. Developer Tools (Hot Reloading)
+-> spring-boot-devtools enables fast application restarts and live reload during development
+
+
+=========How to create SpringBoot Application=========
+1) Go to : https://start.spring.io/
+
+2) Select Project Configuration
+Project: Maven (selected)
+Language: Java (selected)
+Spring Boot Version: 3.4.4 (selected)
+
+3) Fill in Project Metadata
+This metadata defines your project’s base package and artifact structure:
+
+Group: com.example → usually your org or domain name.
+Artifact: First-SpringBoot-Project → the name of your project
+Name: First-SprinGboot-Project → same as the artifact.
+Description: A short description (e.g., "Demo project for Spring Boot").
+Package name: com.nsa → your root package name for the Java classes.
+
+4) Packaging and Java Version
+Packaging: Jar
+Java: 21 
+
+5) Add Dependencies
+->Spring Web: To build RESTful web applications.
+->MySQL Driver: For connecting to a MySQL database.
+->Spring Data JPA: For database interactions using JPA/Hibernate.
+
+6) Generate the Project
+Click on the "GENERATE" button or press CTRL + ENTER. This will download a .zip file.
+
+7) Extract and Import into IDE
+Extract the ZIP file.
+Open IntelliJ IDEA
+Use "Import Project" and select the extracted folder.
+Choose Maven as the import option.
+
+===============================================
+===============================================
+@SpringBootApplication - What is it?
+It’s a convenience annotation that does 3 major things by combining three annotations:
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+
+1. @Configuration
+-----------------
+-> Marks the class as a source of bean definitions.
+-> Replaces the traditional beans.xml in Spring XML configuration.
+-> Allows you to define beans using @Bean.
+
+2. @EnableAutoConfiguration
+---------------------------
+-> Tells Spring Boot to automatically configure your application based on the dependencies present in the classpath.
+-> For example: If Spring Boot sees spring-boot-starter-web, it configures Tomcat, DispatcherServlet, etc. automatically.
+
+3. @ComponentScan
+-----------------
+-> Enables component scanning in the package of the class it’s declared on (and its sub-packages).
+-> Automatically registers @Component, @Service, @Repository, and @Controller annotated classes as beans in the Spring container.

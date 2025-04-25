@@ -1,0 +1,190 @@
+=========Java 10 (March 2018)=========
+1) Local Variable Type Inference (var)
+Simplifies variable declarations by allowing the compiler to infer types.
+Example:
+var list = new ArrayList<String>(); // Compiler infers ArrayList<String>
+
+=========Optional.orElseThrow()=========
+If the Optional contains a value, it returns that value; otherwise, it throws a NoSuchElementException
+
+
+Example 1: Using orElseThrow():-
+
+public class OptionalExample {
+    public static void main(String[] args) {
+        Optional<String> optionalValue = Optional.of("Hello, Java 10!");
+        
+        // Since value is present, it returns the value
+        String result = optionalValue.orElseThrow();
+        System.out.println(result); // Output: Hello, Java 10!
+    }
+}
+
+Example 2: orElseThrow() When Value is Absent
+
+public class OptionalExample {
+    public static void main(String[] args) {
+        Optional<String> emptyOptional = Optional.empty();
+        
+        // This will throw NoSuchElementException because the Optional is empty
+        String result = emptyOptional.orElseThrow();
+        System.out.println(result);
+    }
+}
+
+Example 3: Using orElseThrow with Custom Exception
+
+import java.util.Optional;
+
+public class OptionalExample {
+    public static void main(String[] args) {
+        Optional<String> emptyOptional = Optional.empty();
+
+        // Throwing a custom exception if value is not present
+        String result = emptyOptional.orElseThrow(() -> new IllegalArgumentException("Value is missing!"));
+        
+        System.out.println(result);
+    }
+}
+
+================
+	Java 11
+================
+=========New String Methods=========
+Added methods for better string manipulation.
+
+isBlank() – Checks if a string is empty or contains only whitespace.
+lines() – Splits a string into a stream of lines.
+strip() – Removes leading and trailing spaces (better than trim()).
+repeat(int count) – Repeats a string multiple times.
+
+-----1. isBlank() Example------
+public class StringMethodsExample {
+    public static void main(String[] args) {
+        String empty = "";
+        String spaces = "   ";
+        String text = "Java 11";
+
+        System.out.println(empty.isBlank());  // true
+        System.out.println(spaces.isBlank()); // true
+        System.out.println(text.isBlank());   // false
+    }
+}
+------lines() Example--------
+import java.util.stream.Collectors;
+
+public class StringLinesExample {
+    public static void main(String[] args) {
+        String multilineText = "Hello\nJava 11\nNew Features";
+
+        // lines() splits by new line and collects into a list
+        multilineText.lines().forEach(System.out::println);
+    }
+}
+output :
+Hello
+Java 11
+New Features
+---------strip() Example---------
+public class StringStripExample {
+    public static void main(String[] args) {
+        String text = "  Hello Java 11  ";
+        
+        System.out.println("Before strip: [" + text + "]");
+        System.out.println("After strip: [" + text.strip() + "]");
+    }
+}
+-------repeat(int count) Example---------
+public class StringRepeatExample {
+    public static void main(String[] args) {
+        String text = "Java ";
+        
+        System.out.println(text.repeat(3)); // Repeats 3 times // Java Java Java 
+
+    }
+}
+
+=========JAVA 14=========
+Key Improvements in Switch Expressions
+Expression-Based Switch – Can return values directly.
+Arrow (->) Syntax – Eliminates the need for break.
+Multiple Case Labels – Use commas to group cases.
+Yield Keyword – Explicitly return values inside {} blocks.
+
+-----Traditional Switch-----
+public class SwitchStatement {
+
+    public static void main(String[] args) {
+        int date = 3;
+        String day;
+
+        switch (date) {
+            case 1:
+                day = "weekday";
+                break;
+            case 2:
+            case 3:
+                day = "weekday";
+                break;
+            case 4:
+            case 5:
+            case 6:
+                day = "weekend";
+                break;
+            case 7:
+                day = "weekend";
+                break;
+            default:
+                day = "invalid day";
+        }
+        System.out.println(day);
+    }
+}
+
+Issues with Traditional Switch
+Uses break statements to avoid fall-through.
+Uses assignment (dayType = "...") repeatedly.
+No return value directly from switch.
+-----------New Switch Expression-------------
+
+public class SwitchStatement {
+
+    public static void main(String[] args) {
+        int date = 3;
+
+        String day = switch (date) {
+            case 1, 2, 3, 4, 5 -> "weekday";
+            case 6, 7 -> "weekend"; 
+            default -> "invalid day";
+        };
+
+        System.out.println(day);
+    }
+}
+
+----------Using {} Blocks and yield-------------
+If a case needs multiple statements, use {} and yield to return a value.
+
+package com.nsa.otherfeatures;
+
+public class SwitchStatement {
+
+    public static void main(String[] args) {
+        int date = 3;
+
+        String day = switch (date) {
+            case 1, 2, 3, 4, 5 -> "weekday";
+            case 6, 7 -> {
+                System.out.println("this is fun time");
+                yield "weekend"; //yield = return
+            }
+            default -> "invalid day";
+        };
+
+        System.out.println(day);
+    }
+}
+
+
+========= =========
+

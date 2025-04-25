@@ -1,0 +1,123 @@
+								Java Full Stack Development
+									    22-03-2025
+								   Mr.Akash(NSA IT-POINT)   
+=========================================================================================
+
+Introduction to MySQL Basics
+----------------------------
+
+Understanding SQL and MySQL
+============================
+SQL (Structured Query Language) is used to communicate with relational databases like MySQL. We write SQL queries to create, manipulate, and retrieve data from a MySQL database. 
+
+
+1. Creating a Database
+=========================
+Before we start working with tables, we need to create a database where our tables will be stored.
+
+sql :
+CREATE DATABASE jdbc_intro;
+USE jdbc_intro;
+
+
+2. Creating a Table
+=====================
+We create a table named `student` with the following columns:
+- `id`: A unique identifier (Primary Key, Auto Incremented)
+- `firstName`: Stores the student's first name
+- `lastName`: Stores the student's last name
+- `age`: Stores the student's age
+
+sql :
+CREATE TABLE student(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
+    age INT
+);
+
+
+3. Inserting Data into the Table
+===================================
+To add data into the `student` table, we use the `INSERT INTO` statement.
+
+Adding a single record:
+sql :
+INSERT INTO student(firstName, lastName, age) VALUES ('NSA', 'IT-POINT', 7);
+INSERT INTO student(firstName, lastName, age) VALUES ('tom', 'harrison', 31);
+
+Adding multiple records at once:
+sql
+INSERT INTO student(firstName, lastName, age) VALUES 
+    ('aman', 'gupta', 18),
+    ('tom', 'david', 21),
+    ('harry', 'potter', 25);
+
+
+4. Retrieving Data
+==================
+To fetch data from the `student` table, we use the `SELECT` statement.
+
+Fetching all columns:
+----------------------
+sql
+SELECT * FROM student;
+
+Fetching specific columns:
+----------------------
+sql
+SELECT id FROM student;
+SELECT firstName, lastName FROM student;
+
+Fetching records with conditions:
+----------------------------------
+sql
+SELECT * FROM student WHERE id = 4;
+SELECT firstName, lastName FROM student WHERE id = 1;
+SELECT * FROM student WHERE age > 18;
+
+5. Updating Data
+==================
+We can modify existing records using the `UPDATE` statement.
+
+Updating a single record:
+--------------------------
+sql
+UPDATE student SET age = 5 WHERE id = 1;
+
+Updating multiple records:
+--------------------------
+Since MySQL has safe update mode enabled by default, we need to disable it before updating multiple records.
+sql
+SET SQL_SAFE_UPDATES = 0;  -- for enabling
+SET SQL_SAFE_UPDATES = 1;  -- for disabling
+
+UPDATE student SET firstName = 'mike' WHERE firstName = 'tom';
+
+
+6. Deleting Data
+=================
+To remove records from the table, we use the `DELETE` statement.
+
+Deleting a specific record:
+---------------------------
+sql
+delete from student where id = 5;
+
+Deleting multiple records with a condition:
+--------------------------------------------
+sql
+delete from student where age > 18;
+
+
+ Note : 
+- Understanding SQL: SQL is used to communicate with MySQL databases.
+- Database Creation: `CREATE DATABASE` & `USE` command to select the database.
+- Table Creation: `CREATE TABLE` to define the structure of a table.
+- Data Insertion: `INSERT INTO` to add records.
+- Data Retrieval: `SELECT` to fetch required data.
+- Updating Data: `UPDATE` to modify existing records.
+- Deleting Data: `DELETE` to remove records.
+- WHERE clause : is used to filter records that meet a specified condition.
+- SET keyword  : is used to specify which column(s) should be updated
+

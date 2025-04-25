@@ -1,0 +1,363 @@
+								Java Full Stack Development
+									    23-03-2024
+								   Mr.Akash(NSA IT-POINT)   
+==========================================================================================
+
+Suppose I want to connect java program to the database then how can I do this?
+By using JDBC, we can achieve this.
+
+	
+How to add the MySQL jar file into project : 
+File -> Project Structure -> Libraries -> click on '+' -> Select Jar File from local folder -> Click on Apply and Close or Apply button.
+
+
+JDBC(Java Database Connectivity) 
+=====
+-> It is an API for the Java programming language. 
+-> It allows the client to access the database and also establishes how the client may 
+do so. 
+-> It can work on a number of operating systems or platforms, like Windows, 
+Mac, etc. 
+-> It is basically a connection between the database and the application.
+
+To connect Java application with the MySQL database, we need to follow 5 following 
+
+steps.
+1. Driver class: The driver class for the MySQL database is com.mysql.jdbc.Driver.
+2. Connection URL: The connection URL for the mysql database is jdbc:mysql://localhost:3306/test
+-> jdbc is the API, 
+-> mysql is the database, 
+-> localhost is the server name on which 
+mysql is running, we may also use IP address, 
+-> 3306 is the port number and 
+-> test is the database name. 
+3. Username: The default username for the mysql database is root.
+4. Password: It is the password given by the user at the time of installing the 
+mysql database. In this example, we are going to use root as the password.
+5. Create a table -in the mysql database, but before creating table, we need to 
+create database first.
+
+------------------------
+create database jbcd_db;
+use jbcd_db;
+
+CREATE TABLE student(
+id int(10),
+name varchar(255),
+age int(10),
+address varchar(255)
+);
+------------------------
+Steps to Connect Java with a Database Using JDBC
+
+	Step 1: Load the Driver class
+	Step 2: Establish the connection
+	Step 3: Create the statement
+	Step 4: Prepare the SQL statement
+	Step 5: Submit the SQL statement to Database
+	Step 6: Process the Results
+	Step 7: Release the Resources
+	
+=================
+
+Example-1 Program for insert the student data using statement through JDBC.
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class JBCDStatement {
+
+  final static String USERNAME = "root";
+  final static String PWD = "akash";
+  final static String URL = "jdbc:mysql://localhost:3306/jbcd_db";
+
+  public static void main(String[] args) {
+
+	try {
+        // 1 : Load the driver class
+	Class.forName("com.mysql.cj.jdbc.Driver");
+
+        // 2 : Establish the connection
+	Connection con = DriverManager.getConnection(URL, USERNAME, PWD);
+
+       // 3 :  Create the statement
+	Statement statement = con.createStatement();
+
+       // 4 : Prepare the SQL statement
+	String insert = "INSERT INTO Student(id, name, age, address) VALUES(1, 'TOM', 18, 'pune,maharashtra')";
+
+       // 5 : submit the statement
+	int rowsAffected = statement.executeUpdate(insert);// executeUpdate -> INSERT, UPDATE, DELETE
+
+       // 6 : Process the result
+	System.out.println("rows affected : " + rowsAffected);
+
+       // 7 : release the resources
+	con.close();
+	statement.close();
+
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+}
+}
+=======================================================
+				PreparedStatement
+=======================================================
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class InsertUsingPrepStatement {
+
+    final static String USERNAME = "root";
+    final static String PWD = "akash";
+    final static String URL = "jdbc:mysql://localhost:3306/jbcd_db";
+
+    public static void main(String[] args) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(URL, USERNAME, PWD);
+
+            String insert = "INSERT INTO student(id, name, age, address)VALUES(?,?,?,?)";
+            preparedStatement = con.prepareStatement(insert);
+
+            preparedStatement.setInt(1, 2);
+            preparedStatement.setString(2, "JERRY");
+            preparedStatement.setInt(3, 21);
+            preparedStatement.setString(4, "nagpur, maharashtra");
+
+            int rowAffected = preparedStatement.executeUpdate();
+            System.out.println("rowAffected : " + rowAffected);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (preparedStatement != null) preparedStatement.close();
+            if (con != null) con.close();
+        }
+    }
+
+}
+=======================================================
+			INSERT MULTIPLE DATA
+=======================================================
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class InsertMultiple {
+
+    final static String USERNAME = "root";
+    final static String PWD = "akash";
+    final static String URL = "jdbc:mysql://localhost:3306/jbcd_db";
+
+    public static void main(String[] args) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(URL, USERNAME, PWD);
+
+            String insert = "INSERT INTO student(id, name, age, address)VALUES(?,?,?,?)";
+            preparedStatement = con.prepareStatement(insert);
+
+            System.out.println("enter the no of studnet ");
+            Scanner sc = new Scanner(System.in);
+            int max = sc.nextInt();
+            for (int no = 1; no <= max; no++) {
+                System.out.println("enter the id");
+                preparedStatement.setInt(1, sc.nextInt());
+                System.out.println("enter the name");
+                preparedStatement.setString(2, sc.next());
+                System.out.println("enter the age");
+                preparedStatement.setInt(3, sc.nextInt());
+                System.out.println("enter the address");
+                preparedStatement.setString(4, sc.next());
+                int rowAffected = preparedStatement.executeUpdate();
+                System.out.println("rowAffected : " + rowAffected);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (preparedStatement != null) preparedStatement.close();
+            if (con != null) con.close();
+        }
+    }
+
+}
+
+=======================================================
+					update
+=======================================================
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class Update {
+
+    final static String USERNAME = "root";
+    final static String PWD = "akash";
+    final static String URL = "jdbc:mysql://localhost:3306/jbcd_db";
+    static String update = "update student set address = ? where id = ?";
+
+    public static void main(String[] args) {
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PWD);
+             PreparedStatement preparedStatement = con.prepareStatement(update);
+        ) {
+            preparedStatement.setString(1, "Ayodhya, UP");
+            preparedStatement.setInt(2, 4);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            System.out.println("rowsAffected : " + rowsAffected);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+=======================================================
+				RETRIVE
+=======================================================
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class RetriveData {
+
+    final static String USERNAME = "root";
+    final static String PWD = "akash";
+    final static String URL = "jdbc:mysql://localhost:3306/jbcd_db";
+    static String fetch = "SELECT  * from student";
+
+    public static void main(String[] args) {
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PWD);
+             PreparedStatement preparedStatement = con.prepareStatement(fetch);
+             ResultSet resultSet = preparedStatement.executeQuery();//executeQuery : for SELECT query
+        ) {
+
+            while (resultSet.next()) {
+                System.out.println("id : " + resultSet.getInt(1));
+                System.out.println("name : " + resultSet.getString(2));
+                System.out.println("age : " + resultSet.getInt(3));
+                System.out.println("address : " + resultSet.getString(4));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+}
+
+=======================================================
+				DELETE
+=======================================================
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class DeleteData {
+
+    final static String USERNAME = "root";
+    final static String PWD = "akash";
+    final static String URL = "jdbc:mysql://localhost:3306/jbcd_db";
+    static String delete = "DELETE FROM student where id = ?";
+
+    public static void main(String[] args) {
+
+        try (Connection con = DriverManager.getConnection(URL, USERNAME, PWD);
+             PreparedStatement preparedStatement = con.prepareStatement(delete);
+        ) {
+            preparedStatement.setInt(1, 4);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            System.out.println("rowsAffected : " + rowsAffected);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+=======================================================
+Statement VS PreparedStatement vs CallableStatement
+========================================================
+Statement
+----------
+->Used for executing simple SQL queries (static queries).
+->Does not support parameterized queries.
+-> Each execution of a query compiles and executes the SQL, which can lead to performance issues.
+
+Example:
+Statement stmt = connection.createStatement();
+ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+
+When to use?
+------------
+When executing a simple, one-time SQL query.
+
+========================================================
+PreparedStatement
+=================
+-> Used for executing precompiled SQL queries.
+-> Supports parameterized queries, reducing SQL injection risks.
+-> Improves performance because the query is compiled once and executed multiple times.
+
+Example:
+PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
+pstmt.setInt(1, 101);
+ResultSet rs = pstmt.executeQuery();
+
+When to use?
+--------------
+When executing the same query multiple times with different parameters.
+When preventing SQL injection.
+
+========================================================
+CallableStatement
+=================
+-> Used to execute stored procedures in a database.
+-> Allows passing input and output parameters.
+
+Example:
+========
+
+CallableStatement cstmt = connection.prepareCall("{call getUserDetails(?)}");
+cstmt.setInt(1, 101);
+ResultSet rs = cstmt.executeQuery();
+
+When to use?
+------------
+When working with stored procedures and functions in the database.
+When handling complex business logic inside the database.
+=============================================================
+=============================================================
+
+executeQuery()
+=============
+✔️ Use it when executing SELECT queries that return a ResultSet (retrieving data).
+✔️ Returns: ResultSet (a table-like structure containing retrieved records).
+
+executeUpdate()
+===============
+✔️ Use it for DML (Data Manipulation Language) queries: INSERT, UPDATE, DELETE
+✔️ Returns: int (number of rows affected).
+
+execute()
+=========
+✔️ Use it when executing a query but don’t know the type of result beforehand.
+✔️ Returns: boolean
+
+-> true if the first result is a ResultSet (i.e., a SELECT query).
+-> false if the first result is an update count (i.e., INSERT, UPDATE, DELETE).

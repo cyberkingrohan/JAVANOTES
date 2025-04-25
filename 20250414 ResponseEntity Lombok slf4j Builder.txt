@@ -1,0 +1,256 @@
+							Java Full Stack Development
+									14-04-2025
+							   Mr.Akash(NSA IT-POINT) 							   
+===============================================================================
+
+ResponseEntity
+Lombok 
+slf4j
+Builder
+
+=======STATUS CODE===========
+1XX : Informational responses
+2XX : Successful responses 
+3XX : Redirection messages 
+4XX : Client error responses 
+5XX : Server error responses 
+=============================
+Mostly Used :
+200 OK – Request succeeded.
+201 Created – Resource created successfully.
+204 No Content – Request succeeded, but no content returned
+
+400 Bad Request – Malformed request.
+401 Unauthorized – Authentication required.
+403 Forbidden – Valid request, but server is refusing it.
+404 Not Found – Resource not found.
+405 Method Not Allowed – HTTP method not allowed for the resource.
+409 Conflict – Conflict with the current state of the resource.
+429 Too Many Requests – Rate limiting (too many requests in a short time).
+500 Internal Server Error – Generic server error.
+502 Bad Gateway – Server got an invalid response from upstream.
+503 Service Unavailable – Server temporarily unavailable.
+504 Gateway Timeout – Upstream server didn't respond in time.
+
+=======================
+Why Use ResponseEntity?
+
+1. Control over HTTP Status Codes
+With ResponseEntity, you can explicitly set HTTP status codes, instead of always defaulting to 200 OK.
+
+return new ResponseEntity<>(data, HttpStatus.CREATED); // 201 Created
+
+2. Control over Headers
+You can set custom headers like CORS, authentication tokens, etc.
+
+HttpHeaders headers = new HttpHeaders();
+headers.set("Custom-Header", "value");
+return new ResponseEntity<>(data, headers, HttpStatus.OK);
+
+3. Fine-grained Error Handling
+You can return detailed error messages with proper status codes (e.g., 400 Bad Request, 404 Not Found, etc.).
+
+return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+
+======Different Ways to Use ResponseEntity in Production===
+@GetMapping("/user/{id}")
+public ResponseEntity<User> getUser(@PathVariable Long id) {
+    User user = userService.findById(id);
+    if (user == null) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    }
+    return ResponseEntity.ok(user); // shortcut for 200 OK
+}
+==========================
+		Lombok
+==========================
+What is Lombok?
+Lombok is a Java library that reduces boilerplate code like getters, setters, constructors, toString(), etc., by using annotations.
+
+It works at compile time — meaning, you write less code, and Lombok generates the repetitive stuff behind the scenes.
+
+Add Lombok Dependency
+---------------------
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.30</version>
+    <scope>provided</scope>
+</dependency>
+
+Also install the Lombok plugin in IntelliJ or Eclips 
+
+Common Lombok Annotations
+--------------------------
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Data
+Shortcut for: (@Getter, @Setter, @ToString, @EqualsAndHashCode, @RequiredArgsConstructor)
+
+=========Builder=======
+@Builder : Used for Builder Pattern – makes object creation super clean.
+
+The Builder Pattern is a creational design pattern that helps construct complex objects step-by-step in a readable and safe way.
+
+
+Instead of doing this::
+User user = new User(1, "Akash", "abc@gmail.com", "Developer", true);
+
+You can do this::
+User user = User.builder()
+                .id(1)
+                .name("Akash")
+                .email("abc@gmail.com")
+                .role("Developer")
+                .active(true)
+                .build();
+
+
+
+@Builder
+public class Order {
+    private String id;
+    private String item;
+    private double amount;
+}
+
+// Usage
+Order order = Order.builder()
+                   .id("123")
+                   .item("iPhone")
+                   .amount(999.99)
+                   .build();
+
+========Slf4j=========
+@Slf4j :  Adds a logger for the class.
+
+@Slf4j
+@RestController
+public class HelloController {
+    @GetMapping("/test")
+    public String test() {
+        log.info("Test endpoint called");
+        return "ok";
+    }
+}
+
+
+
+==========Remaining Code will be same as in last class=========
+package com.nsa.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "emp_table")
+public class Employee {
+
+    @Id  //primary key
+    @GeneratedValue(strategy = GenerationType.AUTO) //auto generate
+    @Column(name = "emp_id")
+    private Integer id;
+
+    @Column(name = "empName")
+    private String name;
+
+    @Column(name = "department")
+    private String department;
+
+    @Column(name = "salary")
+    private Long salary;
+
+}
+
+=======Controller=======
+package com.nsa.controller;
+
+import com.nsa.entity.Employee;
+import com.nsa.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1/employee")
+@RequiredArgsConstructor
+@Slf4j
+public class EmployeeController {
+
+    //constructor based DI
+    private final EmployeeService empService;  //new EmployeeServiceImpl
+
+//    EmployeeController(EmployeeService empService){
+//        this.empService = empService;
+//    }
+
+    @PostMapping("/save")
+    public ResponseEntity<String> saveEmpData(@RequestBody Employee emp) {
+        String msg = empService.saveEmployee(emp);
+
+//        ResponseEntity<String> resposne = new ResponseEntity<>(msg, HttpStatus.CREATED);
+//        return resposne;
+        return new ResponseEntity<>(msg, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{empId}") //http://localhost:8080/api/v1/employee/1
+    public ResponseEntity<Employee> getEmpByIdPath(@PathVariable("empId") int id) {
+
+        log.info("employee id {}", id);
+        Employee emp = empService.getEmployeeById(id);
+
+//        return new ResponseEntity<>(emp, HttpStatus.OK);
+//        ResponseEntity<Employee> resposne = ResponseEntity.ok(emp);
+//        return resposne;
+        return ResponseEntity.ok(emp);
+    }
+
+    @GetMapping  //http://localhost:8080/api/v1/employee?id=1
+    public ResponseEntity<Employee> getEmpByIdRequest(@RequestParam int id) {
+        Employee emp = empService.getEmployeeById(id);
+
+        if (emp != null) {
+            return new ResponseEntity<>(emp, HttpStatusCode.valueOf(200));
+        }else{
+
+        log.error("Employee not exists for ID : {}", id);
+        return new ResponseEntity<>(emp, HttpStatusCode.valueOf(404));
+        }
+
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateEmployee(@RequestBody Employee emp) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(empService.updateEmployee(emp));
+    }
+
+    @PatchMapping("/{id}")
+    public String updateEmpSalary(@PathVariable("id") int id,
+                                  @RequestParam Long salary
+    ) {
+//        String s = empService.updateEmployeeSalary(id, salary);
+//        return s;
+        return empService.updateEmployeeSalary(id, salary);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteEmp(@PathVariable("id") int id) {
+        empService.deleteEmployeeById(id);
+    }
+
+}
+======================

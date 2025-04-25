@@ -1,0 +1,193 @@
+                         Java Full Stack Development 
+						       08-03-2025
+						   Mr.Akash (NSA IT-POINT)
+===============================================================================
+
+===============Stream Terminal Operations================
+
+==========Aggregation Operations==================
+
+i). Counting Elements (count())
+Returns the number of elements in the stream
+long count = List.of(1, 2, 3, 4, 5).stream().count();
+System.out.println(count); // Output: 5
+======================================================
+Finding Maximum and Minimum (max() / min())
+
+//Optional<Integer> maxVal = List.of(3, 5, 1, 7, 9).stream().max((a,b) ->a.compareTo(b));
+Optional<Integer> maxVal = List.of(3, 5, 1, 7, 9).stream().max(Integer::compareTo);
+System.out.println(maxVal.get()); // Output: 9
+
+//Optional<Integer> minVal = List.of(3, 5, 1, 7, 9).stream().min((a,b) ->a.compareTo(b));
+Optional<Integer> minVal = List.of(3, 5, 1, 7, 9).stream()
+        .min(Integer::compareTo);
+System.out.println(minVal.get()); // Output: 1
+
+===================Reducing Elements (reduce())===================================
+reduce() : Optional<T> reduce(BinaryOperator<T> accumulator)
+
+//Optional<Integer> sum = List.of(1, 2, 3, 4, 5).stream()
+//		.reduce((a, b) -> a + b);
+
+Optional<Integer> sum = List.of(1, 2, 3, 4, 5).stream()
+		.reduce(Integer::sum);
+
+System.out.println(sum.get()); // Output: 15
+
+-------- Finding Longest String----------
+Optional<String> longest = List.of("Apple", "Banana", "Pineapple")
+        .stream()
+        .reduce((word1, word2) -> word1.length() > word2.length() ? word1 : word2);
+System.out.println(longest.get()); // Output: Pineapple
+
+====================Matching Operations==================================
+anyMatch() : Checks if at least one element matches the condition
+
+boolean hasEven = List.of(1, 3, 5, 6).stream().anyMatch(n -> n % 2 == 0);
+System.out.println(hasEven); // Output: true
+
+======================================================
+allMatch()
+Checks if all elements match the condition.
+
+boolean allPositive = List.of(1, 2, 3, 4).stream().allMatch(n -> n > 0);
+System.out.println(allPositive); // Output: true
+
+======================================================
+noneMatch()
+Checks if no elements match the condition.
+
+boolean noNegative = List.of(1, 2, 3).stream().noneMatch(n -> n < 0);
+System.out.println(noNegative); // Output: true
+
+======================================================
+findFirst()
+Finds the first element in the stream.
+
+Optional<Integer> first = List.of(10, 20, 30).stream().findFirst();
+System.out.println(first.get()); // Output: 10
+
+======================================================
+findAny
+
+Finds any element (useful for parallel streams).
+
+Optional<Integer> any = List.of(10, 20, 30).stream().findAny();
+System.out.println(any.get()); // Output: 10 (or another element)
+
+
+======================================================
+======Collecting Data (collect())===========
+
+Collectors.toList() : Collects elements into a List.
+---------------------------
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        List<String> names = Stream.of("Alice", "Bob", "Charlie", "David")
+                                   .collect(Collectors.toList());
+
+        System.out.println(names); // Output: [Alice, Bob, Charlie, David]
+    }
+}
+
+=========================================================
+Collectors.toSet() : Collects elements into a Set (removes duplicates).
+
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        Set<Integer> numbers = Stream.of(1, 2, 3, 3, 4, 5, 5)
+                                     .collect(Collectors.toSet());
+
+        System.out.println(numbers); // Output: [1, 2, 3, 4, 5] (order may vary)
+    }
+}
+
+=========================================================
+Collectors.toMap()
+Collects elements into a Map<K, V> (Key-Value pairs).
+Syntax: toMap(Function<KeyMapper>, Function<ValueMapper>)
+
+
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<Integer, String> nameMap = Stream.of("Alice", "Bob", "Charlie")
+                                             .collect(Collectors.toMap(String::length, name -> name));
+
+        System.out.println(nameMap); // Output: {5=Alice, 3=Bob, 7=Charlie} (may overwrite values if duplicate keys exist)
+    }
+}
+
+=========================================================
+Collectors.groupingBy()
+Collectors.groupingBy()
+Groups elements into a Map<K, List<V>> based on a classifier function
+
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<Integer, List<String>> groupedNames = Stream.of("Alice", "Bob", "Charlie", "David", "Eve")
+                                                        .collect(Collectors.groupingBy(String::length));
+
+        System.out.println(groupedNames);
+        // Output: {3=[Bob], 4=[Eve], 5=[Alice, David], 7=[Charlie]}
+    }
+}
+
+=========================================================
+Collectors.partitioningBy()
+Splits elements into two groups (true and false).
+Returns Map<Boolean, List<T>>.
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<Boolean, List<Integer>> partitionedNumbers = Stream.of(1, 2, 3, 4, 5, 6)
+                                                               .collect(Collectors.partitioningBy(n -> n % 2 == 0));
+
+        System.out.println(partitionedNumbers);
+        // Output: {false=[1, 3, 5], true=[2, 4, 6]}
+    }
+}
+
+=========================================================
+==================ASSIGNMNET=============================
+1. Counting Elements
+Write a Java program to count the number of words in a given list using the count() method.
+2. Finding Maximum and Minimum
+Given a list of floating-point numbers, find the maximum and minimum value using Java Streams.
+3. Reducing Elements (reduce)
+Write a Java program to find the product of all numbers in a list using reduce().
+Given a list of strings, find the shortest string using reduce().
+4. Matching Operations
+Write a Java program that checks if a given list of integers contains at least one prime number using anyMatch().
+Verify if all elements in a list of names start with a vowel using allMatch().
+Check if no elements in a list of integers are negative using noneMatch().
+5. Finding Elements
+Given a list of employee names, find the first name that starts with "A" using findFirst().
+From a list of random integers, find any even number using findAny().
+6. Collecting Data (collect())
+Convert a list of integers into a Set using Collectors.toSet() and remove duplicates.
+Convert a list of words into a Map where the key is the word and the value is its length using Collectors.toMap(). Handle duplicate key scenarios.
+Group a list of words based on their length using Collectors.groupingBy().
+Partition a list of integers into even and odd numbers using Collectors.partitioningBy().

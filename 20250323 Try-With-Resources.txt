@@ -1,0 +1,98 @@
+								Java Full Stack Development
+									    23-03-2024
+								   Mr.Akash(NSA IT-POINT)   
+==========================================================================================
+
+What is Try-With-Resources in Java?
+===================================
+The Try-With-Resources statement (try with AutoCloseable resources) was introduced in Java 7. It automatically closes resources (like database connections, file readers, sockets, etc.) after execution, without requiring an explicit finally block.
+
+Why Use Try-With-Resources?
+✅ Eliminates resource leaks.
+✅ No need for explicit close() calls.
+✅ Reduces boilerplate code.
+✅ Ensures proper resource management (even in case of exceptions).
+
+Example: Using Try-With-Resources in JDBC
+Before Java 7, we had to explicitly close JDBC resources in a finally block:
+
+❌ Without Try-With-Resources (Old Approach)
+=============================
+Connection conn = null;
+PreparedStatement pstmt = null;
+ResultSet rs = null;
+
+try {
+    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "user", "password");
+    pstmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+    pstmt.setInt(1, 101);
+    rs = pstmt.executeQuery();
+
+    while (rs.next()) {
+        System.out.println("User: " + rs.getString("name"));
+    }
+} catch (SQLException e) {
+    e.printStackTrace();
+} finally {
+    try {
+        if (rs != null) rs.close();
+        if (pstmt != null) pstmt.close();
+        if (conn != null) conn.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+=================
+⛔ Issues:
+
+Too much boilerplate code.
+Forgetting to close resources leads to memory leaks.
+
+
+✅ With Try-With-Resources (Recommended Approach)
+================
+try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "user", "password");
+     PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+     ResultSet rs = pstmt.executeQuery()) {
+
+    pstmt.setInt(1, 101);
+
+    while (rs.next()) {
+        System.out.println("User: " + rs.getString("name"));
+    }
+
+} catch (SQLException e) {
+    e.printStackTrace();
+}
+=======================
+✔️ No explicit close() calls required—resources are automatically closed when the block ends.
+✔️ Reduces code complexity and prevents memory leaks.
+
+How Try-With-Resources Works?
+=============================
+The resources inside try(...) must implement the AutoCloseable interface (like Connection, PreparedStatement, ResultSet, FileReader, etc.).
+
+After execution, Java automatically calls close() on each resource, ensuring proper cleanup.
+
+Example: Try-With-Resources with File Handling
+===========
+import java.io.*;
+
+public class TryWithResourcesExample {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new FileReader("test.txt"))) {
+            System.out.println(br.readLine()); // Reads the first line
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+✔️ No need for finally to close the file reader! 🎉
+
+Key Takeaways
+==============
+-> Use Try-With-Resources for: JDBC (Connection, Statement, ResultSet), file handling (BufferedReader, FileWriter), networking (Socket), etc.
+-> Resources inside try(...) must implement AutoCloseable.
+-> Java automatically calls close(), ensuring proper cleanup.
+-> Recommended over traditional try-finally blocks for better resource management.

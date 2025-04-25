@@ -1,0 +1,178 @@
+						Java Full Stack Development
+								28-03-2025
+						   Mr.Akash(NSA IT-POINT) 							   
+==========================================================================
+
+load -> lazy loaded method ::: fetch only id 
+====
+it fetches other data when we actually need other data 
+==========
+    public Student getStudent(int rollNo) {
+        Session session = sessionFactory.openSession();
+
+        //<T> T load(Class<T> var1, Object var2);
+        Student student = session.load(Student.class, rollNo); //pass id - 4
+        session.close();
+        System.out.println(student.getRollNo()); // 4
+        System.out.println(student.getAge()); // could not initialize proxy
+        return student;
+    }
+------------
+if session not closed 
+
+4        //return id only then executed query for full object 
+Hibernate: 
+    select
+        s1_0.studRollNo,
+        s1_0.age,
+        s1_0.city,
+        s1_0.stud_name 
+    from
+        table_student s1_0 
+    where
+        s1_0.studRollNo=?
+30
+Student{rollNo=4, name='john', age=30, city='hyd'}	
+===========
+Find method  : eager loaded 
+=============
+ public Student getStudent(int rollNo) {
+        Session session = sessionFactory.openSession();
+
+        //<T> T load(Class<T> var1, Object var2);
+        Student student = session.find(Student.class, rollNo); //pass id - 4
+        session.close();
+        System.out.println(student.getRollNo()); // 4
+        System.out.println(student.getAge()); // 30
+        return student;
+    }
+---------
+Hibernate: 
+    select
+        s1_0.studRollNo,
+        s1_0.age,
+        s1_0.city,
+        s1_0.stud_name 
+    from
+        table_student s1_0 
+    where
+        s1_0.studRollNo=?
+4
+30
+Student{rollNo=4, name='john', age=30, city='hyd'}
+
+Process finished with exit code 0
+=================================
+=================================
+package org.example;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class StudentIMPL {
+
+    SessionFactory sessionFactory = null;
+
+    StudentIMPL() {
+        Configuration config = new Configuration();
+        config.configure("hibernate.cfg.xml");
+        sessionFactory = config.buildSessionFactory();
+    }
+
+    public String saveData(Student stud) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+//            Integer id = (Integer) session.save(stud);
+//            System.out.println(id);
+
+            session.persist(stud);
+            transaction.commit();
+            return "tx successfull";
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+            return "tx failed";
+        }
+    }
+
+//    get the student data on the basis of student id
+
+    public Student getStudent(int rollNo) {
+        Session session = sessionFactory.openSession();
+
+        //<T> T load(Class<T> var1, Object var2);
+        Student student = session.get(Student.class, rollNo);
+//        session.close();
+        System.out.println(student.getRollNo()); // 4
+        System.out.println(student.getAge()); // could not initialize proxy
+        return student;
+    }
+
+    public Student updateStudent(int rollNo, int age) {  //rolNo 4 -> age 100 yrs
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        Student student = session.get(Student.class, rollNo);
+
+        try {
+            student.setAge(age);
+            session.persist(student);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+        return student;
+    }
+
+
+    public void deleteStudent(int rollNo) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        Student student = session.get(Student.class, rollNo);
+
+        try {
+//            session.delete(student);  //depricated
+//            session.detach(student);  //only detach not removed
+            session.remove(student);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+    }
+}
+=================================
+package org.example;
+
+public class App {
+    public static void main(String[] args) {
+
+        Student student = new Student();
+        student.setRollNo(1);
+        student.setAge(28);
+        student.setCity("nagpur");
+        student.setName("jerry");
+
+        StudentIMPL impl = new StudentIMPL();
+//        String s = impl.saveData(student);
+//        System.out.println(s);
+
+//        Student student1 = impl.getStudent(4);
+//        System.out.println(student1);
+
+//        Student student1 = impl.updateStudent(4, 100);
+//        System.out.println(student1);
+
+        impl.deleteStudent(1);
+    }
+}
+=======================

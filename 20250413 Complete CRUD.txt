@@ -1,0 +1,318 @@
+							Java Full Stack Development
+									13-04-2025
+							   Mr.Akash(NSA IT-POINT) 							   
+===============================================================================
+
+When building REST APIs using Spring Boot, the choice of HTTP method matters. These methods define how the client wants to interact with the server's resource.
+
+Method	Use Case
+GET		Retrieve a resource or data without modifying(e.g., get employee details by ID)
+POST	Add a new resource (e.g., add employee)
+PUT		Replace the entire resource (e.g., update all employee details)
+PATCH	Modify part of a resource (e.g., update salary only)
+DELETE	Remove a resource (e.g., delete employee record by ID)
+
+
+@RestController
+---------------
+-> Combines @Controller and @ResponseBody.
+-> Indicates that the class handles REST API requests.
+-> All methods return JSON/XML (no need to add @ResponseBody to every method).
+
+@RequestMapping
+---------------
+-> Maps base URL to a controller.
+-> Commonly used at the class level to prefix all routes.
+
+@GetMapping
+-----------
+Shortcut for @RequestMapping(method = RequestMethod.GET)
+Handles GET requests (used to fetch data from the server).
+
+HTTP Method GET :
+
+@PostMapping
+------------
+Handles POST requests (used to create resources).
+Reads the request body and maps it to an object (like Employee).
+
+HTTP Method POST:
+-> POST is used when the client wants to send data to the server to create a new resource.
+-> It is non-idempotent, meaning each call creates a new resource.
+-> Often used in form submissions, registrations, or new database entries.
+-> Sends a complete Employee object to the server.
+-> Server generates an ID and saves it to the database.
+
+@PutMapping
+-----------
+Handles PUT requests (used to update/replace resources).
+Typically updates the entire resource.
+
+HTTP Method PUT:
+-> PUT is used to fully update a resource.
+-> It is idempotent, meaning calling it multiple times with the same data has the same effect as calling it once.
+-> You must send the entire object, not just the fields you want to update.
+-> Used when the client knows the full state of the object and wants to replace the current state with a new one.
+-> Sends the full Employee object with updated details, including the ID.
+
+@PatchMapping
+-------------
+Handles PATCH requests (used to partially update a resource).
+
+HTTP Method PUT:
+-> PATCH is used when you want to partially update a resource.
+-> You only send the fields you want to change.
+-> It is not guaranteed to be idempotent, but can be if implemented correctly.
+-> Efficient when you only need to update a small portion of data.
+
+@DeleteMapping
+---------------
+Handles DELETE requests.
+Used to delete a resource.
+
+HTTP Method DELETE:
+
+
+@PathVariable
+-------------
+Binds a method parameter to a URI path variable.
+Extracts the value directly from the URL path.
+
+Example:
+
+@GetMapping("/{empId}")
+public Employee getEmpByIdPath(@PathVariable("empId") int id) { ... }
+
+URL: /employee/101 -> empId = 101
+
+
+@RequestParam
+-------------
+Binds a method parameter to a query parameter in the URL.
+Often used for optional or filter-like inputs.
+
+Example:
+
+@GetMapping
+public Employee getEmpByIdRequest(@RequestParam int id) { ... }
+
+URL: /employee?id=101 -> id = 101
+
+
+@RequestBody
+------------
+Automatically deserializes the JSON body into a Java object.
+
+@Service
+--------
+Marks the class as a service layer component in Spring’s component scan.
+Ideal place for business logic.
+
+==============Full Example============
+
+=====ENTITY======
+package com.nsa.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "emp_table")
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "emp_id")
+    private Integer id;
+
+    @Column(name = "empName")
+    private String name;
+
+    @Column(name = "department")
+    private String department;
+
+    @Column(name = "salary")
+    private Long salary;
+
+//constructor getter setter methods	
+}
+
+=====Repository=====
+package com.nsa.repository;
+
+import com.nsa.entity.Employee;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
+}
+
+=====Service======
+package com.nsa.service;
+
+import com.nsa.entity.Employee;
+
+public interface EmployeeService {
+
+    //CRUD :
+    public String saveEmployee(Employee emp);
+
+    public Employee getEmployeeById(int id);
+
+    public String updateEmployee(Employee emp);
+
+    public String updateEmployeeSalary(int id, Long salary);
+
+    public void deleteEmployeeById(int id);
+}
+
+======IMPL=======
+package com.nsa.service.IMPL;
+
+import com.nsa.entity.Employee;
+import com.nsa.repository.EmployeeRepository;
+import com.nsa.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class EmployeeServiceImpl implements EmployeeService {
+
+    @Autowired
+    EmployeeRepository empRepo; // new Impl
+
+    @Override
+    public String saveEmployee(Employee emp) {
+        Employee save = empRepo.save(emp);
+        return "Employee saved";
+    }
+
+    @Override
+    public Employee getEmployeeById(int id) {
+        Optional<Employee> optionalEmp = empRepo.findById(id);
+
+        if (optionalEmp.isPresent()) {
+            Employee emp = optionalEmp.get();
+            return emp;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String updateEmployee(Employee emp) {
+
+        Employee existingEmp = empRepo.findById(emp.getId()).get();
+        existingEmp.setDepartment(emp.getDepartment());
+        existingEmp.setName(emp.getName());
+        existingEmp.setSalary(emp.getSalary());
+        empRepo.save(existingEmp);
+        return "Employee updated";
+    }
+
+    @Override
+    public String updateEmployeeSalary(int id, Long salary) {
+
+        Employee existingEmp = empRepo.findById(id).get();
+        existingEmp.setSalary(salary);
+        empRepo.save(existingEmp);
+
+        return "Employee updated with salary : " + salary;
+    }
+
+
+    @Override
+    public void deleteEmployeeById(int id) {
+        empRepo.deleteById(id);
+    }
+}
+======Controller========
+package com.nsa.controller;
+
+import com.nsa.entity.Employee;
+import com.nsa.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1/employee")
+public class EmployeeController {
+
+    @Autowired
+    private EmployeeService empService;  //new EmployeeServiceImpl
+
+    @PostMapping("/save")
+    public String saveEmpData(@RequestBody Employee emp) {
+        String s = empService.saveEmployee(emp);
+        return s;
+    }
+
+    @GetMapping("/{empId}") //http://localhost:8080/api/v1/employee/1
+    public Employee getEmpByIdPath(@PathVariable("empId") int id) {
+        Employee emp = empService.getEmployeeById(id);
+        return emp;
+    }
+
+    @GetMapping  //http://localhost:8080/api/v1/employee?id=1
+    public Employee getEmpByIdRequest(@RequestParam int id) {
+        Employee emp = empService.getEmployeeById(id);
+        return emp;
+    }
+
+    @PutMapping("/update")
+    public String updateEmployee(@RequestBody Employee emp) {
+        String s = empService.updateEmployee(emp);
+        return s;
+    }
+
+    @PatchMapping("/{id}")
+    public String updateEmpSalary(@PathVariable("id") int id,
+                                  @RequestParam Long salary
+    ) {
+        String s = empService.updateEmployeeSalary(id, salary);
+        return s;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteEmp(@PathVariable("id") int id) {
+        empService.deleteEmployeeById(id);
+    }
+
+}
+
+=======================
+Post End Point : http://localhost:8080/api/v1/employee/save
+Request Body :
+{
+    "name" : "rohit sharma",
+    "department" : "QA",
+    "salary" : 2000
+}
+--------
+GET end Point using pathvaraible
+http://localhost:8080/api/v1/employee/1
+
+------
+GET end Point using request param
+http://localhost:8080/api/v1/employee?id=1
+
+-------
+PUT endpoint for update 
+http://localhost:8080/api/v1/employee/update
+request body :
+{
+    "id" : 1,
+    "name" : "david miller",
+    "department" : "ADMIN",
+    "salary" : 3500
+}
+
+----------
+PATCH for partially update using request param
+http://localhost:8080/api/v1/employee/1?salary=4500
+
+--------
+Delete end point 
+http://localhost:8080/api/v1/employee/53

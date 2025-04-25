@@ -1,0 +1,57 @@
+								Java Full Stack Development
+									    04-03-2025
+								   Mr.Akash(NSA IT-POINT)   
+================================================================================================
+
+==============
+StringJoiner
+==============
+
+-> java.util.StringJoiner class introduced in java 1.8v
+
+-> It is used to join more than one String with specified delimiter
+
+-> We can concat prefix and suffix while joininging strings using StringJoiner
+
+
+		StringJoiner sj = new StringJoiner (CharSequence delim);
+		StringJoiner sj = new StringJoiner (CharSequence delim, CharSequence prefix, CharSequence suffix);
+
+
+
+
+package com.nsa.StringJoiner;
+
+import java.util.StringJoiner;
+
+public class ExStringJoiner {
+
+	public static void main(String[] args) {
+
+		StringJoiner sj = new StringJoiner("-");
+		sj.add("A");
+		sj.add("B");
+		sj.add("C");
+		sj.add("D");
+		sj.add("E");
+
+		System.out.println(sj);
+
+		StringJoiner sjr = new StringJoiner("-", "[", "]");
+
+		sjr.add("A");
+		sjr.add("B");
+		sjr.add("C");
+		sjr.add("D");
+		sjr.add("E");
+		System.out.println(sjr);
+
+		List<String> list = Arrays.asList("A", "B", "C", "D", "E");
+
+		for (String s : list) {
+			sjr.add(s);
+		}
+		System.out.println(sjr);
+
+	}
+}

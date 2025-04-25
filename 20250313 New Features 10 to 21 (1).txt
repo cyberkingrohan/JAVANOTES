@@ -1,0 +1,403 @@
+=========Java 10 (March 2018)=========
+1) Local Variable Type Inference (var)
+Simplifies variable declarations by allowing the compiler to infer types.
+Example:
+var list = new ArrayList<String>(); // Compiler infers ArrayList<String>
+
+=========Optional.orElseThrow()=========
+If the Optional contains a value, it returns that value; otherwise, it throws a NoSuchElementException
+
+
+Example 1: Using orElseThrow():-
+
+public class OptionalExample {
+    public static void main(String[] args) {
+        Optional<String> optionalValue = Optional.of("Hello, Java 10!");
+        
+        // Since value is present, it returns the value
+        String result = optionalValue.orElseThrow();
+        System.out.println(result); // Output: Hello, Java 10!
+    }
+}
+
+Example 2: orElseThrow() When Value is Absent
+
+public class OptionalExample {
+    public static void main(String[] args) {
+        Optional<String> emptyOptional = Optional.empty();
+        
+        // This will throw NoSuchElementException because the Optional is empty
+        String result = emptyOptional.orElseThrow();
+        System.out.println(result);
+    }
+}
+
+Example 3: Using orElseThrow with Custom Exception
+
+import java.util.Optional;
+
+public class OptionalExample {
+    public static void main(String[] args) {
+        Optional<String> emptyOptional = Optional.empty();
+
+        // Throwing a custom exception if value is not present
+        String result = emptyOptional.orElseThrow(() -> new IllegalArgumentException("Value is missing!"));
+        
+        System.out.println(result);
+    }
+}
+
+================
+	Java 11
+================
+=========New String Methods=========
+Added methods for better string manipulation.
+
+isBlank() – Checks if a string is empty or contains only whitespace.
+lines() – Splits a string into a stream of lines.
+strip() – Removes leading and trailing spaces (better than trim()).
+repeat(int count) – Repeats a string multiple times.
+
+-----1. isBlank() Example------
+public class StringMethodsExample {
+    public static void main(String[] args) {
+        String empty = "";
+        String spaces = "   ";
+        String text = "Java 11";
+
+        System.out.println(empty.isBlank());  // true
+        System.out.println(spaces.isBlank()); // true
+        System.out.println(text.isBlank());   // false
+    }
+}
+------lines() Example--------
+import java.util.stream.Collectors;
+
+public class StringLinesExample {
+    public static void main(String[] args) {
+        String multilineText = "Hello\nJava 11\nNew Features";
+
+        // lines() splits by new line and collects into a list
+        multilineText.lines().forEach(System.out::println);
+    }
+}
+output :
+Hello
+Java 11
+New Features
+---------strip() Example---------
+public class StringStripExample {
+    public static void main(String[] args) {
+        String text = "  Hello Java 11  ";
+        
+        System.out.println("Before strip: [" + text + "]");
+        System.out.println("After strip: [" + text.strip() + "]");
+    }
+}
+-------repeat(int count) Example---------
+public class StringRepeatExample {
+    public static void main(String[] args) {
+        String text = "Java ";
+        
+        System.out.println(text.repeat(3)); // Repeats 3 times // Java Java Java 
+
+    }
+}
+
+=========JAVA 14=========
+Key Improvements in Switch Expressions
+Expression-Based Switch – Can return values directly.
+Arrow (->) Syntax – Eliminates the need for break.
+Multiple Case Labels – Use commas to group cases.
+Yield Keyword – Explicitly return values inside {} blocks.
+
+-----Traditional Switch-----
+public class SwitchStatement {
+
+    public static void main(String[] args) {
+        int date = 3;
+        String day;
+
+        switch (date) {
+            case 1:
+                day = "weekday";
+                break;
+            case 2:
+            case 3:
+                day = "weekday";
+                break;
+            case 4:
+            case 5:
+            case 6:
+                day = "weekend";
+                break;
+            case 7:
+                day = "weekend";
+                break;
+            default:
+                day = "invalid day";
+        }
+        System.out.println(day);
+    }
+}
+
+Issues with Traditional Switch
+Uses break statements to avoid fall-through.
+Uses assignment (dayType = "...") repeatedly.
+No return value directly from switch.
+-----------New Switch Expression-------------
+
+public class SwitchStatement {
+
+    public static void main(String[] args) {
+        int date = 3;
+
+        String day = switch (date) {
+            case 1, 2, 3, 4, 5 -> "weekday";
+            case 6, 7 -> "weekend"; 
+            default -> "invalid day";
+        };
+
+        System.out.println(day);
+    }
+}
+
+----------Using {} Blocks and yield-------------
+If a case needs multiple statements, use {} and yield to return a value.
+
+package com.nsa.otherfeatures;
+
+public class SwitchStatement {
+
+    public static void main(String[] args) {
+        int date = 3;
+
+        String day = switch (date) {
+            case 1, 2, 3, 4, 5 -> "weekday";
+            case 6, 7 -> {
+                System.out.println("this is fun time");
+                yield "weekend"; //yield = return
+            }
+            default -> "invalid day";
+        };
+
+        System.out.println(day);
+    }
+}
+
+
+=========Java 14 =========
+Pattern Matching for instanceof (Preview) : java 14
+Pattern Matching for instanceof (permanent ) : java 16
+
+It simplifies type casting by allowing developers to perform an instanceof check and declare a variable of the target type in a single step.
+
+-----Problem with Traditional instanceof------
+we had to do explicit type casting after checking with instanceof:
+
+Object obj = "Hello, Java";
+
+if (obj instanceof String) {
+    String str = (String) obj; // Explicit type casting required
+    System.out.println(str.length());
+}
+
+Issues:
+-> The redundancy of checking with instanceof and then explicitly casting.
+-> Possible risk of ClassCastException if we mistakenly cast without checking
+
+Object obj = "Hello, Java";
+
+if (obj instanceof String str) { // Type check + declaration
+    System.out.println(str.length()); // No explicit cast needed
+}
+
+-> instanceof checks if obj is an instance of String.
+-> If true, a new variable str is automatically created and assigned the casted value.
+-> The variable str can be directly used within the if block
+
+Note :The pattern variable str is only valid inside the if block.
+===========================
+===========================
+Records (Preview) - Immutable data classes : java 14
+Records (permanent ) - Immutable data classes : java 16
+
+Why Use Records?
+----------------
+Before records, creating an immutable class required:
+
+Declaring fields as private final
+Defining constructors
+Writing getter methods
+Overriding toString(), equals(), and hashCode()
+
+For example, a typical POJO (Plain Old Java Object) for representing a Person looks like this:
+
+public final class Person {
+    private final String name;
+    private final int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+
+    @Override
+    public boolean equals(Object obj) { 
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Person person = (Person) obj;
+        return age == person.age && Objects.equals(name, person.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + "}";
+    }
+}
+
+---With records, the same Person class is reduced to:-----
+public record Person(String name, int age) {}
+
+----
+Person p1 = new Person("Akash", 28);
+System.out.println(p1.name()); // Akash
+System.out.println(p1.age());  // 28
+System.out.println(p1); // Person[name=Akash, age=28]
+---
+Person p1 = new Person("Akash", 28);
+Person p2 = new Person("Akash", 28);
+System.out.println(p1.equals(p2)); // true
+-----
+You can define custom methods, but not instance variables.
+public record Circle(double radius) {
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+}
+
+Circle c = new Circle(5);
+System.out.println(c.area()); // 78.5398
+
+==============
+Records are final, meaning inheritance is not allowed, But they can implement interfaces.
+
+Limitations of Records
+🔴 Cannot modify fields after object creation (immutability).
+🔴 Cannot have instance variables apart from those declared in the header.
+🔴 Cannot extend a class (but can implement interfaces).
+🔴 Not suitable for large, complex objects that require modification.
+
+Use Cases of Records
+✔ DTOs (Data Transfer Objects) in APIs
+✔ Value Objects in DDD (Domain-Driven Design)
+✔ Configuration Data (e.g., settings, app properties)
+✔ Response Objects in RESTful Web Services
+✔ Immutable Data Structures
+
+==========Java 15==============
+Sealed Classes (Preview) - Restricts class inheritance. : java 15
+Sealed Classes (permanent) - Restricts class inheritance. : java 17
+
+They allow developers to restrict which classes can extend or implement a class or interface. This provides better control over class hierarchies, improves security, and enhances code maintainability
+
+Why Sealed Classes?
+Traditionally, in Java, we had two main ways to control class inheritance:
+
+-> final keyword – Prevents further inheritance but doesn’t allow selective subclassing.
+-> Package-private visibility – Limits accessibility but doesn’t control subclassing across packages.
+
+However, in many cases, developers need more control over inheritance by allowing only a specific set of subclasses. This is where sealed classes come into play.
+
+
+Syntax of Sealed Classes
+------------------------
+A sealed class is declared using the sealed keyword, and it explicitly specifies which classes are allowed to extend it using the permits clause.
+
+sealed class Vehicle permits Car, Bike {
+    // Common properties and methods for all vehicles
+}
+
+Here, Vehicle is a sealed class that only allows Car and Bike to extend it.
+
+-------Rules for Sealed Classes----------
+-> A sealed class must explicitly declare its permitted subclasses using the permits clause (or an implicit list inside the same file).
+
+-> Permitted subclasses must explicitly declare how they behave:
+
+	final → Stops further inheritance.
+	sealed → Allows controlled inheritance.
+	non-sealed → Removes restriction, allowing any subclass.
+
+-> Permitted subclasses must be in the same package or module as the sealed class.
+
+---------->>>Example with Different Subclass Behaviors<<<---------------
+sealed class Vehicle permits Car, Bike, Truck {
+    void show() {
+        System.out.println("This is a vehicle");
+    }
+}
+
+// 1. Final subclass: No further inheritance allowed
+final class Car extends Vehicle {
+    void carType() {
+        System.out.println("This is a car");
+    }
+}
+
+// 2. Sealed subclass: Still controls inheritance
+sealed class Bike extends Vehicle permits SportsBike {
+    void bikeType() {
+        System.out.println("This is a bike");
+    }
+}
+
+// Further restricting the sealed subclass
+final class SportsBike extends Bike {
+    void sportsBikeType() {
+        System.out.println("This is a sports bike");
+    }
+}
+
+// 3. Non-sealed subclass: Allows unrestricted inheritance
+non-sealed class Truck extends Vehicle {
+    void truckType() {
+        System.out.println("This is a truck");
+    }
+}
+
+// A subclass of Truck (allowed because Truck is non-sealed)
+class HeavyTruck extends Truck {
+    void heavyTruckType() {
+        System.out.println("This is a heavy truck");
+    }
+}
+
+-----------
+Car			-> Final 		-> No further inheritance allowed.
+Bike		-> Sealed 		-> Can only be extended by SportsBike.
+SportsBike	-> Final		-> Cannot be further extended.
+Truck		-> Non-sealed 	-> Allows unrestricted inheritance.
+HeavyTruck	-> Normal class	-> Can be extended further.
+-------
+
+===========Java 19=============
+Virtual Threads (Preview) - Lightweight threads for concurrency : 19v
+Virtual Threads (Finalized) - Lightweight threads for concurrency : 21v
+
+-> Traditional threads are limited to thousands due to high memory consumption.
+-> Virtual Threads allow millions of concurrent threads without exhausting resources.
+-> Ideal for highly concurrent applications like web servers, APIs, and microservices.
+-> Traditional threads consume ~1MB per thread stack, while virtual threads use only a few KB.
+-> No need for a large thread pool, reducing heap pressure and Garbage Collection (GC) load.
+-> No need to manually manage thread pools
+-> JVM efficiently handles scheduling, improving code simplicity and readability.
+

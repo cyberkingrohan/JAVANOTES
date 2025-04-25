@@ -1,0 +1,220 @@
+                         Java Full Stack Development 
+						       11-03-2025
+						   Mr.Akash (NSA IT-POINT)
+===============================================================================
+					
+						Java 9 features
+						================
+ 
+1) Factory Methods for Collections
+------------------------------------
+List<String> list = List.of("A", "B", "C");
+Set<Integer> set = Set.of(1, 2, 3);
+Map<Integer, String> map = Map.of(1, "One", 2, "Two");
+
+Pros:
+Immutable: The created collections are immutable (cannot be modified).
+Compact & Readable: No need to use new ArrayList<>(...).
+Optimized Performance: Implemented more efficiently than Arrays.asList().
+
+Cons:
+Cannot Modify: Any modification (like add() or remove()) results in UnsupportedOperationException.
+No null Allowed: Throws NullPointerException if any element is null.
+
+==============UnsupportedOperationException=================
+ List<Integer> list = Arrays.asList(10, 20, 30, 40, 50);
+        list.add(60); //UnsupportedOperationException
+        System.out.println(list);
+
+        List<Integer> integers = List.of(10, 20, 30, 40, 50);
+        integers.add(60); ////UnsupportedOperationException
+        System.out.println(integers);
+		
+===================================================================
+===============================================================
+
+2) New methods in Stream interface: dropWhile(), takeWhile(), and ofNullable().		
+
+
+i) takeWhile()
+
+Takes elements from the stream while the condition is true and stops at the first failure.
+Best for ordered data (sorted lists).
+Efficient as it avoids unnecessary processing.
+
+import java.util.List;
+
+public class TakeWhileExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6);
+
+        numbers.stream()
+               .takeWhile(n -> n < 4) // Stops when first element >= 4
+               .forEach(System.out::println);
+    }
+}
+output : 4,5,6
+----------------------
+2. dropWhile(Predicate<T>)
+
+Drops elements while the condition is true and starts including elements once it fails.
+Useful for ignoring initial unwanted elements.
+
+import java.util.List;
+
+public class DropWhileExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6);
+
+        numbers.stream()
+               .dropWhile(n -> n < 4) // Drops 1, 2, 3 and starts from 4
+               .forEach(System.out::println);
+    }
+}
+
+Output : 4 5 6
+----------------------
+iii) Stream.ofNullable(T value)
+
+Creates a stream with either a single element (if non-null) or an empty stream (if null).
+Avoids NullPointerException in stream operations.
+
+import java.util.stream.Stream;
+
+public class OfNullableExample {
+    public static void main(String[] args) {
+        String data = "Hello";
+
+        Stream.ofNullable(data)
+              .forEach(System.out::println);
+    }
+}
+
+-----example for null-------
+import java.util.stream.Stream;
+
+public class OfNullableNullExample {
+    public static void main(String[] args) {
+        String data = null;
+
+        Stream.ofNullable(data)
+              .forEach(System.out::println); // No output, avoids NPE
+    }
+}
+=============
+Prevents NullPointerException in stream pipelines.
+Eliminates unnecessary null checks.
+Useful when working with nullable database results or API responses.
+
+=====================================================================
+=====================================================================
+
+3) Java 9 introduced new methods in the Optional class to improve handling of optional values:
+
+
+Note : Optional<String> optional = Optional.ofNullable(null);   //no exception
+Optional<String> optional = Optional.of(null); // throw NPE -> thats why need to use when we want non null value (Ensures the value is never null inside the Optional.)
+
+
+i)ifPresentOrElse()
+Executes an action if a value is present, otherwise executes a fallback action.
+Replaces the need for manual if-else checks.
+
+import java.util.Optional;
+
+public class OptionalExample {
+    public static void main(String[] args) {
+        Optional<String> optWithValue = Optional.of("Hello, Java!");
+        Optional<String> optEmpty = Optional.empty();
+
+        optWithValue.ifPresentOrElse(
+            value -> System.out.println("Value: " + value),   // If present
+            () -> System.out.println("No value present")      // If empty
+        );
+
+        optEmpty.ifPresentOrElse(
+            value -> System.out.println("Value: " + value),
+            () -> System.out.println("No value present")
+        );
+    }
+}
+
+-------------------------
+
+ii) or()
+
+Provides an alternative Optional if the current one is empty.
+Avoids null handling and allows chaining with another Optional.
+
+import java.util.Optional;
+
+public class OptionalOrExample {
+    public static void main(String[] args) {
+        Optional<String> optEmpty = Optional.empty();
+        Optional<String> alternative = Optional.of("Default Value");
+
+        Optional<String> result = optEmpty.or(() -> alternative);
+
+        System.out.println(result.get());  // Output: Default Value
+    }
+}
+
+==================================================
+==================================================
+private Methods in interface 
+----------------------------
+it will work as helper method to default and static method.
+
+if we have multiple default or static method with same logic then we can write that logic once in a private method and can call private method from default/static method 
+
+interface Logger {
+    default void logInfo(String message) {
+        log("INFO", message);
+    }
+
+    default void logError(String message) {
+        log("ERROR", message);
+    }
+
+    // Private method to avoid repeating logging logic
+    private void log(String level, String message) {
+        System.out.println(level + ": " + message);
+    }
+}
+
+class ApplicationLogger implements Logger {}
+
+public class Main {
+    public static void main(String[] args) {
+        Logger logger = new ApplicationLogger();
+        logger.logInfo("Application started");
+        logger.logError("An error occurred");
+    }
+}
+
+Use Case: Reuses the log() method in both logInfo() and logError() instead of repeating the same System.out.println() logic.
+
+--------Example 2: Using Private Method in a Static Method---------------
+interface MathOperations {
+    static int square(int num) {
+        return multiply(num, num);
+    }
+
+    static int cube(int num) {
+        return multiply(num, num * num);
+    }
+
+    // Private helper method
+    private static int multiply(int a, int b) {
+        return a * b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(MathOperations.square(4)); // Output: 16
+        System.out.println(MathOperations.cube(3));   // Output: 27
+    }
+}
+-----
+Use Case: The multiply() method is reused in square() and cube(), keeping the code DRY (Don’t Repeat Yourself).

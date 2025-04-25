@@ -1,0 +1,298 @@
+							Java Full Stack Development
+									09-04-2025
+							   Mr.Akash(NSA IT-POINT) 							   
+===============================================================================
+======
+@Bean 
+======
+@Bean is an annotation used to define a method that returns an object to be managed by the Spring container.
+
+It tells Spring:
+“Hey, create an object from this method, and treat it as a Spring-managed bean.”
+
+When to use @Bean?
+===================
+Use @Bean when:
+-> You want to manually define beans in a Java-based configuration class.
+-> You're integrating external libraries or classes that are not annotated with @Component, @Service, etc.
+
+=======================
+What is @Configuration?
+=======================
+@Configuration is a Spring annotation that marks a class as a source of bean definitions.
+
+It's basically telling Spring:
+“This class will manually define beans using @Bean methods. Treat it like a Java-based config file.”
+
+
+=========Example With @Bean and @Configuration=======
+package org.otherAnnotations;
+
+import org.springframework.stereotype.Component;
+
+public class DriverManager {
+    private String driverClass;
+    private String url;
+
+    DriverManager() {
+        System.out.println("Driver manager class object created");
+    }
+
+    public String getDriverClass() {
+        return driverClass;
+    }
+
+    public void setDriverClass(String driverClass) {
+        this.driverClass = driverClass;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @Override
+    public String toString() {
+        return "DriverManager{" +
+                "driverClass='" + driverClass + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
+}
+
+===========================
+package org.otherAnnotations;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class MyAppConfig {
+
+    @Bean
+    public DriverManager getDriver() {
+        DriverManager dm = new DriverManager();
+        dm.setDriverClass("MYSQL.DRIVER");
+        dm.setUrl("JDBC.MYSQL");
+        return dm;
+    }
+}
+
+===========================
+package org.example;
+
+
+import org.otherAnnotations.DriverManager;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class App {
+    public static void main(String[] args) {
+
+        ApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
+
+        Object getDriver = context.getBean("getDriver");
+
+        System.out.println("printing object");
+        System.out.println(getDriver); 
+    }
+}
+
+
+
+@Component
+==========
+-> A class-level annotation
+-> Used to auto-detect and auto-configure beans using classpath scanning
+-> Part of Spring's stereotype annotations (@Service, @Repository, @Controller are specialized @Component annotations)
+
+Bean
+====
+-> A method-level annotation
+-> Used to explicitly declare a single bean (rather than letting Spring auto-detect it)
+-> Typically declared within @Configuration classes
+-> More flexible - you can instantiate beans with custom logic
+========================
+@Primary and @Qualifier
+========================
+@Primary
+========
+-> Indicates that a bean should be given preference when multiple candidates are available
+-> Acts as a default selection when no specific bean is requested
+-> Can be used with both @Component and @Bean
+
+@Qualifier
+==========
+-> Provides explicit bean identification when you need to specify exactly which bean to inject
+-> Used at injection points to select a specific bean
+-> Can be applied with @Autowired, @Inject, or @Resource
+
+====================================
+@Bean level Example  ::
+
+package org.otherAnnotations;
+
+public class DriverManager {
+    private String driverClass;
+    private String url;
+
+    DriverManager() {
+        System.out.println("Driver manager class object created");
+    }
+
+    public String getDriverClass() {
+        return driverClass;
+    }
+
+    public void setDriverClass(String driverClass) {
+        this.driverClass = driverClass;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    @Override
+    public String toString() {
+        return "DriverManager{" +
+                "driverClass='" + driverClass + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
+}
+
+=======================
+package org.otherAnnotations;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
+@Configuration
+public class MyAppConfig {
+
+    @Bean
+    @Primary
+    public DriverManager getMysqlDriver() {
+        DriverManager dm = new DriverManager();
+        dm.setDriverClass("MYSQL.DRIVER");
+        dm.setUrl("JDBC.MYSQL");
+        return dm;
+    }
+
+    @Bean
+    @Primary
+    public DriverManager getOracleDriver() {
+        DriverManager dm = new DriverManager();
+        dm.setDriverClass("ORACLE.DRIVER");
+        dm.setUrl("JDBC.ORACLE");
+        return dm;
+    }
+}
+==================
+package org.otherAnnotations;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Repository {
+    
+    @Value("userRepo")
+    private String name;
+
+    @Autowired
+    @Qualifier("getOracleDriver")
+    private DriverManager driverManager;
+
+    Repository(){
+        System.out.println("Repository OBJECT CREATED");
+    }
+
+    @Override
+    public String toString() {
+        return "Repository{" +
+                "name='" + name + '\'' +
+                ", driverManager=" + driverManager +
+                '}';
+    }
+}
+===================
+package org.example;
+
+
+import org.otherAnnotations.DriverManager;
+import org.otherAnnotations.Repository;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class App {
+    public static void main(String[] args) {
+
+        ApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
+
+        Object repo = context.getBean(Repository.class);
+
+        System.out.println("printing repo");
+        System.out.println(repo);
+    }
+}
+
+============================================
+@Qualifier is given preference over @Primary
+============================================
+@Component level Example :
+
+@Component
+public class Dog implements Animal {
+    public void speak() {
+        System.out.println("Woof!");
+    }
+}
+------
+@Component
+@Primary
+public class Cat implements Animal {
+    public void speak() {
+        System.out.println("Meow!");
+    }
+}
+------
+@Component
+public class AnimalService {
+
+    @Autowired
+    private Animal animal;
+
+    public void makeSound() {
+        animal.speak(); // Outputs: Meow!
+    }
+}
+
+-->> Spring chooses Cat because it's marked as @Primary
+
+===========with @Qualifier==========
+@Component
+public class AnimalService {
+
+    @Autowired
+    @Qualifier("dogBean")
+    private Animal animal;
+
+    public void makeSound() {
+        animal.speak(); // Outputs: Woof!
+    }
+}
+
+@Qualifier("beanName") overrides any @Primary.

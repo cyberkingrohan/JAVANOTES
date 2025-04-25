@@ -1,0 +1,344 @@
+								Java Full Stack Development
+									    06-03-2025
+								   Mr.Akash(NSA IT-POINT)   
+==================================================================================================
+
+===========
+Stream API
+===========
+
+-> Stream API introduced in java 1.8v
+
+-> Stream API is used to process the data
+
+Note: Collections are used to store the data
+
+-> Stream API is one of the major features added in java 1.8v
+
+-> Stream in java can be defined as sequence of elements that comes from a source.
+
+-> Source of data for the Stream can be array or collection
+
+===============================
+Few Important Points About Streams
+===============================
+
+1) Stream is not a data structure. Stream means bunch of operations applied on source data. Source can be collection or array.
+
+2) Stream will not change original data structure of the source (It will just process the data given by the source.)
+
+
+===============
+Stream Creation
+===============
+
+-> In Java we can create Stream in many ways
+
+			1) From Collections (List, Set)  :  list.stream ( )  method
+
+			2) From Arrays : Arrays.stream(arr)
+
+			2) Using Stream.of (e1, e2, e3, e4.....) 
+
+
+
+// Java Program to Create Stream
+
+package com.java8.nsa.byAkash.streamapi;
+
+import java.util.ArrayList;
+import java.util.stream.Stream;
+
+public class FirstDemo {
+
+	public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        Stream<Integer> stream1 = numbers.stream();
+
+        String[] arr = {"Java", "Spring", "Microservices"};
+        Stream<String> stream2 = Arrays.stream(arr);
+
+        Stream<Integer> stream3 = Stream.of(1, 2, 3, 4, 5);
+
+        stream1.forEach(System.out::println);
+        stream2.forEach(course -> System.out.println(course));
+    }
+}
+
+
+===================
+Stream Operations
+===================
+
+-> Stream API provided several methods to perform Operations on the data
+
+-> We can divide Stream api methods into 2 types
+
+			1) Intermediate Operational Methods
+
+			2) Terminal Operational Methods
+
+
+-> Intermediate Operational methods will perform operations on the stream and returns a new Stream
+
+					Ex: filter ( ) , map ( ) etc....
+
+
+-> Terminal Operational methods will take input and will provide result as output.
+
+					Ex:  count ( ) 
+
+
+===================
+Filtering with Streams
+===================
+
+-> Filtering means getting required data from original data
+
+		Ex: get only even numbers from given numbers
+
+		Ex:  get emps whose salary is >= 1,00,000
+
+		Ex:  Get Mobiles whose price is <= 15,000
+
+
+-> To apply filter on the data, Stream api provided filter ( ) method
+
+		Ex :  Stream   filter (Predicate p)
+
+
+===================
+Example - 1 : Filter
+==================
+
+package com.java8.nsa.byAkash.streamapi;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class Demo02 {
+
+	public static void main(String[] args) {
+
+		List<Integer> list = Arrays.asList(10, 20, 30, 40, 50, 60);
+
+		// find out the number > 30
+
+//		for (int i : list) {
+//			if (i > 30) {
+//				System.out.println(i);
+//			}
+//		}
+		/*
+		 * Stream<Integer> stream = list.stream();
+		 * 
+		 * Stream<Integer> filter = stream.filter(i -> i > 30);
+		 * 
+		 * filter.forEach(o -> System.out.println(o));
+		 * 
+		 */
+
+		list.stream().filter(i -> i > 30).forEach(o -> System.out.println(o));
+
+	}
+
+}
+
+
+==========================
+Example - 2 : Filter
+========================
+
+package com.java8.nsa.byAkash.streamapi;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Demo03 {
+
+	public static void main(String[] args) {
+
+		// find out the names starting with "A"
+
+		List<String> names = Arrays.asList("Tom", "Ainsten", "Anamika", "John", "Arnold");
+
+		names.stream().filter(i -> i.startsWith("A")).forEach(o -> System.out.println(o));
+
+	}
+}
+
+==================
+Example - 3 : Filter
+==================
+
+package com.java8.nsa.byAkash.streams;
+
+import java.util.stream.Stream;
+
+public class FirstDemo {
+
+	public static void main(String[] args) {
+
+		User u1 = new User("Anushka", 25);
+		User u2 = new User("Smith", 30);
+		User u3 = new User("Raju", 15);
+		User u4 = new User("Rani", 10);
+		User u5 = new User("Charles", 35);
+		User u6 = new User("Akash", 30);
+
+		Stream<User> stream = Stream.of(u1, u2, u3, u4, u5, u6);
+		
+		// stream.filter(u -> u.age >= 18).forEach(u -> System.out.println(u));
+		
+			/*stream.filter(u -> u.age >= 18 && u.name.startsWith("A"))
+				  .forEach(u -> System.out.println(u));*/
+		
+		stream.filter(u -> u.age >= 18)
+			    .filter(u -> u.name.startsWith("A"))
+			    .forEach(u -> System.out.println(u));
+
+	}
+}
+
+class User {
+
+	String name;
+	int age;
+
+	User(String name, int age) {
+		this.name = name;
+		this.age = age;
+	}
+
+	public String toString() {
+		return "User [name=" + name + ", age=" + age + "]";
+	}
+}
+======================
+
+package com.java8.nsa.byAkash.streamapi;
+
+public class Employee {
+
+	int empId;
+	String name;
+	long salary;
+
+	public Employee(int empId, String name, long salary) {
+
+		this.empId = empId;
+		this.name = name;
+		this.salary = salary;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [empId=" + empId + ", name=" + name + ", salary=" + salary + "]";
+	}
+
+}
+-----------------
+package com.java8.nsa.byAkash.streamapi;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class EmployeeTest {
+
+	public static void main(String[] args) {
+		Employee emp1 = new Employee(1, "Akash", 10000);
+		Employee emp2 = new Employee(2, "Tom", 8000);
+		Employee emp3 = new Employee(3, "Jerry", 12000);
+		Employee emp4 = new Employee(4, "Marry", 15000);
+		Employee emp5 = new Employee(5, "Sonu", 9000);
+		Employee emp6 = new Employee(6, "Golu", 5000);
+
+		List<Employee> empList = Arrays.asList(emp1, emp2, emp3, emp4, emp5, emp6);
+
+		// find out the names of the empoyee having salary > 10000
+//		empList.stream().filter(i -> i.salary > 10000).forEach(o -> System.out.println(o));
+
+		// find out the names of the empoyee having salary > 10000 and name start with
+		// "M"
+		empList.stream().filter(i -> i.salary > 10000).filter(x -> x.name.startsWith("M"))
+				.forEach(o -> System.out.println(o));
+
+	}
+}
+
+=========================================
+package com.nsa.treamApi;
+
+public class Product {
+
+	String prodName;
+	double prodPrice;
+	int deliveryDays;
+
+	public Product(String prodName, double prodPrice, int deliveryDays) {
+		super();
+		this.prodName = prodName;
+		this.prodPrice = prodPrice;
+		this.deliveryDays = deliveryDays;
+	}
+
+}
+
+-----------
+package com.nsa.treamApi;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class ProdTest {
+
+	public static void main(String[] args) {
+
+		// take a list of products
+
+		Product p1 = new Product("Mobile", 500.50, 7);
+		Product p2 = new Product("Mouse", 50.50, 2);
+		Product p3 = new Product("Laptop", 1500.00, 5);
+		Product p4 = new Product("Keyboard", 150.70, 14);
+		Product p5 = new Product("Headphones", 1000.00, 8);
+
+		List<Product> asList = Arrays.asList(p1, p2, p3, p4, p5);
+
+		// find out the products which can be delivered within 7 days
+		asList.stream().filter(prod -> prod.deliveryDays < 7)
+				.forEach(prod -> System.out.println(prod.prodName + " : " + prod.prodPrice));
+
+		// find out the products which can be delivered within 7 days OR price as low as
+		// 500;
+
+		asList.stream().filter(product -> product.deliveryDays < 7 || product.prodPrice < 500).forEach(
+				prod -> System.out.println(prod.prodName + " : " + prod.prodPrice
+				+ " : " + prod.deliveryDays));
+	}
+}
+=============================
+=============================
+		ASSIGNMNET
+=============================
+=============================
+1)Given a list of integers, filter out the even numbers and print them
+
+2)Create a list of Employee objects. Filter and print the employees who have a salary greater than or equal to 100,000
+
+3)Given a list of strings, filter and print the names that start with the letter "S"
+
+4)Create a list of Product objects. Filter and print the products that have a price less than or equal to 1,000 and can be delivered within 5 days.
+
+5)Create a list of Student objects, where each student has a name and a grade. Filter and print the students who have a grade above 85.
+
+6)Given a list of strings, filter and print the names that have a length of 5 characters.
+
+7)Create a list of Order objects. Each order has an ID, a status (like "DELIVERED", "PENDING"), and an amount. Filter and print the orders that are either "DELIVERED" or have an amount greater than 500
+
+8)Create a list of Book objects. Each book has a title, an author, and a rating. Filter and print the books that have a rating greater than 4.5.
+
+9)Create a list of City objects where each city has a name and population. Filter and print the cities that have a population greater than 1 million.
+
+10)Create a list of Transaction objects. Each transaction has an ID, an amount, and a date. Filter and print the transactions that have an amount greater than 1,000 and occurred in the last month
+		

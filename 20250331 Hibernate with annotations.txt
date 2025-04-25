@@ -1,0 +1,197 @@
+						Java Full Stack Development
+								31-03-2025
+						   Mr.Akash(NSA IT-POINT) 							   
+==========================================================================
+Dependencies :
+
+hibernate-core: This is the core module of the Hibernate ORM framework. It contains the essential functionality for mapping Java objects to database tables and performing database operations.
+hibernate-entitymanager: This module provides additional support for working with JPA, including the EntityManager interface, which is a key component for JPA-based data access.
+MySQL Driver Dependency:
+
+mysql-connector-java: This is the MySQL JDBC driver. It allows Java applications to connect to a MySQL database using JDBC (Java Database Connectivity).
+JAXB Dependencies:
+
+
+========pom.xml==========
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>HibernateAnnotations</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>HibernateAnnotations</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>6.3.1.Final</version>
+    </dependency>
+
+    <!-- MySQL Connector -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.33</version>
+    </dependency>
+  </dependencies>
+</project>
+
+========Entity Class==========
+Entity Class : It Iss a pojo class which is mapped with database
+@Entity            : for mapping class with db
+@Table             : for mentioning table name (optional)      
+@Id                : for mentioning Primary Key 
+@Column            : for giving table name (optional)
+
+package org.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "employee_table")  //optional
+public class Employee {
+
+    @Id  //primary key
+    @Column(name = "id")
+    private Integer empId;
+
+    @Column(name = "empName")
+    private String name;
+
+    @Column(name = "mobile")
+    private Long mobileNo;
+
+    private Double salary;
+
+    public Employee(Integer empId, String name, Long mobileNo, Double salary) {
+        this.empId = empId;
+        this.name = name;
+        this.mobileNo = mobileNo;
+        this.salary = salary;
+    }
+}
+
+=========hibernate.cfg.xml============
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate_db</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">akash</property>
+
+        <!-- Hibernate properties -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Entity Mapping -->
+        <mapping class="org.entity.Employee"/>
+    </session-factory>
+</hibernate-configuration>
+
+=========Repository===========
+create a Interface for the loosely coupled Application and metnioned all the methods you want to work with.
+
+
+package org.entity;
+
+public interface EmployeeRepository {
+
+    //write the method to save emp Object //Create
+    public String saveEmployee(Employee emp);
+
+    //write the method to get emp Object // Retrieve
+    public Employee getEmployee(int id);
+
+    //write the method to update emp Object //Update
+    public String updateEmployee(int id, Double salary);
+
+    //write the method to delete emp Object  //Delete
+    public void deleteEmployee(int id);
+}
+=========Repo IMPL==========
+create implimention class for implimenting the logic for the interface methods
+
+
+package org.entity;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+public class EmployeeRepoImpl implements EmployeeRepository {
+
+
+    @Override
+    public String saveEmployee(Employee emp) {
+        String result = null;
+        Transaction transaction = null;
+        try (SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+             Session session = sessionFactory.openSession();) {
+
+            transaction = session.beginTransaction();
+            session.persist(emp);
+            transaction.commit();
+            result = "employee object saved successfully";
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            result = "employee object failed to saved";
+        }
+
+        return result;
+    }
+
+    @Override
+    public Employee getEmployee(int id) {
+        return null;
+    }
+
+    @Override
+    public String updateEmployee(int id, Double salary) {
+        return "";
+    }
+
+    @Override
+    public void deleteEmployee(int id) {
+
+    }
+}
+==========Test class===========
+package org.entity;
+
+public class MainApp {
+    public static void main(String[] args) {
+
+        EmployeeRepository empRepo = new EmployeeRepoImpl();
+
+        Employee emp = new Employee(10, "tom", 7517566959L, 500.50);
+        String s = empRepo.saveEmployee(emp);
+        System.out.println(s);
+    }
+}
+======================

@@ -1,0 +1,365 @@
+								Java Full Stack Development
+									    01-03-2025
+								   Mr.Akash(NSA IT-POINT)   
+================================================================================================
+
+=====================
+Lambda Expressions
+====================
+
+-> Introdced in java 1.8v
+
+-> Java is called as Object Oriented Programming language. Everything will be represented using Classes and Objects.
+
+-> From 1.8v onwards Java is also called as Functional Programming Language.
+
+-> In OOP language Classes & Objects are main entities. We need to write methods inside the class only.
+
+-> Functional Programming means everything will be represented in the form functions. Functions can exist outside of the class. Functions can be stored into a reference variable. A function can be passed as a parameter to other methods.
+
+-> Lambda Expressions introduced in Java to enable Functional Programming.
+
+Note -> It is used to provide the implementation of an functional interface, Here we dont need to define method again for providing implementation.
+
+==============
+What is Lambda
+==============
+
+-> Lambda is an anonymous function
+
+		- No Name
+		- No Modifier
+		- No Return Type
+
+Ex:-1
+
+public void m1 ( ) {
+	s.o.p("hi");
+}
+
+
+ ( ) -> { s.o.p ("hi") }
+
+Note: When we have single line in body then curly braces are optional
+
+ ( ) -> s.o.p ("hi");
+
+Ex:-2
+
+public void add (int a, int b){
+	s.o.p(a+b);
+}
+
+( int a, int b)  -> { s.o.p (a+b) } ;
+
+		(or)
+
+(int a, int b) -> s.o.p (a+b);
+
+		(or)
+
+Lambda Expression : (a, b) -> s.o.p(a+b);
+
+
+Ex:-3
+
+public int getLength (String name) {
+	return name.length ( );
+}
+
+(String name) -> { return name.length ( ) };
+
+(String name) -> return name.length ( ) ;
+
+(name) -> return name.length ( );
+
+Lambda Expression : name -> name.length ( ) ;
+
+
+Ex:-4
+
+public Double getEmpSalary (Employee emp) {
+
+	return emp.getSalary ( );
+
+}
+
+Lambda Expression : emp -> emp.getSalary ( );
+
+
+---------------------------------------Example 01---------------------
+package com.nsa.lambda;
+
+@FunctionalInterface
+public interface DemoInterface {
+
+    void check();
+
+}
+
+==========
+package com.nsa.lambda;
+
+public class Test implements DemoInterface {
+    @Override
+    public void check() {
+
+        System.out.println("this is check meethod");
+    }
+}
+
+=============
+package com.nsa.lambda;
+
+public class TestMain {
+    public static void main(String[] args) {
+
+        DemoInterface demo = new Test();
+        demo.check();
+
+    }
+}
+=====================
+using lambda 
+=====================
+package com.nsa.lambda;
+
+public class TestMain {
+    public static void main(String[] args) {
+
+//        DemoInterface lambda = () -> {
+//            System.out.println("this is check meethod");
+//        }
+//
+DemoInterface lambda = () -> System.out.println("this is check meethod");
+
+        lambda.check();
+    }
+}
+--------------------------------------------Example 02-------------------------
+package com.nsa.lambda;
+
+@FunctionalInterface
+public interface DemoInterface {
+
+    public abstract void add(int a, int b);
+
+}
+--------
+package com.nsa.lambda;
+
+public class Test implements DemoInterface {
+
+    @Override
+    public void add(int a, int b) {
+        System.out.println("adding two : " + (a + b));
+    }
+}
+-------------
+package com.nsa.lambda;
+
+public class TestMain {
+    public static void main(String[] args) {
+
+        DemoInterface demo = new Test();
+        demo.add(10, 20);
+    }
+}
+=====================
+using lambda
+----------
+package com.nsa.lambda;
+
+public class TestMain {
+    public static void main(String[] args) {
+
+        DemoInterface demo = (x, y) -> {
+            System.out.println("adding two : " + (x + y));
+        };
+
+        demo.add(20, 40);
+    }
+}
+===============================
+package com.nsa.lambda;
+
+public interface Test {
+
+	public int add( int a , int b);
+}
+------------
+package com.nsa.lambda;
+
+public class RegularWay implements Test {
+
+	public int add(int a, int b) {
+
+		return a + b;
+
+	}
+
+	public static void main(String[] args) {
+
+		RegularWay rg = new RegularWay();
+		rg.add(10, 20);
+	}
+
+}
+----------
+package com.nsa.lambda;
+
+public class LambdaWay {
+
+	public static void main(String[] args) {
+		Test t = (a, b) -> {
+			return a + b;
+
+		};
+
+		t.add(10, 20);
+
+	}
+
+}
+==========================
+--------------
+
+public int add(int a, int b){ return a+b;}
+
+(int a, int b) -> { return a+b;}  
+(a,b) -> return a+b; 
+
+==========
+package com.nsa.lambda;
+
+@FunctionalInterface
+public interface DemoInterface {
+
+    public abstract Integer findLength(String first, String last);
+
+}
+--------
+package com.nsa.lambda;
+
+public class Test implements DemoInterface {
+
+
+    @Override
+    public Integer findLength(String first, String last) {
+        String full = first + last;
+        Integer length = full.length();
+        return length;
+    }
+}
+
+-------
+package com.nsa.lambda;
+
+public class TestMain {
+    public static void main(String[] args) {
+
+        DemoInterface demo = new Test();
+        Integer len = demo.findLength("NSA", "IT-POINT");
+        System.out.println("Length of word : " + len);
+    }
+}
+
+============
+using lambda
+=============
+===================
+Additional :
+--------------------
+Below are the functional interfaces where we can use lambda expression :
+
+Core Functional Interfaces in java.util.function:
+Predicate<T>
+
+Represents a boolean-valued function of one argument.
+Abstract method: boolean test(T t)
+Example: Predicate<Integer> isEven = (n) -> n % 2 == 0;
+BiPredicate<T, U>
+
+Represents a boolean-valued function of two arguments.
+Abstract method: boolean test(T t, U u)
+Example: BiPredicate<String, Integer> checkLength = (str, len) -> str.length() == len;
+Consumer<T>
+
+Represents an operation that accepts a single input argument and returns no result.
+Abstract method: void accept(T t)
+Example: Consumer<String> print = (s) -> System.out.println(s);
+BiConsumer<T, U>
+
+Represents an operation that accepts two input arguments and returns no result.
+Abstract method: void accept(T t, U u)
+Example: BiConsumer<String, Integer> printDetails = (s, i) -> System.out.println(s + ": " + i);
+Supplier<T>
+
+Represents a supplier of results.
+Abstract method: T get()
+Example: Supplier<Double> randomValue = () -> Math.random();
+Function<T, R>
+
+Represents a function that accepts one argument and produces a result.
+Abstract method: R apply(T t)
+Example: Function<String, Integer> length = (s) -> s.length();
+BiFunction<T, U, R>
+
+Represents a function that accepts two arguments and produces a result.
+Abstract method: R apply(T t, U u)
+Example: BiFunction<Integer, Integer, Integer> sum = (a, b) -> a + b;
+UnaryOperator<T>
+
+Represents an operation on a single operand that produces a result of the same type as its operand.
+Abstract method: T apply(T t)
+Example: UnaryOperator<Integer> square = (n) -> n * n;
+Note: It is a specialization of Function<T, T>.
+BinaryOperator<T>
+
+Represents an operation upon two operands of the same type, producing a result of the same type as the operands.
+Abstract method: T apply(T t1, T t2)
+Example: BinaryOperator<Integer> multiply = (a, b) -> a * b;
+Note: It is a specialization of BiFunction<T, T, T>.
+Additional Functional Interfaces:
+Runnable (java.lang)
+
+Represents a command that can be executed, typically used in threading.
+Abstract method: void run()
+Example: Runnable task = () -> System.out.println("Task executed");
+Callable<V> (java.util.concurrent)
+
+Represents a task that returns a result and may throw an exception.
+Abstract method: V call() throws Exception
+Example: Callable<Integer> callableTask = () -> 123;
+Specialized Variants:
+Java also provides specialized versions of these functional interfaces for primitive data types (int, long, double) to avoid the overhead of boxing and unboxing:
+
+IntPredicate, LongPredicate, DoublePredicate
+IntConsumer, LongConsumer, DoubleConsumer
+IntSupplier, LongSupplier, DoubleSupplier
+IntFunction<R>, LongFunction<R>, DoubleFunction<R>
+ToIntFunction<T>, ToLongFunction<T>, ToDoubleFunction<T>
+IntUnaryOperator, LongUnaryOperator, DoubleUnaryOperator
+IntBinaryOperator, LongBinaryOperator, DoubleBinaryOperator
+
+
+
++----------------------+---------------------------------------------------------------+---------------------------------------------+--------------------------------------------------------------+
+| Interface            | Description                                                   | Abstract Method                             | Example                                                      |
++----------------------+---------------------------------------------------------------+---------------------------------------------+--------------------------------------------------------------+
+| Predicate<T>         | Boolean-valued function of one argument                       | boolean test(T t)                            | Predicate<Integer> isEven = (n) -> n % 2 == 0;               |
+| BiPredicate<T, U>    | Boolean-valued function of two arguments                      | boolean test(T t, U u)                       | BiPredicate<String, Integer> checkLength =                   |
+|                      |                                                               |                                             | (str, len) -> str.length() == len;                           |
+| Consumer<T>          | Accepts a single input argument and returns no result         | void accept(T t)                             | Consumer<String> print = (s) -> System.out.println(s);       |
+| BiConsumer<T, U>     | Accepts two input arguments and returns no result             | void accept(T t, U u)                        | BiConsumer<String, Integer> printDetails =                   |
+|                      |                                                               |                                             | (s, i) -> System.out.println(s + ": " + i);                  |
+| Supplier<T>          | Supplies a result                                             | T get()                                     | Supplier<Double> randomValue = () -> Math.random();          |
+| Function<T, R>       | Accepts one argument and produces a result                    | R apply(T t)                                 | Function<String, Integer> length = (s) -> s.length();        |
+| BiFunction<T, U, R>  | Accepts two arguments and produces a result                   | R apply(T t, U u)                            | BiFunction<Integer, Integer, Integer> sum =                  |
+|                      |                                                               |                                             | (a, b) -> a + b;                                              |
+| UnaryOperator<T>     | Operation on a single operand; result of same type            | T apply(T t)                                 | UnaryOperator<Integer> square = (n) -> n * n;                |
+| BinaryOperator<T>    | Operation on two operands of same type; same result type      | T apply(T t1, T t2)                          | BinaryOperator<Integer> multiply = (a, b) -> a * b;          |
+| Runnable             | Command to execute (usually in threads)                      | void run()                                  | Runnable task = () -> System.out.println("Task executed");   |
+| Callable<V>          | Task that returns result and may throw exception              | V call() throws Exception                    | Callable<Integer> callableTask = () -> 123;                  |
++----------------------+---------------------------------------------------------------+---------------------------------------------+--------------------------------------------------------------+
+Note: Specialized versions exist for primitives (int, long, double) to avoid boxing/unboxing.

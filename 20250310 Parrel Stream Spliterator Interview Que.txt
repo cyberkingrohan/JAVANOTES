@@ -1,0 +1,203 @@
+                         Java Full Stack Development 
+						       10-03-2025
+						   Mr.Akash (NSA IT-POINT)
+===============================================================================
+===============
+Parallel Stream 
+===============
+
+Parallel streams in Java use the Fork/Join framework to split tasks into smaller sub-tasks and execute them in parallel, utilizing multiple processor cores. This can significantly improve performance when dealing with large data sets.
+
+Why Use Parallel Streams:
+Performance Improvement:
+
+Parallel streams can significantly improve the performance of operations on large datasets, especially when you have a multi-core processor. Each core can process a portion of the data simultaneously.
+
+Simplicity:
+
+Parallel processing can be achieved with a few method calls (parallelStream()) without the need for low-level concurrency constructs like threads or executors.
+
+Automatic Load Balancing:
+
+The Java runtime automatically divides the data into smaller chunks and assigns them to different threads, making it easier to harness the power of multi-core systems.
+
+
+When to Use Parallel Streams?
+-> When processing large datasets (millions of records).
+-> When operations are independent (e.g., mathematical computations, aggregations).
+-> When you have a multi-core processor.
+
+When to Avoid Parallel Streams?
+-> When working with small data sets (overhead can be more than the gain).
+-> When operations involve I/O (disk, network).
+-> When thread-safety is required (e.g., modifying shared resources).
+
+NOTE :Why the Time Difference?
+Parallel Processing Overhead: For small datasets or simple operations (like printing), the overhead of managing multiple threads can sometimes outweigh the benefits of parallel processing, leading to longer execution times.
+System-Specific Factors: The actual execution time can vary depending on your system's CPU, the number of cores available, and how the Java Virtual Machine (JVM) handles parallelism.
+
+
+package com.nsa.parrel;
+
+import java.util.stream.LongStream;
+
+public class ParrelStreamDemo {
+
+    public static void main(String[] args) {
+
+        long n = 100_000_000;  //100 millions elements
+
+        //sequential
+        long start1 = System.currentTimeMillis();
+        long sum1 = LongStream.rangeClosed(1, n).sum();
+        long end1 = System.currentTimeMillis();
+        System.out.println("sequential stream processing time  : "
+                + sum1 + " : " + (end1 - start1) + " ms");
+
+        //parallel
+        long start2 = System.currentTimeMillis();
+        long sum2 = LongStream.rangeClosed(1, n).parallel().sum();
+        long end2 = System.currentTimeMillis();
+        System.out.println("parallel stream processing time : "
+                + sum2 + " : " + (end2 - start2) + " ms");
+
+    }
+}
+
+===================
+Output :
+sequential stream processing time  : 5000000050000000 : 344 ms
+parallel stream processing time : 5000000050000000 : 40 ms
+
+
+==============
+Java Spliterator
+==============
+
+-> Like Iterator and ListIterator, Spliterator is one of the Java Iterator
+
+-> Spliterator introduced in java 1.8v
+
+-> Spliterator is an interface in collections api
+
+-> Spliterator supports both serial &  paralell programming
+
+-> Spliterator we can use to traverse both Collections & Streams
+
+-> Spliterator can't be used with Map implementation classes
+
+
+
+package com.nsa.datetimeapi;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Spliterator;
+
+public class SplitIterotrTest {
+
+    public static void main(String[] args) {
+
+        List<String> courses =
+                Arrays.asList("java", "Spring", "jdbc", "microservices", "aws", "kafka");
+				
+
+        //process one element
+        Spliterator<String> spliterator = courses.spliterator();
+        spliterator.tryAdvance(x -> System.out.println(x)); //java
+
+        //process all the remaining element
+        spliterator.forEachRemaining(System.out::println); //Spring,jdbc,microservices,aws,kafka
+
+        Spliterator<String> spliterator1 = courses.spliterator();
+        Spliterator<String> spliterator2 = spliterator1.trySplit();
+
+        System.out.println("spliterator1");
+        spliterator1.forEachRemaining(System.out::println); //microservices,aws,kafka
+        System.out.println("spliterator2");
+        spliterator2.forEachRemaining(System.out::println); //java,Spring, jdbc
+    }
+}
+
+=====================================
+		Interview Questions
+=====================================
+package com.nsa.interviewprep;
+
+public class Employee {
+    int id;
+    String name;
+    String dept;
+    String country;
+    double salary;
+
+    public Employee(int id, String name, String dept, String country, double salary) {
+        this.id = id;
+        this.name = name;
+        this.dept = dept;
+        this.country = country;
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dept='" + dept + '\'' +
+                ", country='" + country + '\'' +
+                ", salary=" + salary +
+                '}';
+    }
+}
+-----------
+package com.nsa.interviewprep;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class EmployeeTest {
+
+    public static List<Employee> employeesList() {
+
+        List<Employee> list = Arrays.asList(
+                new Employee(1, "Alice", "IT", "USA", 75000),
+                new Employee(2, "Bob", "HR", "India", 60000),
+                new Employee(3, "Charlie", "Finance", "UK", 85000),
+                new Employee(4, "David", "IT", "UK", 90000),
+                new Employee(5, "Emma", "Marketing", "Canada", 70000),
+                new Employee(6, "Frank", "Sales", "Australia", 65000),
+                new Employee(7, "Grace", "IT", "India", 80000),
+                new Employee(8, "Hannah", "HR", "USA", 55000),
+                new Employee(9, "Ian", "Finance", "Canada", 88000),
+                new Employee(10, "Jack", "Marketing", "India", 72000)
+        );
+
+        return list;
+    }
+
+
+    public static void main(String[] args) {
+
+        //find out the employees from each country
+        Map<String, List<Employee>> countryMap = employeesList().stream().collect(Collectors.groupingBy(emp -> emp.dept));
+        System.out.println(countryMap);
+
+    }
+}
+
+============
+Output :
+{Sales=[Employee{id=6, name='Frank', dept='Sales', country='Australia', salary=65000.0}], 
+
+Finance=[Employee{id=3, name='Charlie', dept='Finance', country='UK', salary=85000.0}, Employee{id=9, name='Ian', dept='Finance', country='Canada', salary=88000.0}], 
+
+HR=[Employee{id=2, name='Bob', dept='HR', country='India', salary=60000.0}, Employee{id=8, name='Hannah', dept='HR', country='USA', salary=55000.0}],
+
+IT=[Employee{id=1, name='Alice', dept='IT', country='USA', salary=75000.0}, Employee{id=4, name='David', dept='IT', country='UK', salary=90000.0}, Employee{id=7, name='Grace', dept='IT', country='India', salary=80000.0}],
+
+Marketing=[Employee{id=5, name='Emma', dept='Marketing', country='Canada', salary=70000.0}, Employee{id=10, name='Jack', dept='Marketing', country='India', salary=72000.0}]}
+
+===========================

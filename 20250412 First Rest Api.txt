@@ -1,0 +1,215 @@
+							Java Full Stack Development
+									12-04-2025
+							   Mr.Akash(NSA IT-POINT) 							   
+===============================================================================
+Rest Api : REpresentational State Transfer : Application Programming Interface
+
+============What is a REST API?================
+
+A REST API is like a waiter in a restaurant. Imagine you walk into a restaurant and want to order some food. Instead of going into the kitchen and telling the chef directly what you want, you talk to the waiter. The waiter takes your order to the kitchen, and when your food is ready, the waiter brings it back to you. In this analogy:
+
+You: You are like the client or user making requests.
+Waiter: The waiter is like the REST API, standing between you and the kitchen (which is like a server or a database).
+Kitchen: The kitchen is where all the work (processing requests) happens.
+Key Points:
+
+Menu (Endpoints): The restaurant menu is like the list of options (endpoints) the API provides. Each item on the menu (endpoint) does a specific task.
+
+Order (Request): When you want something, you create an order (make a request). You tell the waiter what you want, and the waiter takes it to the kitchen (sends the request to the server).
+
+Wait (Processing): While the kitchen is preparing your food (processing your request), you're free to do other things. You don't need to know how the food is cooked; you trust the kitchen to handle it.
+
+Serve (Response): When your food is ready, the waiter brings it back to you (sends the response). The response contains what you asked for, just like your food order.
+
+Independence: You, as the customer, don't need to know the details of how the kitchen operates. Similarly, as a user of an API, you don't need to know the inner workings of the server. The API abstracts that complexity.
+
+In Simple Terms:
+
+A REST API is a way for different software applications to talk to each other, just like you talk to a waiter to get what you want in a restaurant.
+The API provides a menu of options (endpoints) that perform specific tasks, and you make requests to those options to get things done.
+The API handles the communication between your request and the server's response, allowing different parts of a system to work together seamlessly.
+So, in essence, a REST API is a communication system that lets different pieces of software (or "restaurants" in our analogy) work together smoothly by providing a standardized way to make requests and receive responses
+
+===============================================================================
+
+=====ENTITY======
+package com.nsa.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "emp_table")
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "emp_id")
+    private Integer id;
+
+    @Column(name = "empName")
+    private String name;
+
+    @Column(name = "department")
+    private String department;
+
+    @Column(name = "salary")
+    private Long salary;
+
+//constructor getter setter methods	
+}
+
+=====Repository=====
+package com.nsa.repository;
+
+import com.nsa.entity.Employee;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface EmployeeRepository extends CrudRepository<Employee, Integer> {
+}
+
+=====Service======
+package com.nsa.service;
+
+import com.nsa.entity.Employee;
+
+public interface EmployeeService {
+
+    //CRUD :
+    public String saveEmployee(Employee emp);
+
+    public Employee getEmployeeById(int id);
+
+    public String updateEmployee(int id, Employee emp);
+
+    public void deleteEmployeeById(int id);
+}
+
+======IMPL=======
+package com.nsa.service.IMPL;
+
+import com.nsa.entity.Employee;
+import com.nsa.repository.EmployeeRepository;
+import com.nsa.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmployeeServiceImpl implements EmployeeService {
+
+    @Autowired
+    EmployeeRepository empRepo; // new Impl
+
+    @Override
+    public String saveEmployee(Employee emp) {
+        Employee save = empRepo.save(emp);
+        return "Employee saved";
+    }
+
+    @Override
+    public Employee getEmployeeById(int id) {
+        return null;
+    }
+
+    @Override
+    public String updateEmployee(int id, Employee emp) {
+        return "";
+    }
+
+    @Override
+    public void deleteEmployeeById(int id) {
+
+    }
+}
+======Controller========
+package com.nsa.controller;
+
+import com.nsa.entity.Employee;
+import com.nsa.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/v1")
+public class EmployeeController {
+
+    @Autowired
+    private EmployeeService empService;  //new EmployeeServiceImpl
+
+    @PostMapping("/save")
+    public String saveEmpData(@RequestBody Employee emp) {
+        String s = empService.saveEmployee(emp);
+        return s;
+    }
+
+}
+=====application.properties===========
+spring.datasource.url = jdbc:mysql://localhost:3306/crud
+spring.datasource.driver-class-name = com.mysql.cj.jdbc.Driver
+spring.datasource.name = root
+spring.datasource.password = akash@123
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.show-sql = true
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
+server.port = 8080
+================================
+
+
+Hit -> POST : http://localhost:8080/api/v1/save
+with JSON body :
+{
+    "name" : "dAVID LUSSY",
+    "department" : "RND",
+    "salary" : 7000
+}
+
+===========================
+Method  	Action	     Description				    
+GET	  ->	Read	:Retrieve data from the server		
+POST  ->	Create	:Send data to create a new resource	
+PUT	  ->	Update	:Update an entire existing resource	
+PATCH ->	Partial :Update	Update part of a resource	
+DELETE->	Delete	:Remove a resource from the server	
+
+JSON : JSON stands for JavaScript Object Notation — it’s a lightweight data format used to store and exchange data between a client and a server.
+
+======FLOW=========
+1️) Client (Postman, frontend, etc.) sends a request
+URL: http://localhost:8080/api/v1/save
+Method: POST
+Body (JSON):
+
+{
+  "name": "Akash",
+  "department": "IT",
+  "salary": 50000
+}
+
+2️) Controller Layer - EmployeeController
+The @PostMapping("/save") method is hit.
+
+It receives the JSON body and maps it to an Employee object using @RequestBody.
+Calls the service method: empService.saveEmployee(emp).
+
+@PostMapping("/save")
+public String saveEmpData(@RequestBody Employee emp) {
+    return empService.saveEmployee(emp);
+}
+
+3️) Service Layer (Interface + Impl)
+The controller talks to EmployeeServiceImpl (which implements EmployeeService).
+Inside saveEmployee(...), it calls the repository to save the employee.
+
+@Override
+public String saveEmployee(Employee emp) {
+    empRepo.save(emp); // --> goes to DB
+    return "Employee saved";
+}
+
+4) Repository Layer - EmployeeRepository
+We are extending CrudRepository<Employee, Integer>, so Spring Boot gives us methods like .save(), .findById(), .deleteById(), etc.
+empRepo.save(emp) inserts the employee into the database.

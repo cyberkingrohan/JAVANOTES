@@ -1,0 +1,139 @@
+                         Java Full Stack Development 
+						      17-03-2025
+						   Mr.Akash (NSA IT-POINT)
+===============================================================================
+
+1) Declare the class as final
+-> This prevents subclassing, which could allow modifications to the object's state
+
+2) Declare all fields as private final
+-> Marking fields as private prevents direct access.
+-> Marking them as final ensures they can be assigned only once.
+
+3) Initialize fields only through a constructor
+-> The constructor should initialize all fields using deep copies (if necessary).
+
+4) Do not provide "setter" methods but getter only
+-> Immutable objects should not have any methods that allow modifying their fields
+
+5) Return deep copies of mutable fields in getter methods
+-> Instead of returning the original mutable objects, return copies.
+
+==========================
+==========================
+package com.core;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Immutable class to demonstrate immutability in Java.
+ * An immutable object is one whose state cannot be modified after creation.
+ */
+public final class ImmutableTest {
+    
+    // Immutable fields
+    private final String name;   // String is immutable
+    private final int age;       // Primitive types are immutable
+    
+    // Mutable fields
+    private final List<String> colours; // List is mutable
+    private final Employee employee;    // Custom object (mutable)
+
+    /**
+     * Constructor to initialize immutable fields and create deep copies of mutable objects.
+     * @param name Name of the entity
+     * @param age Age of the entity
+     * @param colours List of colours
+     * @param employee Employee object
+     */
+    public ImmutableTest(String name, int age, List<String> colours, Employee employee) {
+        this.name = name;
+        this.age = age;
+        
+        // Creating a deep copy of the list to prevent external modification
+        this.colours = new ArrayList<>(colours);
+        
+        // Creating a deep copy of the mutable Employee object
+        this.employee = new Employee(employee.getId(), employee.getName());
+    }
+
+    // Getter methods to retrieve values
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * Returns an unmodifiable view of the list to prevent external modification.
+     * @return Unmodifiable List of colours
+     */
+    public List<String> getColours() {
+        return Collections.unmodifiableList(colours);
+    }
+
+    /**
+     * Returns a deep copy of the Employee object to maintain immutability.
+     * @return A new Employee object with the same values
+     */
+    public Employee getEmployee() {
+        return new Employee(employee.getId(), employee.getName());
+    }
+
+    @Override
+    public String toString() {
+        return "ImmutableTest{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", colours=" + colours +
+                ", employee=" + employee +
+                '}';
+    }
+}
+
+package com.core;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class to test the immutability of ImmutableTest.
+ */
+public class MainTest {
+
+    public static void main(String[] args) {
+        // Creating a mutable list of colors
+        List<String> colours = new ArrayList<>();
+        colours.add("black");
+        colours.add("white");
+        
+        // Creating an Employee object
+        Employee emp = new Employee(10, "TOM");
+        
+        // Creating an immutable object
+        ImmutableTest immutableTest = new ImmutableTest("nsa it-point", 7, colours, emp);
+
+        // Printing initial immutable object
+        System.out.println(immutableTest);
+
+        // Attempting to modify the original list (should not affect ImmutableTest instance)
+        colours.add("red");
+        System.out.println(immutableTest); // List should remain unchanged
+
+        // Attempting to modify the returned list from the immutable object
+        List<String> colours1 = immutableTest.getColours();
+        // colours1.add("pink"); // This would throw an UnsupportedOperationException
+
+        // Attempting to modify the returned Employee object
+        Employee employee = immutableTest.getEmployee();
+        employee = new Employee(20, "harry"); // This does not affect the original object
+        
+        // Printing final state of immutable object
+        System.out.println(immutableTest);
+    }
+}
+

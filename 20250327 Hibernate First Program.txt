@@ -1,0 +1,286 @@
+								Java Full Stack Development
+									    27-03-2025
+								   Mr.Akash(NSA IT-POINT)   
+=========================================================================================
+
+==========================
+Create First Hibernate Project :
+
+File -> new -> Project -> Maven Archetype -> select org.apache.maven.archtypes (maven-archtype-quickstart)
+
+
+=====================
+
+Add below dependencies in POM.xml file from https://mvnrepository.com/
+
+hibernate-core
+mysql-connector-java
+
+---------POM.xml------------
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>firstproj</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <!-- Hibernate Core -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>6.2.0.Final</version>
+    </dependency>
+
+    <!-- MySQL Connector (Change based on your DB) -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.33</version>
+    </dependency>
+
+    <!-- Jakarta Persistence API -->
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+
+    <!-- Logging (Log4j for Hibernate logs) -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.17.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.17.1</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Maven Compiler Plugin to use Java 21 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>21</source>
+          <target>21</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
+
+==============Create Pojo class================
+package org.example;
+
+public class Student {
+    
+	Integer rollNo;
+    String name;
+    Integer age;
+    String city;
+	
+	//getter setter
+	//constructors
+	
+	}
+	
+
+----------Create config and mapping file inside java/main/resources folder============
+============student.hbm.xml===========
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 5.3//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="org.example.Student" table="table_student">
+        <id name="rollNo" column="studRollNo"></id>
+        <property name="name" column="stud_name"></property>
+        <property name="age"></property>
+        <property name="city"></property>
+    </class>
+
+</hibernate-mapping>
+
+----------------
+note : tabel and column tag isoptional here
+ 
+==================hibernate.cfg.xml===========================
+
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 5.3//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="connection.url">jdbc:mysql://localhost/hibernate_db</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">akash</property>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <mapping resource="student.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>
+
+=====================
+Details : hibernate.cfg.xml is used to configure Hibernate settings for a Java application that interacts with a relational database.
+
+-----------
+hibernate.hbm2ddl.auto:
+
+Purpose: This property controls the automatic generation of database schema (DDL) based on the Hibernate mapping files.
+Value (create): It means that Hibernate will attempt to create the database schema when the application starts. This is useful in development phases but should be used with caution in production to avoid unintentional data loss.
+-------------------------
+hibernate.dialect:
+
+Purpose: Specifies the SQL dialect that Hibernate should use for interacting with the database.
+Value (org.hibernate.dialect.MySQLDialect): This indicates the use of MySQL dialect. The dialect defines the database-specific SQL variations that Hibernate should generate.
+
+-------------------------
+hibernate.connection.url:
+
+Purpose: Specifies the JDBC URL for the database connection.
+Value (jdbc:mysql://localhost:3306/hibbernate_db): It defines the connection URL for a MySQL database running on the local machine on port 3306, with a specific database named "hibbernate_db."
+
+-------------------------
+hibernate.connection.username:
+Purpose: Specifies the username used to connect to the database.
+Value (root): The username "root" is often used in MySQL databases, but in a production environment, it's recommended to have a dedicated and properly configured user.
+
+-------------------------
+hibernate.connection.password:
+
+Purpose: Specifies the password used to authenticate the database user.
+Value (akash): The provided password for the database user.
+
+-------------------------
+hibernate.connection.driver_class:
+
+Purpose: Specifies the JDBC driver class for the database.
+Value (com.mysql.jdbc.Driver): Indicates the MySQL JDBC driver class. This is necessary for establishing a connection to a MySQL database.
+
+-------------------------
+hibernate.show_sql:
+
+Purpose: Controls whether Hibernate should log generated SQL statements to the console.
+Value (true): This setting is useful during development for debugging purposes. It allows developers to see the SQL statements executed by Hibernate.
+
+-------------------------
+hibernate.format_sql:
+
+Purpose: Specifies whether the logged SQL statements should be formatted for better readability.
+Value (true): When set to true, the SQL statements in the logs will be formatted for easier human interpretation
+-------------------------
+==============================
+==============================
+package org.example;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class StudentIMPL {
+
+    SessionFactory sessionFactory = null;
+
+    StudentIMPL() {
+        Configuration config = new Configuration();
+        config.configure("hibernate.cfg.xml");
+        sessionFactory = config.buildSessionFactory();
+    }
+
+    public String saveData(Student stud) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+//            Integer id = (Integer) session.save(stud);
+//            System.out.println(id);
+
+            session.persist(stud);
+            transaction.commit();
+            return "tx successfull";
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+            return "tx failed";
+        }
+    }
+}
+==================
+Note : 
+config.buildSessionFactory() is used to create an instance of Hibernate's SessionFactory.
+_______________________
+_______________________
+Configuration:
+Configuration config = new Configuration();
+An instance of Configuration class is created. This class is used to configure and bootstrap Hibernate.
+____________________
+_______________________
+Load Configuration from XML:
+config.configure("hibernate.cfg.xml");
+This line loads the configuration settings from the hibernate.cfg.xml file. The configuration file typically contains details about database connection, mapping files, and other Hibernate-specific settings.
+___________________
+_______________________
+Build SessionFactory:
+factory = config.buildSessionFactory();
+The buildSessionFactory() method is called on the Configuration object. This method creates a new SessionFactory based on the configuration settings provided. The SessionFactory is a key component in Hibernate, responsible for creating and managing database sessions.
+_______________________
+_______________________
+SessionFactory Usage:
+The SessionFactory is a heavyweight object, and it is typically created once during the application startup. It serves as a factory for creating Session instances.
+_______________________
+_______________________
+Session Creation:
+
+Session session = factory.openSession();
+In other parts of the code (for example, in the saveStudent and fetchStudentData methods), a new Session is created by calling factory.openSession(). The Session is a short-lived object representing a single unit of work with the database.
+_______________________
+_______________________
+SessionFactory Lifecycle:
+The SessionFactory should ideally be created once during the application's lifecycle and reused throughout. It is thread-safe, and multiple sessions can be created from a single SessionFactory instance. Creating a new SessionFactory is an expensive operation, and having a single instance enhances performance.
+
+config.buildSessionFactory() is used to instantiate a SessionFactory based on the configuration settings provided in the hibernate.cfg.xml file. The SessionFactory is a crucial part of Hibernate, responsible for managing the sessions and providing a connection between the Java application and the underlying database.
+_______________________
+_______________________
+==================
+
+package org.example;
+
+public class App {
+    public static void main( String[] args ) {
+
+        Student student = new Student();
+        student.setRollNo(2);
+        student.setAge(28);
+        student.setCity("nagpur");
+        student.setName("jerry");
+
+        StudentIMPL impl = new StudentIMPL();
+        String s = impl.saveData(student);
+        System.out.println(s);
+    }
+}
+
+=================================

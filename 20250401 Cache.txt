@@ -1,0 +1,173 @@
+						Java Full Stack Development
+								01-04-2025
+						   Mr.Akash(NSA IT-POINT) 							   
+==========================================================================
+
+What is JPA?
+============
+JPA (Java Persistence API) is a specification that defines how Java applications should interact with relational databases using ORM (Object-Relational Mapping). It provides a set of standard interfaces and annotations to persist Java objects into databases.
+
+However, JPA is just a specification—it does not provide an implementation. To use JPA, you need a persistence provider (ORM framework) that implements JPA. Hibernate is one of the most popular implementations of JPA.
+
+Key Features of JPA:
+-> Defines standard ORM concepts (entities, relationships, queries)
+-> Uses annotations like @Entity, @Table, @Column, @Id, etc.
+-> Provides an abstraction layer over different ORM tools
+-> Uses EntityManager for managing database operations
+-> Supports JPQL (Java Persistence Query Language) for queries
+
+Key Features of Hibernate:
+-> Implements JPA specification but also provides extra features
+-> Supports native Hibernate Query Language (HQL)
+-> Provides caching mechanisms (First-Level & Second-Level Caching)
+-> Supports Lazy and Eager Fetching
+-> Can work with databases that do not fully support JPA
+
+=================
+Hibnerate Cache
+=================
+Caching in Hibernate is a performance optimization technique that reduces database hits by storing frequently accessed data in memory. Hibernate provides two levels of caching to improve efficiency:
+
+1)First-Level Cache (Session Cache) – Enabled by default
+2)Second-Level Cache (SessionFactory Cache) – Needs to be configured
+
+Note : Additionally, Hibernate supports Query Cache, which helps cache the results of queries.
+
+First-Level Cache (L1 Cache)
+===========================
+ 
+Definition:
+-> The first-level cache is associated with the Hibernate Session.
+-> It is enabled by default and does not require any configuration.
+-> Objects fetched within the same session are stored in memory and retrieved without hitting the database again.
+
+How It Works:
+--------------
+-> When an entity is fetched using session.get() or session.find(), Hibernate first checks the cache.
+-> If the entity is found in the cache, it is returned immediately.
+-> If not, Hibernate queries the database and stores the result in the cache.
+
+Code Example :
+-------------
+Session session = sessionFactory.openSession();
+session.beginTransaction();
+
+// First time fetching user (DB query executed)
+User user1 = session.get(User.class, 1);
+
+// Second time fetching the same user (Data comes from cache, no DB hit)
+User user2 = session.get(User.class, 1);
+
+session.getTransaction().commit();
+session.close();
+
+Benefit: The second retrieval of user1 does not hit the database because it is already cached in the session.
+
+Limitation: Once the session is closed, the cache is cleared, and the objects need to be fetched again in a new session.
+
+=============================
+Second-Level Cache (L2 Cache)
+=============================
+Definition:
+------------
+-> The second-level cache is associated with the SessionFactory and is shared across multiple sessions.
+-> It is NOT enabled by default and requires explicit configuration.
+-> This cache is useful for sharing frequently accessed objects across different sessions.
+
+How It Works:
+-----------------
+-> When an entity is fetched, Hibernate first checks the L1 cache.
+-> If the entity is not in the L1 cache, it checks the L2 cache.
+-> If found, it is retrieved from the L2 cache; otherwise, a database query is executed.
+-> The entity is stored in the L2 cache for future use.
+
+::Configuration Steps:
+
+-> Add a cache provider like EhCache, Infinispan, or Redis in pom.xml (for Maven projects)
+-> Enable second-level caching in hibernate.cfg.xml or application.properties.
+-> Use the @Cache annotation on entities to mark them as cacheable.
+
+::Example Configuration using EhCache (in hibernate.cfg.xml):
+
+<property name="hibernate.cache.use_second_level_cache">true</property>
+<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+
+Marking an Entity as Cacheable:
+------------------------------
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+@Entity
+@Table(name = "users")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    // Getters and Setters
+}
+
+Example Usage of L2 Cache:
+===========================
+Session session1 = sessionFactory.openSession();
+User user1 = session1.get(User.class, 1); // Hits the DB
+session1.close();
+
+Session session2 = sessionFactory.openSession();
+User user2 = session2.get(User.class, 1); // Retrieved from L2 cache, no DB hit
+session2.close();
+
+
+Benefit: The second retrieval does not hit the database because it is cached at the SessionFactory level.
+
+Limitation:
+Needs additional configuration.
+Cached objects must be marked as @Cacheable.
+Not all data is suitable for caching (e.g., frequently changing data).
+
+=============
+Query Cache
+=============
+:::Definition:
+-> Stores query results instead of entities.
+-> Works with the second-level cache.
+-> Useful for caching frequently executed queries with static results (e.g., dropdown lists, reference data).
+
+:::Configuration:
+Enable query cache in hibernate.cfg.xml:
+
+<property name="hibernate.cache.use_query_cache">true</property>
+
+
+Example Usage:
+Session session = sessionFactory.openSession();
+session.beginTransaction();
+
+// First time - Query executes and stores results in cache
+List<User> users = session.createQuery("FROM User")
+                          .setCacheable(true)
+                          .list();
+
+session.getTransaction().commit();
+session.close();
+
+// Second time - Query retrieves data from cache, no DB hit
+Session newSession = sessionFactory.openSession();
+List<User> cachedUsers = newSession.createQuery("FROM User")
+                                   .setCacheable(true)
+                                   .list();
+newSession.close();
+
+
+Benefit:
+Reduces query execution time for frequently used queries.
+Avoids hitting the database multiple times for the same results.
+
+Limitation:
+Query cache must be used with the second-level cache.
+Query results should be relatively static (not frequently updated).

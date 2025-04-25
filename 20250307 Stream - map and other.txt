@@ -1,0 +1,319 @@
+								Java Full Stack Development
+									    07-03-2025
+								   Mr.Akash(NSA IT-POINT)   
+=================================================================================================
+===================
+Mapping Operations
+===================
+
+-> Mapping operations are belongs to intermediate operations in the Stream api
+
+Purpose: Transforms each element of the stream into another object using a provided function.
+
+Input: A Function<T, R> that takes an element of type T and returns an element of type R.
+
+Output: A new stream of type R.
+
+	
+		Ex : Stream  map (Function function) ;
+		
+==============================		
+package com.nsa.streamApi;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class MappingOp {
+
+	public static void main(String[] args) {
+
+		// take a array and square each element of the array
+
+		List<Integer> asList = Arrays.asList(10, 20, 5, 15, 25);
+
+		asList.stream().map(no -> no * no).forEach(no -> System.out.println(no));
+
+		//convert into upper case 
+		List<String> asList2 = Arrays.asList("a", "b", "c", "d", "e");
+
+		asList2.stream().map(name -> name.toUpperCase()).forEach(System.out::println);
+		
+		//find length
+		asList2.stream().map(name -> name.length()).forEach(name -> System.out.println(name));
+	}
+}
+
+==============================
+package com.java8.nsa.byAkash.streamapi.map;
+
+public class User {
+
+	String name;
+
+	public User(String name) {
+		this.name = name;
+	}
+
+	
+}
+----
+package com.java8.nsa.byAkash.streamapi.map;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class UserTest {
+
+	public static void main(String[] args) {
+
+		User u1 = new User("india");
+		User u2 = new User("akash");
+		User u3 = new User("sanju");
+		User u4 = new User("shikhar");
+		User u5 = new User("virat");
+
+		List<User> userList = Arrays.asList(u1, u2, u3, u4, u5);
+
+//		System.out.println(u1.name);
+		
+		userList.stream().map(o -> o.name.toUpperCase()).forEach(x -> System.out.println(x));
+		userList.stream().filter(a -> a.name.length() > 5).forEach(x -> System.out.println("word " + x.name));
+
+	}
+}
+----------------- 
+
+=========
+package com.java8.nsa.byAkash.streamapi.map;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Test {
+
+	public static void main(String[] args) {
+
+		List<String> nameList = Arrays.asList("Akash", "Vijay", "Chinmay", "Aloo", "Anamika", "Shubham");
+		// print the name with its length which are starting with "A"
+
+//		Stream<String> filter = nameList.stream().filter(x -> x.startsWith("A"));
+//		filter.map(o -> o + " : " + o.length()).forEach(q -> System.out.println(q));
+
+		nameList.stream().filter(x -> x.startsWith("A")).map(o -> o + " : " + o.length())
+				.forEach(q -> System.out.println(q));
+	}
+
+}
+==================
+package com.nsa.streamApi;
+
+public class Employee {
+
+	String name;
+	int age;
+	double salary;
+
+	public Employee(String name, int age, double salary) {
+		super();
+		this.name = name;
+		this.age = age;
+		this.salary = salary;
+	}
+
+}
+
+package com.nsa.streamApi;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class EmpTest {
+
+	public static void main(String[] args) {
+
+//		Employee e1 = new Employee("Akash", 10, 550.50);
+//		Employee e2 = new Employee("Chintu", 20, 150.50);
+//		Employee e3 = new Employee("Narendra", 30, 250.50);
+//		Employee e4 = new Employee("Tom", 25, 100.0);
+//		Employee e5 = new Employee("John", 35, 505.0);
+//
+//		Arrays.asList(e1, e2, e3, e4, e5);
+
+		List<Employee> asList = Arrays.asList(
+				new Employee("Akash", 10, 550.50), new Employee("Chintu", 20, 150.50),
+				new Employee("Narendra", 30, 250.50), 
+				new Employee("Tom", 25, 100.0), 
+				new Employee("John", 35, 505.0));
+
+		//print name and length of name having more than 4 words
+		// expected output
+		// Akash : 5
+		// Chintu : 6
+		// Narendra : 8
+
+		Stream<Employee> filter = asList.stream().filter(emp -> emp.name.length() > 4);
+//filter.map(emp -> emp.name + " : " + emp.name.length()).forEach(x -> System.out.println(x));
+
+		asList.stream().filter(emp -> emp.name.length() > 4).map(emp -> emp.name + " : " + emp.name.length())
+				.forEach(x -> System.out.println(x));
+
+	}
+
+}
+
+===================
+
+=====================================
+What is flatMap(Function f) method ?
+=====================================
+
+-> It is used to flaten the list of stream into single stream
+
+package com.nsa.streamApi;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class FlatMapTest {
+
+	public static void main(String[] args) {
+
+		List<String> boys = Arrays.asList("Akash", "Vikas", "Prkash");
+
+		List<String> girls = Arrays.asList("Johnita", "Ankita", "Nikita");
+		
+		List<List<String>> students = Arrays.asList(boys, girls);
+
+//		students.stream().forEach(names -> System.out.println(names));
+
+		Stream<String> flatMap = students.stream().flatMap(name -> name.stream() );
+		flatMap.forEach(name -> System.out.println(name));
+
+//		students.stream().flatMap(name -> name.stream()).forEach(name -> System.out.println(name));
+
+	
+
+=================		
+package com.nsa.streamapi.mapping;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class FlatMap2 {
+    public static void main(String[] args) {
+
+        List<String> studList1 = Arrays.asList("TOM", "JACK", "DAVID");
+        List<String> studList2 = Arrays.asList("MARRY", "GEN", "LILLY");
+        List<String> studList3 = Arrays.asList("CHINTU", "GOLU", "MOLU");
+
+        List<ClassRoom> classList = new ArrayList<>();
+        classList.add(new ClassRoom("Mech", studList1));
+        classList.add(new ClassRoom("IT", studList2));
+        classList.add(new ClassRoom("Civil", studList3));
+
+        Stream<String> stringStream = classList.stream()
+                .flatMap(classRoom -> classRoom.students.stream());
+
+        List<String> collect = stringStream.collect(Collectors.toList());
+        collect.forEach(System.out::println);
+    }
+}
+
+class ClassRoom {
+
+    String section;
+    List<String> students;
+
+    public ClassRoom(String section, List<String> students) {
+        this.section = section;
+        this.students = students;
+    }
+}
+
+========================
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FlatMapArrayExample {
+    public static void main(String[] args) {
+        List<String> sentences = Arrays.asList("Hello world", "Java streams", "FlatMap example");
+
+        // Splitting each sentence into words and flattening
+        List<String> words = sentences.stream()
+                                      .map(sentence -> sentence.split(" ")) // Converts each sentence into a String[]
+                                      .flatMap(Arrays::stream) // Flattens the arrays into a single stream
+                                      .collect(Collectors.toList());
+
+        System.out.println(words); // Output: [Hello, world, Java, streams, FlatMap, example]
+    }
+}
+
+==================
+distinct()
+==================
+List<Integer> numbers = List.of(1, 2, 2, 3, 4, 4, 5);
+List<Integer> uniqueNumbers = numbers.stream()
+                                     .distinct()
+                                     .collect(Collectors.toList());
+System.out.println(uniqueNumbers); // Output: [1, 2, 3, 4, 5]
+
+
+
+===================================
+sorted() and sorted(Comparator<T>)
+===================================
+List<String> words = List.of("banana", "apple", "cherry");
+List<String> sortedWords = words.stream()
+                                .sorted()
+                                .collect(Collectors.toList());
+System.out.println(sortedWords); // Output: [apple, banana, cherry]
+
+---------------
+List<Integer> numbers = List.of(5, 3, 8, 1);
+List<Integer> sortedDesc = numbers.stream()
+                                  .sorted(Comparator.reverseOrder())
+                                  .collect(Collectors.toList());
+System.out.println(sortedDesc); // Output: [8, 5, 3, 1]
+
+======
+peek
+======
+      List<Integer> numbers = List.of(1, 2, 3);
+        List<Integer> doubledNumbers = numbers.stream()
+                .peek(n -> System.out.println("Processing: " + n))
+                .map(n -> n * 2)
+                .collect(Collectors.toList());
+        System.out.println(doubledNumbers); 
+        /* Processing: 1
+        Processing: 2
+        Processing: 3
+                [2, 4, 6]
+*/
+====================
+limit(long maxSize)
+====================
+List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+List<Integer> limited = numbers.stream()
+                               .limit(3)
+                               .collect(Collectors.toList());
+System.out.println(limited); // Output: [1, 2, 3]
+
+
+============
+skip(long n)
+============
+List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+List<Integer> skipped = numbers.stream()
+                               .skip(2)
+                               .collect(Collectors.toList());
+System.out.println(skipped); // Output: [3, 4, 5]
+
+============
+

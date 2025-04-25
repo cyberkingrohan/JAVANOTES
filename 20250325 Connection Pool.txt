@@ -1,0 +1,130 @@
+									Java Full Stack Development
+											25-03-2025
+									   Mr.Akash(NSA IT-POINT) 							   
+=======================================================================================================
+Maven Repo : https://repo1.maven.org/
+Hikari cp : https://repo1.maven.org/maven2/com/zaxxer/HikariCP/6.2.1/
+Direct Download : https://repo1.maven.org/maven2/com/zaxxer/HikariCP/6.2.1/HikariCP-6.2.1.jar
+
+
+SLF4J :- https://repo1.maven.org/maven2/org/slf4j/slf4j-api/2.0.7/slf4j-api-2.0.7.jar
+
+
+===================
+Connection Pooling
+===================
+
+General :  A JDBC Connection Pool is like a shared pool of connections to a database that can be reused by multiple users or processes. Imagine you're running a restaurant, and instead of giving each customer a new table, you reuse tables after customers leave. This saves time and resources. Similarly, a connection pool allows a system to reuse database connections instead of creating a new one for each user.
+
+Here’s why it's needed:
+
+1. Database connections are expensive:
+Every time your application connects to a database, it takes time and resources to establish the connection. Creating and closing connections repeatedly can slow things down. The connection pool solves this by keeping a set of pre-opened connections ready to use, saving the time needed to create them from scratch.
+
+2. Improved performance:
+When multiple users or processes need access to the database at the same time, the connection pool allows them to quickly get a connection from the pool, do their job, and then return the connection back. This makes the system faster and more efficient.
+
+3. Resource management:
+If every user had their own connection to the database, it could overwhelm the system. The pool limits how many connections can be opened at once, ensuring the database isn’t overloaded, while still serving multiple requests smoothly.
+
+How it works:
+A fixed number of connections are created when the application starts. These connections sit in a pool.
+When the application needs to access the database, it takes a connection from the pool.
+Once the application finishes using the connection, it returns it back to the pool so it can be reused by another process.
+
+Example:
+Without a connection pool: Imagine creating and destroying a bridge every time a person needs to cross a river. It's inefficient.
+ 
+With a connection pool: You build a few strong bridges and let people reuse them. This way, the same bridge serves many people without being built again and again.
+In short, a JDBC Connection Pool helps manage database connections more efficiently by reusing existing ones instead of repeatedly creating new connections, which boosts performance and reduces system load.
+
+
+=> Connection Pooling is the process of getting fixed no.of connections from database and store them into a pool for re-usability.
+
+=> If we don't use Connection Pooling concept then our project will run into Connections Exhausted Problem (No connections available to communicate with db)
+
+
+=> If we use DriverManager.getConnection ( ) it will give physical connection with database. It is not at all recommended to use Physical Connections.
+
+=> Always we need to use Logical Connections to perform DB operations. To use Logical connections we need to setup Connection Pool.
+
+
+Note: With the connection pooling we can improve performance of the application.
+
+===========================
+How to setup Connection Pool
+==========================
+
+=> We can setup Connection Pool in 2 ways
+
+		1) Client Side Connection Pool
+
+			Ex: DBCP, C3P0, Hikari etc....
+
+		2) Server Managed Connection Pool
+
+			Ex: Tomcat, JBoss, WebLogic etc...
+
+------------------------
+HikariCP is a highly performant and lightweight JDBC connection pooling library for Java applications
+------------------------
+
+===============================================
+Steps to develop JDBC app with Hikari Connection Pool
+===============================================
+
+1) Create Java Project in IDE
+
+2) Add below jars to project build path
+
+		a) Hikar-CP.jar
+		b) SLF4J-api.jar
+		c) mysql-connector.java
+
+3) Create Java class to setup  connection pool like below
+----------
+====================
+====================
+package com.collablestatement;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class ConnectionPool {
+
+    //creation connection pool at the time of application start
+    static HikariDataSource dataSource = null;
+
+    static {
+        HikariConfig config = new HikariConfig();
+
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/jbcd_db");
+        config.setUsername("root");
+        config.setPassword("akash");
+        config.setMaximumPoolSize(10);
+        dataSource = new HikariDataSource(config);
+    }
+
+    public static Connection getConnectionPool() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    public static void main(String[] args) throws SQLException {
+        Connection connection = getConnectionPool();
+
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO student VALUES(100,'JACK', 18, 'USA')");
+        int rows = ps.executeUpdate();
+        System.out.println("rows affected : " + rows);
+
+        ps.close();
+        connection.close();
+
+    }
+
+}
+==================
+==================

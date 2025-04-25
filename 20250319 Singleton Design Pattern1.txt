@@ -1,0 +1,344 @@
+                         Java Full Stack Development 
+						       19-03-2025
+						   Mr.Akash (NSA IT-POINT)
+===============================================================================
+****************
+Design Pattern
+****************
+								  
+->Design Pattern is something which industry follows.	 
+-> And it can be implementd in any languages.
+-> By using the design pattern we can make our code more flexible, reusable and maintainable
+					
+we have so many design pattern in Java 
+
+-------------------------
+Singleton Design Pattern 
+-------------------------
+-> Singleton pattern restricts the instantitation of a class and ensures that only one instance of the class exists in jvm.
+-> Singleton means only one object throught the program 
+
+---->>>>>>Steps to create Singleton Class <<<<<-------
+-> private Constructor to restrict no. of instance(Object) to be created for outside.
+-> Create Global object whcih could be available throught the class.
+-> write a method for creating the object of the Singleton class so by calling this method other can use the object of Singleton class.
+-> Take a static method, so we dont required to create an object in order to call the method from other classes.
+-> name this method as getInstance() as per industry standard else we can give any name.
+-> static method can use only static fileds so make our Global object as static.
+
+*****************************************
+.....................
+Eager Initialization  : whenever we are loading the class object will be created
+.....................
+
+package org.designpattern.nsait;
+
+public class EagerSingletonDemo {
+
+	static EagerSingletonDemo sd = new EagerSingletonDemo(); // Global object created at the time of class loading
+
+	private EagerSingletonDemo() {
+
+	}
+
+	// write a method for creating the object of the Singleton class so by calling
+	// this method other can use the object of Singleton class.
+	
+	public static EagerSingletonDemo getInstance(){
+		
+		return sd;
+	}
+}
+-----
+package org.designpattern.nsait;
+
+public class Test {
+
+	public static void main(String[] args) {
+
+		EagerSingletonDemo instance = EagerSingletonDemo.getInstance();
+		System.out.println(instance.hashCode());
+
+		EagerSingletonDemo instance2 = EagerSingletonDemo.getInstance();
+		System.out.println(instance2.hashCode());
+
+
+	}
+
+}
+Note : Here object will be created when class is getting loaded
+Problem : Objec will be created even if we dont want to use that object(Memory wasted)
+
+=========================================
+====================
+Lazy Initialization : Here we will created object when getInstance() method get called.
+====================							
+ { we need to write the code in order to check there should be only one object cz it will create multiple object whenever we call getInstance() method}
+ 
+package org.designpattern.nsait;
+
+public class SingletonDemo {
+
+	static SingletonDemo sd = null; // Global object created at the time of class loading
+
+	private SingletonDemo() {
+
+	}
+
+	// write a method for creating the object of the Singleton class so by calling
+	// this method other can use the object of Singleton class.
+	
+	public static SingletonDemo getInstance(){
+		
+	if(sd == null) {
+		
+	  sd = new SingletonDemo(); //object will be created when there is not any object already cleared
+	}
+	return sd;
+	}
+}
+--------------------
+package org.designpattern.nsait;
+
+public class Test {
+
+	public static void main(String[] args) {
+
+		SingletonDemo instance = SingletonDemo.getInstance();
+		System.out.println(instance.hashCode());
+
+		SingletonDemo instance2 = SingletonDemo.getInstance();
+		System.out.println(instance2.hashCode());
+
+
+	}
+
+}
+=================================
+=================================
+
+----------------------------------
+How Can I break Singleton Pattern
+
+    1) Reflection 
+	2) De-Serilazation 
+	3) Clonaning
+	4) Multithreading 
+	
+-----------------------------------
+
+De-Serilazation :
+
+->  De-serialization example for singleton class
+ by deserializating, functionality of singleton class can be break.
+so in order to prevent it we need to override readResolve() method
+
+--------
+
+package org.designpattern.nsait;
+
+import java.io.Serializable;
+
+public class SingletonDemo implements Serializable {
+
+	static SingletonDemo sd = null; // Global object created at the time of class loading
+
+	private SingletonDemo() {
+
+	}
+
+	public static SingletonDemo getInstance() {
+
+		if (sd == null) {
+
+			sd = new SingletonDemo();
+		}
+		return sd;
+	}
+
+	Object readResolve() {
+		return sd;
+	}
+}
+------------
+package org.designpattern.nsait;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class Test {
+
+	public static void main(String[] args) throws Exception {
+
+		SingletonDemo s1 = SingletonDemo.getInstance();
+		System.out.println(s1.hashCode());
+
+		FileOutputStream fos = new FileOutputStream("C:\\Users\\Akash Sir\\Desktop\\singleton.txt");
+		ObjectOutputStream os = new ObjectOutputStream(fos);
+		os.writeObject(s1);
+
+		FileInputStream fis = new FileInputStream("C:\\Users\\Akash Sir\\Desktop\\singleton.txt");
+		ObjectInput is = new ObjectInputStream(fis);
+		Object readObject = is.readObject();
+
+		SingletonDemo s2 = (SingletonDemo) readObject;
+
+		System.out.println(s2.hashCode());
+
+	}
+
+}
+==================================
+=========
+Clonning
+=========
+====================================================
+By clonning the Singleton class object we can break the Singleton Design pattern
+
+so in order to prevent it, we need to override object class Clone() method and return our singleton class object
+
+--------------
+package org.designpattern.nsait;
+
+public class SingletonDemo implements Cloneable {
+
+	static SingletonDemo sd = null;
+
+	private SingletonDemo() {
+
+	}
+
+	public static SingletonDemo getInstance() {
+
+		if (sd == null) {
+
+			sd = new SingletonDemo();
+		}
+		return sd;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// return super.clone();
+
+		return sd;
+	}
+}
+-----------------
+package org.designpattern.nsait;
+
+public class Test {
+
+	public static void main(String[] args) throws Exception {
+
+		SingletonDemo s1 = SingletonDemo.getInstance();
+		System.out.println(s1.hashCode());
+
+//           Object clone = s1.clone();
+//           SingletonDemo s2 = (SingletonDemo) clone;
+
+		SingletonDemo s2 = (SingletonDemo) s1.clone();
+		System.out.println(s2.hashCode());
+	}
+
+}
+
+
+==========================================
+
+===============
+Multithreading
+===============
+
+	package org.designpattern.nsait;
+
+public class SingletonDemo {
+
+	static SingletonDemo sd = null;
+
+	private SingletonDemo() {
+
+	}
+
+	public static SingletonDemo getInstance() {
+
+		if (sd == null) { // 5
+
+			synchronized (SingletonDemo.class) { // 1 2 3
+				if (sd == null) {
+				sd = new SingletonDemo();
+				}
+
+			}
+
+		}
+		return sd;
+	}
+}
+======================================================================
+Including Both Above Conditions 
+======================================================================
+package in.nsa.testing;
+
+import java.io.Serializable;
+
+final public class SingletonDemo extends Thread implements Serializable, Cloneable {
+
+	static SingletonDemo sd = null; // lazy initialization
+
+	private SingletonDemo() {     // for restricting to create object from outside
+
+	}
+
+	public static SingletonDemo getInstance() {
+
+		if (sd == null) {
+
+			synchronized (SingletonDemo.class) { // for multi-threading
+				if (sd == null) {
+					sd = new SingletonDemo();
+				}
+			}
+
+		}
+		return sd;
+	}
+
+	Object readResolve() { // for de serialization
+		return sd;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException { // for clonning
+		// return super.clone();
+		return sd;
+	}
+
+}
+========================================================
+
+Note :- As per the requirement we can implement the above conditions for preventing the singleton class functionality.
+Best approach is to check all the conditions means writting all the conditions at once.
+
+==========X===========X============X==========X===========X==========
+Uses of Singleton Pattern
+Database Connection Pooling
+Ensures only one connection pool exists, reducing resource usage.
+
+Logging
+A single instance of a logger class ensures uniform logging across the application.
+
+Cache Management
+Helps in maintaining a global cache instance to improve performance.
+
+Thread Pools
+Prevents the creation of multiple thread pools and optimizes resource management.
+
+Configuration Management
+Loads configuration settings once and makes them accessible globally.
+
+Service Locator
+Used in large applications to manage and provide services efficiently.

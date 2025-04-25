@@ -1,0 +1,316 @@
+							Java Full Stack Development
+									07-04-2025
+							   Mr.Akash(NSA IT-POINT) 							   
+===============================================================================
+
+-> Create maven application with spring-context dependency.
+====================pom.xml=========================================
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>SpringAnootations</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>untitled</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>6.2.1</version>
+    </dependency>
+
+  </dependencies>
+</project>
+
+==============================================================
+==============================================================
+@Component : Container creates object to that class.
+@Value     : To provide data to variable (dependency)
+  | -- To hardcode variables / dependencies
+  | -- To read data from resources (.properties/.yml/.xml)
+  
+->HardCoding : Assign a direct value to a variable inside source code 
+
+=======================================================
+ basePackage :- This is the input must be given incase of
+	Spring Annotation configuration ( So that container
+	can find our classes )
+
+=> Container will try to find classes from given package
+	and subpackages.
+
+=> @ComponentScan is used to provide basePackages to scan
+   our classes 
+
+@ComponentScan(basePackages = "com.app") means
+   find classes from app package and app all subpackage classes
+
+=> Always define one additional class to provide basePackage
+	using annotation @ComponentScan.
+
+Possible examples:
+@ComponentScan({"com.app","test.one","abc.xyz"})
+		--or--
+@ComponentScan(basePackages =  {"com.app","test.one","abc.xyz"})
+
+@ComponentScan("com.app")
+	--or--
+@ComponentScan(basePackages = "com.app")
+
+*) if your class is having @Component but not under basePackage
+  then it has no meaning. ie container is unable to finsd your class.  
+  
+==========Example 01=================  
+------Spring Bean--------------
+package com.nsa;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component("con")
+public class UserService {
+	@Value("AKASH")
+	private String name;
+
+	public UserService() {
+		System.out.println("UserService Constructor");
+	}
+
+	@Override
+	public String toString() {
+		return "UserService [name=" + name + "]";
+	}
+
+}
+--------------
+package com.nsa;
+
+import org.springframework.context.annotation.ComponentScan;
+
+@ComponentScan("com.nsa")
+//@ComponentScan({"com.nsa", "com.test"})
+//@ComponentScan(basePackages = {"com.nsa", "com.test"})
+public class AppConfig {
+
+	}
+
+------------------------
+package com.nsa;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class TestMain {
+public static void main(String[] args) {
+	ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+	
+	Object bean = ac.getBean("con");
+	System.out.println(bean);
+}
+}
+====================
+@Autowired :
+====================
+@Autowired : Annotation is used to inject its dependency data/object
+   In simple find required object and link with current class
+   object.	
+   
+   
+========================
+application.properties
+========================
+Q) Why are we using .properties / .xml / .yml files here?
+A) Some data is required to start application like Database
+  Connection, JPA(Hibernate) Details, Email Config, 
+  Security Configuration..etc
+===========================================================
+=> .properties file will store data in key=val format
+=> key are case-sensitive. 
+=> If same key is provided multiple time with different value
+   then last combination is taken
+=> Symbol # indicates comment in properties file
+=> You can use _(underscore) . (dot) - (dash) symbols in key name.
+=> Autoparsing is supported based on variable datatype.
+    By default key and value (both ) are String datatype
+    ie   app.sid=200
+         app.sid  is String
+	 200      is String
+
+Notes:
+1. We need to create one proeprties file with any name
+  ex: myapp.properties   then add some key=val pairs
+2. @PropertySource is used to load our properties file into
+   Spring container.
+3. Spring container creates Environment(I) [org.springframework.core.env]
+   memory (Object).
+   Environment environment = new StandardEnvironment();
+   and holds all key=vals.
+4. If you want to inject data to your variables(Dependencies)
+   then use below syntax:
+                  @Value("${key}")	
+				  
+===================
+Full Example
+===================				  
+====Spring Bean 01========
+package org.example;
+
+
+import org.nsa.Address;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component("empComp")
+public class Employee {
+
+    @Value("10")
+    Integer empId;
+
+    @Value("20")
+    Integer age;
+
+    @Value("${myApp.emp.name}")
+    String name;
+
+    Long salary;
+
+    @Autowired
+    Address address;  //new Address();
+
+
+    public Employee() {
+        System.out.println("Employee Object created");
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "empId=" + empId +
+                ", age=" + age +
+                ", name='" + name + '\'' +
+                ", salary=" + salary +
+                ", address=" + address +
+                '}';
+    }
+}
+
+====Spring Bean 02========
+package org.nsa;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Address {
+
+    Integer pincode;
+    String street;
+
+    @Value("${myApp.emp.city}")
+    String city;
+    String state;
+
+    public Address() {
+        System.out.println("Address object created");
+    }
+
+    public Address(Integer pincode, String street, String city, String state) {
+        this.pincode = pincode;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+    }
+
+    public Integer getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(Integer pincode) {
+        this.pincode = pincode;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "pincode=" + pincode +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                '}';
+    }
+}
+===========ComponentScan==========
+package org.example;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
+
+//@ComponentScan("org.nsa")
+//@ComponentScan({"org.nsa","org.example"})
+@ComponentScan(basePackages = {"org.nsa","org.example"})
+@PropertySource("classpath:application.properties")
+public class MyConfig{
+}
+====================
+package org.example;
+
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class App {
+    public static void main(String[] args) {
+
+        ApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
+
+//        Employee bean = context.getBean(Employee.class);
+        Object empComp = context.getBean("empComp");
+        Employee emp = (Employee) context.getBean("empComp");
+        System.out.println(empComp);
+    }
+}
+
+=======application.properties=============
+myApp.emp.name=AKASH
+myApp.emp.city=Nagpur

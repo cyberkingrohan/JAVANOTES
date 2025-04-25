@@ -1,0 +1,210 @@
+						Java Full Stack Development
+								02-04-2025
+						   Mr.Akash(NSA IT-POINT) 							   
+==========================================================================
+
+=====POM.XML=========
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>Hiberante-Cache</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Hiberante-Cache</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.6.14.Final</version>
+    </dependency>
+
+     <!- //for 2nd level cache ->
+     <!-- EhCache as second level cache provider -->
+<!--    <dependency>-->
+<!--      <groupId>org.hibernate</groupId>-->
+<!--      <artifactId>hibernate-ehcache</artifactId>-->
+<!--      <version>5.6.14.Final</version>-->
+<!--    </dependency>-->
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.33</version> 
+    </dependency>
+  </dependencies>
+</project>
+
+===========Employee===========
+package org.example.entity;
+
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "employee_table")  //optional
+// @Cache(usage = CacheConcurrencyStrategy.READ_WRITE) //for 2nd level cache
+public class Employee {
+
+    @Id  //primary key
+    @Column(name = "id")
+    private Integer empId;
+
+    @Column(name = "empName")
+    private String name;
+
+    @Column(name = "mobile")
+    private Long mobileNo;
+
+    private Double salary;
+
+    public Employee() {
+    }
+
+    public Employee(Integer empId, String name, Long mobileNo, Double salary) {
+        this.empId = empId;
+        this.name = name;
+        this.mobileNo = mobileNo;
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "empId=" + empId +
+                ", name='" + name + '\'' +
+                ", mobileNo=" + mobileNo +
+                ", salary=" + salary +
+                '}';
+    }
+}
+========hibernate.cgf.xml=====
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate_db</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">akash</property>
+
+        <!-- Hibernate properties -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- Enable second level cache -->
+<!--        <property name="hibernate.cache.use_second_level_cache">true</property>-->
+<!--        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+
+        <!-- Entity Mapping -->
+        <mapping class="org.example.entity.Employee"/>
+
+    </session-factory>
+</hibernate-configuration>
+
+============
+package org.example.entity;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import java.util.Scanner;
+
+public class EmployeeRepoImpl implements EmployeeRepository {
+
+    public SessionFactory sessionFactory;
+
+    public EmployeeRepoImpl() {
+        sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+    }
+
+
+    @Override
+    public void getmployee() {
+
+        Session session = sessionFactory.openSession();
+        System.out.println("enter the emp1 id for session 1 object ");
+        Scanner sc = new Scanner(System.in);
+        Employee emp1 = session.get(Employee.class, sc.nextInt());
+        System.out.println(emp1);
+
+        System.out.println("enter the emp2 id for session 1 object ");
+        Employee emp2 = session.get(Employee.class, sc.nextInt());
+        System.out.println(emp2);
+
+        Session session2 = sessionFactory.openSession();
+        System.out.println("enter the emp3 id for session 2 object ");
+        Employee emp3 = session2.get(Employee.class, sc.nextInt());
+        System.out.println(emp1);
+
+        System.out.println("enter the emp4 id for session 2 object ");
+        Employee emp4 = session2.get(Employee.class, sc.nextInt());
+        System.out.println(emp2);
+
+
+    }
+}
+==========main===========
+package org.example.entity;
+
+public class MainApp {
+    public static void main(String[] args) {
+
+        EmployeeRepository empRepo = new EmployeeRepoImpl();
+
+        empRepo.getmployee();
+    }
+}
+
+====================
+Session 1 (First Hibernate Session)
+--------------
+For emp1 , The first time session.get(Employee.class, 1) is called, Hibernate checks L1 cache first (which is empty).
+It fetches Employee(id=1) from the database and stores it in L1 cache.
+
+For  emp2 , Hibernate finds Employee(id=1) in L1 cache (from emp1).
+No database call occurs, and the entity is directly retrieved from the cache.
+emp1 and emp2 refer to the same object in memory.
+
+Session 2 (Second Hibernate Session)
+-------------------
+for emp3, 
+Since Session 1's L1 cache is destroyed after the session closes, Hibernate does not find Employee(id=1) in Session 2's L1 cache.
+If L2 cache is not enabled, Hibernate queries the database again.
+If L2 cache is enabled, Hibernate retrieves Employee(id=1) from the L2 cache instead of querying the database.
+
+Since emp3 was fetched in the same session, Hibernate finds Employee(id=1) in Session 2's L1 cache and serves it from there.
+emp3 and emp4 refer to the same object in memory within session2.
+
+
+Note : Each session has its own L1 cache, and entities fetched in one session do not persist in another session.
+L1 cache prevents duplicate database queries in the same session.
+L2 cache (if enabled) prevents redundant database queries across different sessions.
+If L2 cache is not enabled, Hibernate queries the database again in session2.

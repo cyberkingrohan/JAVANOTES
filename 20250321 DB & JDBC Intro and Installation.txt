@@ -1,0 +1,155 @@
+								Java Full Stack Development
+									    21-03-2025
+								   Mr.Akash(NSA IT-POINT)   
+=========================================================================================
+
+=============
+Database
+=============
+Download MySQL Installer from the official site:
+🔗 https://dev.mysql.com/downloads/installer/
+
+Download the MySQL Connector/J (JDBC Driver) from:
+🔗 https://dev.mysql.com/downloads/connector/j/
+
+
+=> Database is a software which is used to store the data permanentley
+
+	Ex: Oracle, MySQL,  SQLServer, PostGresSQL
+
+=> To work with database we need to install Database software
+
+=> Database Server software will store the data in the form of tables, rows and columns
+
+=> Database Client software is used to communicate with Database Server Software
+
+										
+									SQL 
+			DataBase client -----------------------------------> Database Server
+
+Note: SQL (Structured Query Language) queries will be used to communicate Database Server
+
+
+=> To communicate with Oracle DB server we can use "SQL Developer" as a client software
+
+=> To communicate with MySQL DB server we can use "MySQL Workbench" as a client software
+
+Note: SQL Developer  & MySQL Workbench softwares are used to execute SQL queries
+
+
+========================
+for basic understanding
+========================
+
+MySQL
+------ 
+MySQL is currently the most popular database management system software used for 
+managing the database.  
+It is open-source database software which is supported by Oracle Company.  
+It is fast, scalable and easy to use database management system. 
+For manipulating data, these queries are: insert records, update records, delete 
+records, select records, create tables, drop tables, etc.  
+
+Database 
+--------
+A database is an application that stores the organized collection of records.  
+It can be accessed and manage by the user very easily.  
+It allows us to organize data into tables, rows, columns, and indexes to find the 
+relevant information very quickly.  
+Each database contains distinct API for performing database operations such as 
+creating, managing, accessing, and searching the data it stores. 
+There are many databases available like MySQL, Sybase, Oracle, MongoDB, 
+PostgreSQL, etc. 
+
+How MySQL Works? 
+----------------
+MySQL follows the working of Client-Server Architecture.  
+This model is designed for the end-users called clients to access the resources from a 
+central computer known as a server using network services.  
+Here, the clients make requests through a graphical user interface (GUI), and the 
+server will give the desired output as soon as the instructions are matched.
+
+
++++++++++++++					+++++++++++++  	
++ 			+	----request-->	+ 			+
++  CLIENT  	+   <---Response--	+  Server	+
++			+					+ 			+
++++++++++++++ 					+++++++++++++
+
+
+=============
+Primary Key- 
+============
+
+MySQL primary key is a single or combination of the field, which is used to 
+identify each record in a table uniquely. 
+It cannot be null or empty.  
+It can contain only one primary key.  
+It always contains unique value into a column. 
+
+Rules- 
+------
+1. The primary key column value must be unique. 
+2. Each table can contain only one primary key. 
+3. The primary key column cannot be null or empty. 
+
+2. Foreign Key- 
+==============
+The foreign key is used to link one or more than one table together. It is also 
+known as the referencing key.  
+A foreign key matches the primary key field of another table. It means a foreign 
+key field in one table refers to the primary key field of the other table. 
+
+=============Student-Course Realtion===========
+
+Course_table			
+courseId(PK)	name	price 	duration
+	1			java	5000		5
+	2			python	4000		4
+	3			aws		3000		2
+
+student_table			
+studId(PK)	name	college	   age	courseId(PK)
+	101		akash	  abc		18		1
+	102		virat	  xyz		17		2
+	103		akash	  psq		20		3
+	104		tom		  abc		20		3
+	105		harry	  xyz		21		1
+
+
+=====
+JDBC
+======
+=>JDBC (Java Database Connectivity) is an API that allows Java applications to interact with relational databases like MySQL, PostgreSQL, Oracle, etc.
+
+=> JDBC API released by Sun Microsystem
+=> Using JDBC API we can communicate with Database software using Java Program
+=> JDBC API will act as mediator between Java Program and Database software
+								
+								JDBC API
+			Java Program ----------------------------------> Database Server
+
+=> JDBC API contains set of interfaces & classes
+
+=> Database Software vendors provided implementation for JDBC API. As part of JDBC API implementation they provided Database Driver
+
+JDBC Driver 
+===========
+->A software component that enables Java applications to communicate with the database.
+
+Note: Every Database software having its own Driver.
+		
+				Oracle Database ------------> OracleDriver
+				MySQL Database ----------> MySQL Driver
+				SQL Server ------------------> SQLDriver
+
+Note: Driver is a program which knows how to connect with Database Software.
+
+=> Database Driver software released as jar file
+		
+			MySQL Driver ===========> mysql-connector.jar
+			Oracle Driver ==========> ojdbc14.jar
+
+Note: We need to download that jar file and add to project build path.
+
+

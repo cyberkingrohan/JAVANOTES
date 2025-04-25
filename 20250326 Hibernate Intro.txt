@@ -1,0 +1,198 @@
+						Java Full Stack Development
+								26-03-2025
+						   Mr.Akash(NSA IT-POINT) 							   
+==========================================================================
+=======================================================
+Object Relational Mapping (ORM) and Hibernate Framework
+=======================================================
+
+1. Introduction to ORM
+What is ORM?
+=============
+-> ORM stands for Object-Relational Mapping.
+-> It is a programming technique used to map Java objects to database tables.
+-> ORM allows developers to work with objects instead of SQL queries, making database interactions more intuitive.
+
+Why ORM?
+========
+-> Traditional JDBC requires writing SQL queries manually, which can be error-prone and difficult to maintain.
+-> ORM automates this process by handling database interactions using Java objects.
+-> It supports features like automatic table creation, caching, and transaction management.
+
+How ORM Works?
+--------------
+Each Java class represents a table in the database.
+Each instance (object) of the class represents a row in the table.
+ORM frameworks handle CRUD operations (Create, Read, Update, Delete) using Java methods instead of SQL queries.
+
+2. What is Hibernate?
+Definition
+-----------
+-> Hibernate is an open-source ORM framework that simplifies database interactions in Java applications.
+-> It acts as a bridge between a Java application and the database.
+
+Why Hibernate?
+--------------
+Eliminates Boilerplate Code: No need to write repetitive SQL queries.
+Supports Object-Oriented Approach: Maps Java objects to database tables automatically.
+Database Independence: Works with different databases (MySQL, PostgreSQL, Oracle, etc.).
+Performance Optimization: Uses features like caching, lazy loading, and connection pooling.
+
+3. Problems with JDBC (Without Hibernate)
+Manual SQL Queries: Developers need to write SQL queries for each operation.
+Database Dependency: If the database schema changes, SQL queries need modification.
+Connection Management: Developers must manually open and close connections.
+Code Complexity: Handling transactions and exception management is cumbersome.
+
+How Hibernate Solves These Issues?
+-> Automatically generates SQL based on Java objects.
+-> Handles connections and transactions internally.
+-> Provides caching mechanisms for performance optimization.
+-> Supports multiple databases without changing the code.
+
+4. Key Features of Hibernate
+1. Hibernate Cache
+Caching reduces the number of database calls, improving performance.
+
+Hibernate provides two levels of caching:
+
+Level 1 Cache: Stores objects within a Hibernate session.
+Level 2 Cache: Stores objects across multiple sessions.
+
+2. Lazy Loading
+Improves performance by loading data only when needed.
+Instead of fetching all data at once, Hibernate creates a proxy object and loads data only when accessed.
+
+3. Connection Pooling
+Hibernate maintains a pool of database connections, reusing them instead of creating new ones.
+This reduces the overhead of frequent database connections.
+
+4. Criteria API
+Hibernate provides a Criteria API to construct dynamic queries without writing SQL.
+
+Example:
+
+Criteria criteria = session.createCriteria(Employee.class);
+criteria.add(Restrictions.eq("department", "IT"));
+List<Employee> employees = criteria.list();
+
+5. Locking Mechanism
+Prevents data inconsistencies when multiple transactions modify the same data.
+
+Supports:
+Optimistic Locking: Checks if data has changed before updating.
+Pessimistic Locking: Locks the data to prevent concurrent modifications.
+
+6. Associations in Hibernate
+One-to-One
+One-to-Many
+Many-to-One
+Many-to-Many
+
+Hibernate simplifies managing entity relationships in Java applications.
+
+5. How Hibernate Works?
+------------------------
+1. Mapping Java Class to Database Table
+Java classes are mapped to database tables using annotations or XML configuration.
+
+Example using annotations:
+
+@Entity
+@Table(name = "employee_table")
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "salary")
+    private double salary;
+}
+
+2. Saving an Object to the Database
+Instead of writing INSERT INTO queries, Hibernate uses:
+
+Employee emp = new Employee();
+emp.setName("Akash");
+emp.setSalary(60000);
+
+Session session = sessionFactory.openSession();
+session.beginTransaction();
+session.save(emp);
+session.getTransaction().commit();
+session.close();
+
+3. Fetching Data
+Hibernate provides the load() and get() methods to retrieve data.
+
+Employee emp = session.get(Employee.class, 102);
+System.out.println(emp.getName());
+
+6. Hibernate Architecture
+Main Components
+--------------
+Configuration: Defines database connection settings.
+SessionFactory: Manages session creation.
+Session: Represents a unit of work with the database.
+Transaction: Handles database transactions.
+Query: Used for executing HQL (Hibernate Query Language) or Criteria queries.
+
+Workflow
+--------
+-> Java application interacts with Hibernate.
+-> Hibernate converts Java objects into SQL queries.
+-> Queries are executed on the database.
+
+Results are mapped back to Java objects.
+
+7. Advantages of Hibernate
+-> Open-source and widely used.
+-> Eliminates repetitive SQL code.
+-> Database independent (Supports MySQL, PostgreSQL, Oracle, etc.).
+-> Faster performance due to caching and lazy loading.
+-> Supports complex relationships and queries easily.
+
+
+Note :
+-> Hibernate is an ORM framework that simplifies Java database interactions.
+-> It eliminates manual SQL queries and provides automatic table creation, caching, and connection pooling.
+-> Hibernate supports lazy loading, criteria queries, and transactions out-of-the-box.
+-> It improves performance and maintainability compared to traditional JDBC.
+
+
+==================================================
+
+ORM (Object-Relational Mapping), JPA (Java Persistence API), Hibernate, and JDBC (Java Database Connectivity) are all technologies used in Java for database access and management. Here's a brief explanation of each:
+
+================================================================================
+JDBC (Java Database Connectivity):
+JDBC is a Java API that provides a standard way to interact with relational databases. It allows developers to connect to a database, execute SQL queries, and retrieve results. With JDBC, developers need to write SQL statements explicitly, handle database connections, and manage mapping between SQL results and Java objects manually. It provides a low-level, fine-grained control over database operations.
+
+================================================================================
+================================================================================
+
+ORM (Object-Relational Mapping):
+ORM is a programming technique that allows developers to map objects from an object-oriented programming language (such as Java) to relational database tables. It eliminates the need for developers to write low-level SQL queries and manage database connections. ORM frameworks provide a higher level of abstraction by automatically translating object-oriented operations into database operations. They handle object-relational impedance mismatch and provide features like caching, lazy loading, and transaction management.
+
+================================================================================
+================================================================================
+
+JPA (Java Persistence API):
+JPA is a specification that defines an interface for ORM in Java applications. It is a part of the Java EE (Enterprise Edition) platform but can also be used in Java SE (Standard Edition) applications. JPA provides a set of annotations and APIs that allow developers to map Java objects to relational databases and perform CRUD (Create, Read, Update, Delete) operations without writing SQL queries. It standardizes the way ORM is implemented in Java applications and provides portability across different JPA implementations.
+
+================================================================================
+================================================================================
+
+Hibernate:
+Hibernate is a popular and widely used ORM framework for Java. It implements the JPA specification and provides additional features beyond what is specified in JPA. Hibernate simplifies database access by automating object-relational mapping, query generation, and transaction management. It supports a wide range of relational databases and provides advanced features like caching, lazy loading, and automatic schema generation. Hibernate is often used as the underlying ORM implementation when developing Java applications with JPA.
+
+================================================================================
+================================================================================
+
+In summary, JDBC is a low-level API for interacting with databases using SQL statements directly. ORM is a programming technique that allows developers to map objects to relational databases, while JPA is a specification that defines an interface for ORM in Java applications. Hibernate is an ORM framework that implements the JPA specification and provides additional features and capabilities.
+
+================================================================================
+================================================================================

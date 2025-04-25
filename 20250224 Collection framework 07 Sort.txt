@@ -1,0 +1,344 @@
+								Java Full Stack Development
+									    24-02-2025
+								   Mr.Akash(NSA IT-POINT)   
+================================================================================================
+
+=================
+Collections Sorting
+=================
+
+Collection is a container which is used to store group of objects
+
+Note: Collection interface is available in java.util package
+
+List, Set & Queue interfaces are extending properties from Collection interface
+
+
+-> In Collections framework we have a class called Collections class
+
+Note: Collections is a predefined class available in java.lang package
+
+-> Collections class provided several static methods to perform operations on data like below
+
+				Collections.sort(List<T> list );
+
+				Collections.reverse(List<T> list);
+
+
+
+Q) What is the difference between Collection, Collections & Collections Framework ?
+
+Defintion : Collection is a container to store group of objects
+
+We have an interface with a name Collection (java.util). It is root interface in Collections framework.
+
+Collections is a class available in java.util package
+(Providing ready made methods to perform operations on objects)
+
+Collection interface & Collections class are part of Collections framework. Along with these 2 classes there are several other classes and interfaces in Collections framework.
+
+
+
+
+
+// Java program on Collections class
+package com.nsait.akash.collectionworkshop;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Demo {
+
+	public static void main(String[] args) {
+
+		ArrayList<Integer> al = new ArrayList<>();
+
+		al.add(5);
+		al.add(3);
+		al.add(4);
+		al.add(1);
+		al.add(2);
+
+		System.out.println("Before Sort : " + al);
+
+		// Sort the collection
+		Collections.sort(al);
+
+		System.out.println("After Sort : " + al);
+
+		// Reverse the collection
+		Collections.reverse(al);
+
+		System.out.println("After Reverse : " + al);
+	}
+}
+
+Note: In the above program we have added Integer values in the collection. Integer is a class wrapper and it is implementing Comparable interface already.
+
+
+=> If we want apply sorting on User-Defined objects like Student, Employee, Product, Customer etc... then we have 2 approaches
+
+	1) Comparable (java.lang)
+
+	2) Comparator (java.util)
+
+============
+Comparable
+============
+
+-> Comparable is a predefined interface available in java.lang package
+-> Comparable interface having compareTo ( Object obj ) method
+-> compareTo ( ) method is used to compare an object with itself and returns int value
+
+			if( obj1 > obj2 ) ----> returns +ve no
+
+			if( obj1 < obj2 ) ----> return -ve no
+
+			if ( obj1 == obj2 ) ----> return zero (0)
+
+
+--------------
+package com.nsa.sorting.comparable;
+
+public class Employee implements Comparable<Employee> {
+
+	int id;
+	String name;
+	long salary;
+
+	public Employee(int id, String name, long salary) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.salary = salary;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", salary=" + salary + "]";
+	}
+
+	@Override
+	public int compareTo(Employee e) {
+
+//		if (this.id > e.id)
+//			return -1;
+//		if (this.id < e.id)
+//			return 1;
+//		return 0;
+
+//		return e.id - this.id;
+
+//		return (int) (this.salary - e.salary);
+
+//		return this.name.compareTo(e.name);
+
+		return e.name.length() - this.name.length();
+	}
+
+}
+-----
+package com.nsa.sorting.comparable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class EmpSortingTest {
+
+	public static void main(String[] args) {
+
+		List<Employee> list = new ArrayList();
+
+		list.add(new Employee(25, "Vikasa", 500));
+		list.add(new Employee(15, "Aka", 200));
+		list.add(new Employee(50, "Prakash", 100));
+		list.add(new Employee(21, "Zakas", 300));
+
+		// sort according to id
+
+		Collections.sort(list);
+
+		for (Employee emp : list) {
+			System.out.println(emp);
+		}
+
+	}
+}
+----------
+Note: Comparable interface will allow us to sort the data based on only one value. If we want to change our sorting technique then we need to modify the class which is implementing Comparable interface. Modifying the code everytime is not recommended.
+
+==============
+Comparator
+==============
+
+=> Comparator is a predefined interface available in java.util package
+=> Comparator interface having compare(Object obj1, Object obj2) method
+
+package com.nsa.sorting.comparator;
+
+public class Employee {
+
+	int id;
+	String name;
+	long salary;
+
+	public Employee(int id, String name, long salary) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.salary = salary;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", salary=" + salary + "]";
+	}
+
+}
+-----------Compare based on Id----------------
+package com.nsa.sorting.comparator;
+
+import java.util.Comparator;
+
+public class EmplIdComparator implements Comparator<Employee> {
+
+	@Override
+	public int compare(Employee e1, Employee e2) {
+		return e1.id - e2.id;
+	}
+
+}
+
+-----------Compare based on salary----------------
+package com.nsa.sorting.comparator;
+
+import java.util.Comparator;
+
+public class EmpSalaryComparator implements Comparator<Employee> {
+
+	@Override
+	public int compare(Employee e1, Employee e2) {
+		return (int) (e1.salary - e2.salary);
+	}
+
+}
+
+-----------Compare based on name----------------
+package com.nsa.sorting.comparator;
+
+import java.util.Comparator;
+
+public class EmpNameComparator implements Comparator<Employee> {
+
+	@Override
+public int compare(Employee e1, Employee e2) {
+return e2.name.compareTo(e1.name);
+	}
+
+}
+
+-----------Compare based on lastCharacter----------------
+package com.nsa.sorting.comparator;
+
+import java.util.Comparator;
+
+public class EmpLastChar implements Comparator<Employee> {
+
+	@Override
+	public int compare(Employee e1, Employee e2) {
+
+		char lastCharAt1 = e1.name.charAt(e1.name.length() - 1);
+		char lastCharAt2 = e2.name.charAt(e2.name.length() - 1);
+
+		return lastCharAt1 - lastCharAt2;
+	}
+
+}
+
+-----------Compare based on EvenOddId----------------
+package com.nsa.sorting.comparator;
+
+import java.util.Comparator;
+
+public class EmpEvenOddId implements Comparator<Employee> {
+
+	@Override
+	public int compare(Employee e1, Employee e2) {
+
+		return e2.id % 2 - e1.id % 2;
+	}
+
+}
+----------Test sorting order-------------
+package com.nsa.sorting.comparator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class EmpSortComparator {
+
+	public static void main(String[] args) {
+
+		List<Employee> list = new ArrayList();
+
+		list.add(new Employee(25, "Vikasa", 500));
+		list.add(new Employee(15, "Aka", 200));
+		list.add(new Employee(50, "Prakash", 100));
+		list.add(new Employee(21, "Zakas", 300));
+
+//		Collections.sort(list, new EmplIdComparator());
+//		Collections.sort(list, new EmpSalaryComparator());
+//		Collections.sort(list, new EmpNameComparator());
+//		Collections.sort(list, new EmpLastChar());
+//		Collections.sort(list, new EmpEvenOddId());
+
+		for (Employee emp : list) {
+			System.out.println(emp);
+		}
+
+	}
+}
+
+=================
+In below examples, we define comparators anonymously by creating a new instance of Comparator and overriding the compare method inline. This approach is useful when you need a custom sorting order for a specific operation and don't want to create a separate class.
+
+package com.nsa.sorting.comparator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class EmpSortComparator {
+
+	public static void main(String[] args) {
+
+		List<Employee> list = new ArrayList();
+
+		list.add(new Employee(25, "Vikasa", 500));
+		list.add(new Employee(15, "Aka", 200));
+		list.add(new Employee(50, "Prakash", 100));
+		list.add(new Employee(21, "Zakas", 300));
+		
+		Collections.sort(list, new Comparator<Employee>() {
+
+			@Override
+			public int compare(Employee e1, Employee e2) {
+//				return e1.id - e2.id;
+
+//				return (int) (e1.salary - e2.salary);
+	
+				return e1.name.compareTo(e2.name);
+			}
+
+		});
+
+		for (Employee emp : list) {
+			System.out.println(emp);
+		}
+
+	}
+}

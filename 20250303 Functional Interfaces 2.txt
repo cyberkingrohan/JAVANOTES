@@ -1,0 +1,249 @@
+==============XXX========@@@=============###====================$$$=======
+// 1) print the "name" of the employees whose "age" is more than "18"
+// 2) print the "emp details" of the employees whose "salary" is less than "20000"
+// 3) print the "emp details" of the employees whose "salary" is in multiple of "100" and whose name starts with "A" and age is more than 18
+==============XXX========@@@=============###====================$$$=======
+package com.nsa.functionainterface;
+
+public class Employee {
+
+	int age;
+	String name;
+	double salary;
+
+	public Employee(int age, String name, double salary) {
+		super();
+		this.age = age;
+		this.name = name;
+		this.salary = salary;
+	}
+
+}
+
+// print the "name" of the employees whose "age" is more than "18"
+
+package com.nsa.functionainterface;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class EmpTest {
+
+	public static void main(String[] args) {
+
+		List<Employee> empList = new ArrayList();
+		empList.add(new Employee(15, "Akash", 10000));
+		empList.add(new Employee(18, "Aman", 20025));
+		empList.add(new Employee(25, "Akanksha", 25000));
+		empList.add(new Employee(35, "Zakash", 10550));
+		empList.add(new Employee(45, "Sukash", 50000));
+
+		// print the "name" of the employees whose "age" is more than "18"
+		Predicate<Employee> p = (empl) -> empl.age > 18; // predicate with Emp obj
+
+		for (Employee emp : empList) {
+
+			if (p.test(emp)) {
+				System.out.println(emp.name);
+			}
+		}
+
+		// print the "emp details" of the employees whose "salary" is less than "20000"
+
+		Predicate<Double> pd = (empSalry) -> empSalry < 20000; // predicate with Emp obj
+
+		for (Employee emp : empList) {
+
+			if (pd.test(emp.salary)) {
+				System.out.println(emp.name + " : " + emp.age + " : " + emp.salary);
+			}
+		}
+
+		// print the "emp details" of the employees whose "salary" is in multiple of
+		// "100" and whose name starts with "A" and age is more than 18
+
+		Predicate<Employee> p1 = (empl) -> empl.salary % 100 == 0; // salary" is in multiple
+		Predicate<Employee> p2 = (empl) -> empl.name.startsWith("A"); // name starts with "A"
+		Predicate<Employee> p3 = (empl) -> empl.age > 18; // age is more than 18
+
+		Predicate<Employee> pj = p1.and(p2).and(p3); // predicte joining with "and"
+
+		for (Employee emp : empList) {
+
+			if (pj.test(emp)) {
+				System.out.println(emp.name + " : " + emp.age + " : " + emp.salary);
+			}
+		}
+
+//using BiPredicate 
+
+BiPredicate<Integer, String> bp1 = (age, name) -> age > 20 && name.startsWith("A");
+
+		BiPredicate<Integer, String> bp2 = (age, name) -> age > 20 || name.startsWith("A");
+
+		for (Employee emp : empList) {
+			if (bp1.test(emp.age, emp.name)) {
+				System.out.println(emp);
+			}
+		}
+
+	}
+}
+
+============================================================================
+Task-2 HomeWork : Take list of persons and print persons whose age is >= 18 using Lambda Expression
+============================================================================
+=============================
+================
+Predicate Joining
+===============
+
+-> To combine multiple predicates we will use Predicate Joining
+
+and ( ) method
+
+or ( ) method
+===============================================================
+Find Out the product with delivery Location as "Nagpur" 
+having price less than 1000 and Should start with "X"
+===============================================================
+package com.java8.nsa.byAkash.functionalInterfaces;
+
+public class Product {
+
+	long prodPrice;
+	String del_location;
+	String prodName;
+
+	public Product(long prodPrice, String del_location, String prodName) {
+		super();
+		this.prodPrice = prodPrice;
+		this.del_location = del_location;
+		this.prodName = prodName;
+	}
+
+	public long getProdPrice() {
+		return prodPrice;
+	}
+
+	public String getDel_location() {
+		return del_location;
+	}
+
+	public String getProdName() {
+		return prodName;
+	}	
+}
+-----------------
+package com.java8.nsa.byAkash.functionalInterfaces;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class ProdTest {
+
+	public static void main(String[] args) {
+
+		Product p1 = new Product(1000, "Nagpur", "X-Box");
+		Product p2 = new Product(2000, "Mumbai", "X-Box");
+		Product p3 = new Product(500, "Pune", "X-Box");
+		Product p4 = new Product(700, "Pune", "PS-2");
+		Product p5 = new Product(800, "Nagpur", "X-Box");
+		Product p6 = new Product(200, "Mumbai", "PS-2");
+
+		// Nagpur "X" 1000 =< price : p1 & p5
+
+		List<Product> prodList = Arrays.asList(p1, p2, p3, p4, p5, p6);
+
+		Predicate<Product> pred1 = (o) -> o.prodPrice <= 1000;
+		Predicate<Product> pred2 = (o) -> o.del_location.equals("Nagpur");
+		Predicate<Product> pred3 = (o) -> o.prodName.startsWith("X");
+
+		Predicate<Product> p = pred1.and(pred2).and(pred3); //
+		
+		for(Product prod : prodList) {
+			if(p.test(prod)) {
+				System.out.println(prod.getProdName() + " : " + prod.prodPrice + " : " + prod.del_location);
+			}
+		}
+	}
+}
+
+=====================
+=====================
+Problem 1: Calculate Square of an Integer
+Task: Write a method that takes an integer and returns its square using Function<Integer, Integer>.
+
+Problem 2: Convert String to Integer
+Task: Write a method that takes a string representing a number and returns its integer value using Function<String, Integer>.
+
+Problem 3: Concatenate Two Strings
+Task: Write a method that takes two strings and concatenates them using BiFunction<String, String, String>.
+
+Problem 4: Find the Length of a String
+Task: Write a method that takes a string and returns its length using Function<String, Integer>.
+
+Problem 5: Sum of Two Numbers
+Task: Write a method that takes two integers and returns their sum using BiFunction<Integer, Integer, Integer>.
+
+Problem 6: Convert String to Uppercase
+Task: Write a method that takes a string and converts it to uppercase using Function<String, String>.
+
+Problem 7: Calculate Product of Two Numbers
+Task: Write a method that takes two integers and returns their product using BiFunction<Integer, Integer, Integer>.
+
+Problem 8: Subtract One Number from Another
+Task: Write a method that takes two integers and returns the result of subtracting the second integer from the first using BiFunction<Integer, Integer, Integer>.
+
+Problem 9: Convert List of Strings to List of Their Lengths
+Task: Write a method that takes a list of strings and returns a list of their lengths using Function<String, Integer>.
+
+Problem 10: Calculate the Area of a Rectangle
+Task: Write a method that takes the length and width of a rectangle and returns its area using BiFunction<Integer, Integer, Integer>.
+
+
+Problem 11: Print Each Element in a List
+Task: Write a method that takes a list of strings and prints each element using Consumer<String>.
+
+Problem 12: 
+Task: Write a method that takes an integer and returns its square using UnaryOperator<Integer>.
+
+Problem 13: 
+Task: Write a method that takes two integers and returns their sum using BinaryOperator<Integer>.
+
+Problem 14:
+Task: Write a method that takes a string representing an integer and returns its integer value using ToIntFunction<String>.
+
+Problem 15: 
+Task: Write a method that takes a list of strings and joins them with a hyphen using StringJoiner.
+
+
+Additional Questions :
+========================
+Print the names of employees whose salary is greater than 50,000.
+Print the employee details whose name contains "sh" and salary is greater than 20,000.
+Print the employee names whose age is between 25 and 40.
+Print the product details whose name ends with "Box" and price is greater than 500.
+Print the employees whose names start with a vowel (A, E, I, O, U) and are younger than 30.
+Print the employee details where age is more than 25 and salary is less than 40,000.
+Print the products that belong to "Pune" and have a price less than 700.
+Print the employees whose name starts with "A" and age is greater than 20.
+Print products where the price is more than 1000 and the location is either "Nagpur" or "Mumbai".
+Print employee names if either their age is above 30 or salary is above 25,000
+Convert the employee names to uppercase and print them.
+Extract the first letter of each employee's name and print it.
+Calculate the yearly salary (monthly salary * 12) of each employee and print.
+Convert product names to lowercase and append "-Available" to them.
+Extract the last three characters of each employee's name and print them.
+Generate a list of random employee IDs (5-digit numbers).
+Generate a random discount percentage (between 10% and 50%) for a product.
+Generate a random product name starting with "X".
+Provide a default employee object if no valid employee exists.
+Provide a default product with a price of 999 and location "Pune" if no product meets the condition.
+Print all employee details in a structured format.
+Print all product names with a prefix "Product Name:".
+Print employees' names in reverse order.
+Print employee names along with "Eligible" or "Not Eligible" based on salary > 30,000.
+Print product details with the text "Limited Stock Available" if price is less than 500.

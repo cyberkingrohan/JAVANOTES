@@ -1,0 +1,521 @@
+							Java Full Stack Development
+									06-04-2025
+							   Mr.Akash(NSA IT-POINT) 							   
+===============================================================================
+
+===================
+Spring Core Mdoule		  
+===================
+
+public class Engine{
+
+void designEngine(){
+//logic for designing the engine
+}
+}
+
+public class MusicSystem{
+
+void musicPlayer(){
+		//logic for music System
+	}
+
+	}
+
+public void GearBoxSystem{
+	void gearBox(){
+	//logic for creating gearbox
+		}
+	}
+
+public class BuildMyDreamCar extends Thread{
+
+ 	void paintMyCar(){
+ 		//logic for painting the car
+ 	}
+
+ 	//call designEngine() method
+ 
+ 	//call musicPlayer() method
+ 
+ 	//call gearBox() method
+}
+
+In Above example for compiling and executing BuildMyDreamCar class we need to call all the methods from other classes. And for calling the methods I need to communicate with those classes.
+
+How One java can talk to another java class ?
+    1)By Using Composition (Creating Object)
+    2)By Using Inheritance (Extending the properties from another class)
+		   
+	But if our class extending another class then we can not extend it by one more class so Inheritance option is not available here.
+	And if I go for composition (Engine eng = new Engine) then my class will be tightly coupled, means if someone delete Engine class then my class will not be compiled.
+	
+	
+:-> To avoid tightly coupling problem spring provided core module
+:-> Spring core module is all about managing depedencies among the classes in 		     application and making our classes as loosely coupled.
+:-> Sprig Core Module provided IOC container and DI to manage depedencies amongthe classes in application.
+
+IOC can not directly manage our classes with loosely coupling, we need to follow some principles.(i.e., Strategy Design Pattern)
+   
+-----------------------
+Strategy Design Pattern   
+-----------------------
+ it comes under Behavioural Design Pattern(changing the alogorithm in runtime).
+ if we have multiple implementations for a task, we can choose one implementations dyanamically.
+ Note:we can switch from one implementation to another easily using Strategy Design Pattern.
+                        
+			  +--------+
+			  |  Task  |
+			  +--------+
+   +--------+             +--------+  
+   | impl-1 |             | impl-2 |
+   +--------+  			  +--------+ 	
+ 
+ Primciple:->
+ :- Always code should be open for extension and should be closed for modification
+ :- Always code to interfaces instead of concreate implementations
+ :- Favour composition over inheritance
+ 
+
+
+=============================
+Example to see How IOC Works
+============================
+
+Create Simple Maven project with spring-core and spring-context dependencies and xml file.
+
+
+File -> New -> Other -> Maven project -> skip archetype selection 
+
+Step to develop Spring application.
+1)Create Maven Project (quick-start archeype)
+2)Add Spring-context dependecy in pom.xml
+3)Create classes which are required 
+4)create configuration file and configure Bean definations which will be used by IOC to perform DI
+5)Start IOC and get bean object and test the application.
+
+
+BeanFactory and ApplicationContext : we can say these are the ways to start IOC container.
+
+IOC will not create the object of all the classes. The class which we want IOC to create object we need to configure that class in spring configuration file.
+    <bean id="anything" class="com.nsa.className"> </bean>
+
+==========pom.xml================
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>SpringCoreDI</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>SpringCoreDI</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>6.2.1</version>
+    </dependency>
+  </dependencies>
+</project>
+ 
+=========create a xml file under resource folder : src/main/resource=========
+
+-------------springbean.xml--------------
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="credit" class="com.nsa.CreditCardPayment"></bean>
+	<bean id="debit" class="com.nsa.DebitCardPyment"></bean>
+	<!--  multiple bean tag can be created for multiple classes-->
+</beans>
+
+==================Create a Pojo class===========
+package com.nsa;
+
+public class CreditCardPayment {
+
+	public CreditCardPayment() {
+
+		System.out.println("credit card object created");
+	}
+
+	void payment() {
+		System.out.println("payment using credit card");
+	}
+}
+----------
+package com.nsa;
+
+public class DebitCardPyment {
+
+	public DebitCardPyment() {
+		System.out.println("debit card payement object created");
+	}
+
+	void payment() {
+		System.out.println("payment using Debit Card ");
+	}
+}
+------------
+
+
+==================Create a main class to test IOC functionality===========
+
+package com.nsa;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+/**
+ * Hello world!
+ */
+public class App {
+	public static void main(String[] args) {
+
+		// eager loaded
+		ApplicationContext context = new ClassPathXmlApplicationContext("springbean.xml");
+		Object bean2 = context.getBean("debit");
+		DebitCardPyment cardPyment = (DebitCardPyment) bean2;
+		cardPyment.payment();
+		System.out.println("ApplicationContext");
+
+		
+		// lazy loaded
+		Resource resource = new ClassPathResource("springbean.xml"); // loaded xml file 
+		BeanFactory factory = new XmlBeanFactory(resource); // started IOC container
+		Object bean = factory.getBean("credit");
+		CreditCardPayment cardPayment = (CreditCardPayment) bean;
+		cardPayment.payment();
+		System.out.println("BeanFactory");
+
+	}
+}
+
+
+=================
+
+In Above Example,
+1) We create a Maven Project: Use the quick-start archetype and skip the archetype selection.
+2) Added Dependencies: Include spring-core and spring-context dependencies in your pom.xml.
+3) Created Required Classes: Define the classes that will be managed by the Spring container (e.g., CreditCardPayment and DebitCardPayment).
+4) Created a Configuration File: Define the beans in an XML file that Spring will use for Dependency Injection (DI).
+5) Start the IoC Container: Use BeanFactory or ApplicationContext to initialize the IoC container and retrieve the beans.
+
+
+-->> BeanFactory and ApplicationContext:
+  BeanFactory and ApplicationContext are ways to start the IoC container in Spring. The IoC container is responsible for managing the lifecycle and dependencies of the beans (objects) defined in the configuration file.
+
+To have the IoC container manage an object, you must define it in the configuration file (e.g., springbean.xml):
+
+<bean id="credit" class="com.nsa.CreditCardPayment"></bean>
+<bean id="debit" class="com.nsa.DebitCardPyment"></bean>
+
+
+===========================
+Example of IoC in Action:
+Eager Loading with ApplicationContext:
+
+When using ApplicationContext, the beans are created when the context is initialized (eager loading).
+In this case, the DebitCardPayment object is created when the ApplicationContext is loaded:
+
+
+ApplicationContext context = new ClassPathXmlApplicationContext("springbean.xml");
+DebitCardPyment cardPyment = (DebitCardPyment) context.getBean("debit");
+cardPyment.payment();
+
+==================================
+Lazy Loading with BeanFactory:
+
+With BeanFactory, the bean is created only when it is requested (lazy loading).
+The CreditCardPayment object is created when getBean is called:
+
+Resource resource = new ClassPathResource("springbean.xml");
+BeanFactory factory = new XmlBeanFactory(resource);
+CreditCardPayment cardPayment = (CreditCardPayment) factory.getBean("credit");
+cardPayment.payment();
+
+-----------
+Output:
+When using ApplicationContext, the beans are eagerly loaded, and you’ll see output related to DebitCardPyment creation first:
+
+debit card payement object created
+payment using Debit Card
+ApplicationContext
+
+
+When using BeanFactory, the beans are lazily loaded, so the CreditCardPayment object is created only when getBean is called:
+
+credit card object created
+payment using credit card
+BeanFactory
+
+
+This example demonstrates how Spring's IoC container manages objects and how to use BeanFactory (lazy loading) and ApplicationContext (eager loading) to control bean creation. 
+
+
+====================
+Dependency Injection
+====================
+It is the process of injecting dependent object into target object is called as Dependency injection.
+
+Setter Injection
+-----------------
+The process of injecting dependent class object into target object using target class setter method is called as Setter Injection. 
+ Setter-based injection is a type of dependency injection in the Spring framework where dependencies are injected into a class through setter methods. In this approach, the class provides setter methods for each dependency it requires, and Spring uses these methods to inject the dependencies at runtime.
+ 
+Constructor Injection
+-----------------
+The process of injecting dependent class object into target object using target class constructor method is called as Setter Injection. 
+
+Constructor-based dependency injection is a type of dependency injection where the dependencies of a class are provided through its constructor
+===================================================
+
+we can do both injection, but Setter base injection will be final injection cause we are doing constructor injection first and then setter method will get execute so variable will be re-initialize.
+Setter will override constructor base DI. 
+
+----------------------
+Creating target class object and dependent class object and injecting dependent object into target class object is not one project requirement but universal requirement.
+
+-> Spring provided IOC to perform these Operations.
+
+Ioc is the principles which is responsible to manage and collaborate depedencies among the objects in the application.
+======================================
+
+IOC dont know which is dependent and target class so we need to tell them.
+
+
+Step to develop Spring application.
+1)Create Maven Project (quick-start archeype)
+2)Add Spring-context dependecy in pom.xml
+3)Create classes which are required 
+4)create configuration file and configure Bean definations which will be used by IOC to perform DI
+5)Start IOC and get bean object and test the application.
+
+
+BeanFactory and ApplicationContext : we can say these are the ways to start IOC container.
+IOC will not create the object of all the classes. The class which we want IOC to create object we need to configure that class in spring configuration file.
+    <bean id="anything" class="com.nsa.className"> </bean>
+
+Example :->
+===================================================
+            Setter Base Injection
+===================================================
+====================POM.XML====================
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>SpringCoreDI</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>SpringCoreDI</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>6.2.1</version>
+    </dependency>
+  </dependencies>
+</project>
+
+====================UserRepository====================
+package com.nsa;
+
+//dependent class
+public class UserRepository {
+
+	public UserRepository() {
+		System.out.println("object created");
+	}
+
+	public void saveUser(String name) {
+		System.out.println("user : " + name + " saved");
+	}
+}
+================UserService=================
+package com.nsa;
+
+//target class
+public class UserService {
+
+	Integer age;
+	int salary;
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+
+	// private UserRepository userRepository = new UserRepository();
+	private UserRepository userRepository;
+
+	// setter base injection
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+	public void createUser(String name) {
+
+		userRepository.saveUser(name);
+		System.out.println("user : " + name + " created");
+
+		System.out.println(age + " : " + salary);
+	}
+}
+=================bean.xml=================
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="repository" class="com.nsa.UserRepository"></bean>
+	<bean id="userService" class="com.nsa.UserService">
+		<!--		<property for setter base injection-->
+		<!--			Injecting ref type-->
+		<property name="userRepository" ref="repository"></property>
+		<!--			Injecting primitive type-->
+		<property name="age" value="18"></property>
+		<!--		<property name="salary" value="250"></property>-->
+	</bean>
+
+</beans>
+=======================App.java=================
+package com.nsa;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class App {
+	public static void main(String[] args) {
+
+		ApplicationContext context = new ClassPathXmlApplicationContext("bean.xml");
+		UserService bean = context.getBean(UserService.class);
+		bean.createUser("akash");
+
+	}
+}
+
+________________                          ________________
+================Constructor Base Injecting================
+====================UserRepository====================
+package com.nsa;
+
+//dependent class
+public class UserRepository {
+
+	public UserRepository() {
+		System.out.println("object created");
+	}
+
+	public void saveUser(String name) {
+		System.out.println("user : " + name + " saved");
+	}
+}
+
+================UserService=================
+package com.nsa;
+
+//target class
+public class UserService {
+
+	Integer age;
+	int salary;
+
+	// private UserRepository userRepository = new UserRepository();
+	private UserRepository userRepository;
+
+	// constructor base
+	public UserService(Integer age, int salary, UserRepository userRepository) {
+		super();
+		this.age = age;
+		this.salary = salary;
+		this.userRepository = userRepository;
+	}
+
+	public void createUser(String name) {
+
+		userRepository.saveUser(name);
+		System.out.println("user : " + name + " created");
+
+		System.out.println(age + " : " + salary);
+	}
+
+}
+
+=================bean.xml=================
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="repository" class="com.nsa.UserRepository"></bean>
+	<bean id="userService" class="com.nsa.UserService">
+
+		<!--		<constructor-arg for constructor base injection-->
+		<!--			Injecting primitive type-->
+		<constructor-arg value="20"></constructor-arg>
+		<constructor-arg value="220"></constructor-arg>
+		<!--			Injecting ref type-->
+		<constructor-arg ref="repository"> </constructor-arg>
+	</bean>
+
+
+</beans>
+==============================================
+XML file decide which is dependent and target 
+============================================== 
+
+----------------------------------------
+Constructor Base DI vs Setter Base DI
+
+Partial Dependency  : can be injected using setter injection but it is not possible by constructor. Suppose there are 3 properties in a class, having 3 arg constructor and setters methods. In such case, if you want to pass information for only one property, it is possible by setter method only.
+
+Overriding  :  Setter injection overrides the constructor injection. If we use both constructor and setter injection, IOC container will use the setter injection.
+
+Changes:   We can easily change the value by setter injection. It doesn't create a new bean instance always like constructor. So setter injection is flexible than constructor injection.
+
+------------------------------------------------ 
+ 
+
+

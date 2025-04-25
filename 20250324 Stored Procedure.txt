@@ -1,0 +1,387 @@
+									Java Full Stack Development
+											24-03-2025
+									   Mr.Akash(NSA IT-POINT) 							   
+=======================================================================================================
+
+procedure : 
+
+If you have so many database calls from java then nework traffic will increase between java and database which will reduce performance of appilications.
+To avaoid these probelms we need to write business logic at database using procedure.
+
+Procedure means a db program which will have set of sql statements to perform one or more operations.
+
+From the java app we will call the procedure then procedure will execute at the db and will compltete the logic at db 
+
+By writing procedure in the database we can reduce no of calls between java and db
+
+To call the procedure we will use collable statement 
+
+
+Syntax to create procedure 
+==================================================
+CREATE Procedure <producre_name>(args.....)
+
+BEGIN
+    //sql statements
+END
+
+
+=> A procedure can have 3 types of Parameters
+
+
+		1) IN    ----> represents input
+
+		2) OUT  ----> represents output
+
+		3) INOUT   ---> represents both input & output
+			
+=========================	
+		
+Delimiter $$
+CREATE PROCEDURE getEmpData()
+BEGIN
+       SELECT * FROM employee;
+END $$
+
+=============================================================
+DELIMITER : will represent from there procedure is starting
+=============================================================
+
+
+package com.nsa.jdbc;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class PreocedureDemo {
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/jdbctest";
+	private static final String DB_USER = "root";
+	private static final String DB_PWD = "akash";
+	private static final String PROCEDURE = "call getEmpData()";
+
+	public static void main(String[] args) throws SQLException {
+
+		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+
+		CallableStatement cs = con.prepareCall(PROCEDURE);
+
+		ResultSet rs = cs.executeQuery();
+
+		while (rs.next()) {
+			System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getInt(3) + " " + rs.getString(4) + " "
+					+ rs.getString(5) + " " + rs.getString(6));
+		}
+
+	}
+
+}
+======================
+for multiple  query 
+
+Delimiter $$
+CREATE PROCEDURE getEmpDat()
+BEGIN
+       SELECT * FROM employee;
+	 SELECT empName FROM employee;
+END $$
+
+----------------
+
+package com.dynamicQuery;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class PreocedureDemo {
+
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/01testing";
+	private static final String DB_USER = "root";
+	private static final String DB_PWD = "akash";
+	private static final String PROCEDURE = "call getEmpDat()";
+
+	public static void main(String[] args) throws SQLException {
+
+		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+
+		CallableStatement cs = con.prepareCall(PROCEDURE);
+
+		cs.execute();
+		// Retrieve the result of the first SELECT statement
+		ResultSet rs = cs.getResultSet();
+
+		while (rs.next()) {
+			System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4)
+					+ " " + rs.getInt(4));
+		}
+
+		// Move to the next result (if any)
+		// Move to the next result (if any)
+		while (cs.getMoreResults()) {
+			// Retrieve the result of the next SELECT statement
+			rs = cs.getResultSet();
+			while (rs.next()) {
+				System.out.println(rs.getString(1));
+			}
+		}
+	}
+
+}
+
+
+===============
+proceure with IN parameter
+===============
+
+Delimiter $$
+CREATE PROCEDURE getEmpDataById(IN id int)
+BEGIN
+       SELECT * FROM employee where empId = id;
+END $$
+
+===============
+===============
+package com.nsa.jdbc;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class PreocedureInParam {
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/jdbctest";
+	private static final String DB_USER = "root";
+	private static final String DB_PWD = "akash";
+	private static final String PROCEDURE = "call getEmpDataById(?)";
+
+	public static void main(String[] args) throws SQLException {
+
+		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+
+		CallableStatement cs = con.prepareCall(PROCEDURE);
+
+		Scanner sc = new Scanner(System.in);
+		System.out.println("enter emp Id");
+		int id = sc.nextInt();
+
+		cs.setInt(1, id);
+
+		ResultSet rs = cs.executeQuery();
+
+		while (rs.next()) {
+			System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getInt(3) + " " + rs.getString(4) + " "
+					+ rs.getString(5) + " " + rs.getString(6));
+		}
+
+	}
+
+}
+===================================
+Procedure with IN & OUT Parameters
+===================================
+
+Delimiter $$
+CREATE PROCEDURE getEmployeeNameBySalary( IN salary int, OUT name varchar(255))
+
+BEGIN
+       
+	   SELECT empName  from employee where empSalary =< salary;
+	   
+END $$
+
+===============
+package com.nsa.jdbc;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Scanner;
+
+public class PreocedureInParam {
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/jdbctest";
+	private static final String DB_USER = "root";
+	private static final String DB_PWD = "akash";
+	private static final String PROCEDURE = "call getEmployeeNameBySalary(?,?)";
+
+	public static void main(String[] args) throws SQLException {
+
+		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+
+		CallableStatement cs = con.prepareCall(PROCEDURE);
+
+		Scanner sc = new Scanner(System.in);
+		System.out.println("enter emp Salary");
+		double salary = sc.nextDouble();
+
+		cs.setDouble(1, salary);
+		cs.registerOutParameter(2, Types.VARCHAR);
+
+		ResultSet rs = cs.executeQuery();
+
+		while (rs.next()) {
+			System.out.println(rs.getString(1));
+		}
+
+	}
+
+7D
+================================================================================
+================================================================================
+1) Insert Image into database table
+
+Ans) 	create table user (
+			user_id    INT  ,
+			user_name 	VARCHAR(100),
+			user_image BLOB
+		)
+
+blob : binary large object
+
+2) JDBC program to execute SQL query with IN clause (worklocation : 'Hyd' and 'Pune' )
+
+Ans) select * from employees where work_location IN ('hyd', 'pune');
+
+3) JDBC program to retrieve employess who joined between given dates
+
+01-Jan-2022
+
+31-Dec-2022
+
+Ans)    select * from employees where joining_date between  ?  and ?
+
+===================================================================================
+===================================================================================
+CREATE TABLE USER(
+userId int primary key,
+userName varchar(255),
+userBirthPlace varchar(255),
+userImage blob(1000),
+userDOB date
+);
+
+------------Insert Data into DB------------------------
+INSERT INTO user(userId,userName,userBirthPlace,userDOB)
+VALUES
+(1, 'akash', 'nagpur',  '1995-10-27'),
+(2, 'Vijay', 'nagpur',  '1990-12-31'),
+(3, 'Chinmay', 'pune',  '1992-05-15'),
+(4, 'Jaanu', 'mumbai',  '1985-08-10'),
+(5, 'Saanu', 'mumbai',  '1980-01-27')
+
+-> Date format : YYYY-MM-DD
+=====================Example for DATE==================
+package com.nsa.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class DateFilter {
+
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/jdbctest";
+	private static final String DB_USER = "root";
+	private static final String DB_PWD = "akash";
+	private static final String SQL_QUERY = "select * from user where userDOB between  '1990-12-01' and '1995-10-27'";
+
+	public static void main(String[] args) throws SQLException {
+
+		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+		PreparedStatement ps = con.prepareStatement(SQL_QUERY);
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+			System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " " + rs.getDate(5));
+		}
+	}
+}
+
+==========================IN CLUASE===================
+package com.nsa.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+//filter the User which belongs to two city
+public class InCluase {
+
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/jdbctest";
+	private static final String DB_USER = "root";
+	private static final String DB_PWD = "akash";
+	private static final String SQL_QUERY = "SELECT * FROM USER WHERE userBirthPlace in (?,?)";
+
+	public static void main(String[] args) throws SQLException {
+
+		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+		PreparedStatement ps = con.prepareStatement(SQL_QUERY);
+
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Select first city");
+		ps.setString(1, sc.next());
+		System.out.println("Select second city");
+		ps.setString(2, sc.next());
+
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+			System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3) + " " + rs.getDate(5));
+		}
+	}
+}
+=====================INSERTING IMAGE===================
+package com.nsa.jdbc;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+//filter the User which belongs to two city
+public class InsertImage {
+
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/jdbctest";
+	private static final String DB_USER = "root";
+	private static final String DB_PWD = "akash";
+	// for inserting the image
+//	private static final String SQL_QUERY = "INSERT INTO user(userId, userImage)Values(?,?)";
+
+	// for updating the image
+	private static final String SQL_QUERY = "update user set userImage=? where userId = ?";
+
+	public static void main(String[] args) throws Exception {
+
+		File file = new File("C:\\Users\\Akash Sir\\Desktop\\dummy-image.jpg");
+		FileInputStream fis = new FileInputStream(file);
+
+		Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+		PreparedStatement ps = con.prepareStatement(SQL_QUERY);
+
+		ps.setBinaryStream(1, fis);
+		ps.setInt(2, 1);
+
+		int executeUpdate = ps.executeUpdate();
+		System.out.println("updated : " + executeUpdate);
+
+	}
+}
+=====================================================

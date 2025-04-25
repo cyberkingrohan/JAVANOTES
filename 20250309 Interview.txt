@@ -1,0 +1,33 @@
+What is aggregation and composition in Java?
+What is HashCode HashCollision in java?
+Explain HashMap And Concurrent HashMap
+Explain about functional interfaces
+What is lambda expression?
+Explain the concept of immutability in Java. Why is String immutable?
+What is marker interface and its examples
+Explain about hash set and tree set.
+Do you know about multithreading?
+Equals and hash code methods in object class
+What is the difference between an interface and an abstract class?
+Explain the purpose of the Optional class in Java 8.
+What are the key differences between List, Set, and Map in Java?
+Explain the internal working of HashMap in Java.
+Explain the internal working of hashset
+What is fail-fast and fail-safe in Java collections?
+What are Comparable and Comparator interfaces? How do they differ?
+What is the difference between ArrayList and LinkedList?
+What is autoboxing and unboxing in Java?
+Explain final, finally, and finalize in Java in Java.
+How do you create a thread in Java? Explain with an example.
+What are the differences between Thread class and Runnable interface?
+How does synchronized block differ from synchronized method?
+What is the difference between checked and unchecked exceptions?
+What is the difference between throw and throws in Java?
+
+
+WRITE A PROGRAM TO FIND PRIME NUMBERS FROM ONE TO 100 USING JAVA8
+Find out the duplicate elements from given given array?
+
+How will you find out odd number from the given array?
+Remove duplicates from a list using Java 8 Streams
+
