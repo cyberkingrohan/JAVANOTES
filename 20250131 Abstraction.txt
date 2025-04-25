@@ -1,0 +1,456 @@
+								Java Full Stack Development
+									  31-01-2025
+								Mr.Akash(NSA IT-POINT)   
+================================================================================================
+==============
+Abstraction-
+==============
+It is the process of hiding the certain details and showing the important information to the end user called as “Abstraction”. 
+
+Real-life Example: When you drive a car, you don’t need to know how the engine works internally. You only interact with the steering wheel, pedals, and gears (the abstraction).
+
+
+
+How to achieve the Abstraction in java?
+ There are two ways to achieve the abstraction in java.
+	1. Abstract class
+	2. Interface
+
+=============
+Method Types
+=============
+
+-> In java we can write 2 types of methods
+
+		1) Concrete Method
+		2) Abstract Method
+
+-> The method which contains body is called as 'Concrete method'
+
+			public void m1 ( )
+			{
+					
+			}	
+
+-> The method which doesn't contain body is called as 'Abstract method'
+
+			public abstract void m2 ( ) ;
+
+Note:  By using 'abstract' keyword we can create abstract methods & abstract classes.
+
+
+===============
+Abstract Classes
+===============
+
+-> The class which contains both concrete and abstract methods is called as abstract class.
+
+-> We will use 'abstract' keyword to represent class as abstract class
+
+-> To write abstract method 'abstract' keyword is mandatory
+
+-> We can write constructor in abstract class but we can't create Object
+
+-> Abstract classes can have child classes
+
+-> When we extend properties from abstract class then it is mandatory to override all abstract methods of that class
+
+-> Abstract class constructor will be executed when we create object for child class.
+
+
+package com.nsa.Abstraction.abstractcalsses;
+
+public abstract class Engine {
+
+    public abstract void fillFuel();
+
+    public void startEngine() {
+        System.out.println("start Engine");
+    }
+}
+-------
+package com.nsa.Abstraction.abstractcalsses;
+
+public class DieselEngine extends Engine {
+    @Override
+    public void fillFuel() {
+        System.out.println("Filling Diesel");
+    }
+}
+--------
+package com.nsa.Abstraction.abstractcalsses;
+
+public class PetrolEngine extends Engine {
+    @Override
+    public void fillFuel() {
+        System.out.println("filling Petrol");
+    }
+}
+--------
+package com.nsa.Abstraction.abstractcalsses;
+
+public class EngineTest {
+
+    public static void main(String[] args) {
+        PetrolEngine pe = new PetrolEngine();
+        pe.fillFuel();
+        pe.startEngine();
+
+        DieselEngine de = new DieselEngine();
+        de.fillFuel();
+        de.startEngine();
+    }
+
+
+}
+==================
+Abstract Class (Engine):
+Acts as a template for all engines.
+Defines a common behavior (startEngine()) that is shared by all subclasses.
+Declares an abstract method (fillFuel()) that forces subclasses to provide their own implementation.
+
+Subclasses (DieselEngine and PetrolEngine):
+Provide specific implementations for the fillFuel() method.
+Inherit the startEngine() method from the Engine class.
+
+Testing (EngineTest):
+Demonstrates how to create objects of the concrete classes (PetrolEngine and DieselEngine).
+
+==================
+==================
+package com.nsa.Abstraction.abstractcalsses;
+
+public abstract class PaymentGateway {
+
+    //concrete method
+    public void doVeification() {
+        System.out.println("verification done");
+    }
+
+    //abstract method
+    public abstract void doPayment();
+
+    public PaymentGateway() {
+        System.out.println("PaymentGateway constructor");
+    }
+}
+---------------
+package com.nsa.Abstraction.abstractcalsses;
+
+public class GooglePay extends PaymentGateway{
+    @Override
+    public void doPayment() {
+        System.out.println("payment using GooglePay");
+    }
+}
+
+---------------
+package com.nsa.Abstraction.abstractcalsses;
+
+public class PhonePe extends PaymentGateway {
+
+    @Override
+    public void doPayment() {
+        System.out.println("doing payment using phonepe");
+    }
+
+    PhonePe() {
+        System.out.println("PhonePe constructor");
+    }
+}
+-----------------
+package com.nsa.Abstraction.abstractcalsses;
+
+public class PaymentTest {
+
+    public static void main(String[] args) {
+
+        PhonePe phonePe = new PhonePe();
+        phonePe.doVeification();
+        phonePe.doPayment();
+    }
+}
+=============================
+=============================
+
+=> We can't use 'abstract' and 'final' combination because it is illegal.
+
+		public abstract final void m1 ( ) ;  // invalid
+
+=> abstract means override in child where as 'final' means don't override .
+
+
+====================
+	Interfaces
+=====================
+
+-> Interfaces are used to achieve loosely coupling & abstraction
+
+-> Interfaces contains only abstract methods (upto 1.7v of java)
+
+-> To create a interface we will use 'interface' keyword
+
+-> Interface doesn't contain 'constructor'
+
+-> We can't create Object for the interface
+
+-> Once interface is created then anybody can provide implementation for the interface
+
+-> Implementing interface means overriding 'interface abstract methods'
+
+-> When we are implementing a interface then it is mandatory to implement all abstract methods of that interface.
+
+-> To implement a interface we will use 'implements' keyword
+
+Note: One java class can implement Multiple Interfaces at a time.
+
+Note:  One java class can extend properties from only one class and it can implement Multiple interfaces at a time.
+
+
+======================
+Interface Example
+=====================
+package com.nsa.Abstraction.interfaces;
+
+public interface Animal {
+
+    public abstract void makeSound();
+
+}
+---------
+package com.nsa.Abstraction.interfaces;
+
+public class Dog implements Animal {
+
+    @Override
+    public void makeSound() {
+        System.out.println("bark");
+    }
+}
+-----------
+package com.nsa.Abstraction.interfaces;
+
+public class Tiger implements Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("roar");
+    }
+}
+=============================
+=============================
+package com.nsa.Abstraction.interfaces;
+
+public interface RBI {
+
+    public void makePayment(double amount);
+}
+---------------
+package com.nsa.Abstraction.interfaces;
+
+public class HDFC implements RBI {
+    @Override
+    public void makePayment(double amount) {
+        System.out.println("debiting the payment from HDFC : " + amount);
+    }
+}
+--------------
+package com.nsa.Abstraction.interfaces;
+
+public class SBI implements RBI {
+    @Override
+    public void makePayment(double amount) {
+        System.out.println("debiting the payment from sbi : " + amount);
+    }
+}
+-------------
+package com.nsa.Abstraction.interfaces;
+
+public class Amazon {
+    public static void main(String[] args) {
+        RBI rbi = new SBI();
+        rbi.makePayment(500);
+    }
+}
+==============================
+Why Use an Interface?
+1)Standardization: Ensures all banks (HDFC, SBI, etc.) follow the same method signature for payment processing.
+2)Loose Coupling: The Amazon class depends on the RBI interface, not specific banks. This allows easy switching between different bank implementations.
+3)Code Reusability & Maintainability: If a new bank (e.g., ICICI) needs to be added, no changes are required in the Amazon class.
+4)Encapsulation & Abstraction: Hides implementation details and exposes only essential functionalities.
+
+Key Benefits of Using Interface in Payment Systems
+-> Dynamic Payment Processing: The bank can be chosen dynamically at runtime.
+-> Easy Extension: Adding a new bank (e.g., ICICI) only requires implementing RBI, without modifying the existing Amazon class.
+-> Encapsulation & Security: Clients interact only with RBI, ensuring a secure and standardized transaction process
+
+==============================
+Example 03:
+
+public interface Bank {
+
+	public void moneyTransfer();
+
+	public void checkBalance();
+}
+
+
+public class HdfcBank implements Bank {
+
+	public void moneyTransfer() {
+		System.out.println("Money Transfer from HDFC....");
+	}
+
+	public void checkBalance() {
+		System.out.println("Checking Balance from HDFC.....");
+	}
+}
+
+public class AxisBank implements Bank {
+
+	public void moneyTransfer() {
+		System.out.println("Money Transfer from Axis ....");
+	}
+
+	public void checkBalance() {
+		System.out.println("Check Balance from Axis....");
+	}
+}
+
+
+public class BankDemo {
+
+	public static void main(String[] args) {
+		Bank b; // reference variable
+
+		b = new AxisBank(); // storing impl obj into ref variable
+
+		b.moneyTransfer(); // axis-bank method will be called
+		b.checkBalance(); // axis-bank method will be called
+ 
+		b = new HdfcBank();  // storing impl obj into ref variable
+
+		b.moneyTransfer(); // hdfc-bank method will be called
+		b.checkBalance(); // hdfc-bank method will be called
+	}
+}
+
+
+=> We can't create Object for interface
+
+=> Interface reference variable can hold its implementation class object.
+
+			Ex:
+
+				Bank b = new AxisBank ( ) ;  // valid
+
+				Bank b = new HdfcBank ( ) ;  // valid
+
+				Bank b = new Kotak ( ) ; // in-valid because it is not implementation class for Bank
+
+=> When method is taking interface a parameter that means that method is expecting interface implementation class object as parameter.
+
+				public void m1 (Bank b ) {  // loosely coupled bcz we can pass any impl cls obj
+
+				}
+
+				public void m1(AxisBank b){ // tightly coupled bcz we have to pass only AxisBank obj
+
+				}
+
+=> When method is having Interface as a return type that means that method will return interface implementation object as return type
+
+				public Bank  m2 ( ) { // loosely coupled bcz we can return any impl cls obj
+
+				}
+
+				public HdfcBank  m2 ( ) {  // tighthly coupled bcz only HdfcBank obj shud be returned
+
+				}
+
+
+
+-> If interface doesn't contain any method then that interface is called as 'Marker Interface'
+
+		Ex: Cloneable, Serializable etc.....
+
+-> If our class implements pre-defined marker interface then JVM will treat our classes as special classes and JVM will provide special functionality based on the marker interface we have implemented.
+
+// user defined marker interface
+public interface Demo {
+
+}
+
+public class Test implements Demo {
+
+}
+
+Note: We can create our own marker interfaces but there is no use because JVM don't know abt our marker interfaces.
+
+Note: In java 1.8, they introduced Functional Interfaces.
+
+-> The interface which contains only one abstract method is called as Functional Interface. 
+-> Functional Interfaces are introduced to called 'Lambda Expressions'.
+-----------------------------------------------------------------------------------------------------------
+
+-> One interface can't implement another interface.
+
+-> One Interface can extend another interface.
+
+-> In Interface we can declare variables also, by default they are public static final.
+
+
+public interface Bank  {
+	public void checkBalance ( ) ;
+}
+
+public interface RbiBank implements Bank {   // invalid
+
+}
+
+public interface RbiBank extends Bank {  // valid
+		public void applyLoan ( ) ;
+}
+
+Below are the list of possible scenario regarding the interface and 
+Note- Try this from your end on laptop or desktop.
+❖ interface can extend interface1 and interface2
+❖ Interface can extends interface
+❖ Interface can extends the multiple interface
+❖ class extends class implements interface
+❖ class implements interface
+❖ class extends cl
+ass implements interface1 and interface2
+
+
+
+
+=> To create interface we will use 'interface' keyword
+=> To create abstract classes we will use 'abstract' keyword
+
+=> Interface contains abstract methods
+=> Abstract classes can contain both abstract methods & concrete methods
+
+=> Interface can't have constructor
+=> Abstract class can have constructor
+
+=> We can't create obj for interface
+=> We can't create obj for abstract class 
+
+=> One interface can't implement another interface
+=> One interface can extend another interface
+
+=> When we implement any interface then we have to implement all the abstract methods of that interface
+=> When we extend abstract class, we need override all abstract methods
+
+=> Abstract class constructor will be executed when we create object for sub class.
+
+=> If interface contains only one method then it is called Functional Interface
+=> If interface doesn't have any method then it is called as Marker interface
+
+=> When we don't know implementation for methods then we will go for Interfaces
+
+=> When we know partial implementation for methods then we will go for abstract classes
+
+
+Note- Multiple inheritances are not allowed in abstract class but allowed in 
+interfaces

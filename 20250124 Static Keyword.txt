@@ -1,0 +1,190 @@
+								Java Full Stack Development
+									  24-01-2025
+								Mr.Akash(NSA IT-POINT)   
+================================================================================================
+
+Static 
+=======
+
+-> It is used for memory management. 
+-> It can be applied to variable, method, inner class and static block. 
+-> It means single copy storage.
+
+Static variable- 
+-----------------
+-> A variable which is defined with static keyword called as “static variable.” 
+-> This is also known as class variables. 
+-> It is stored into Metaspace area. 
+-> It is used to refer the common property of all the objects. 
+-> Static variables get loaded into memory at the time of class loading. 
+
+Note : -> If we want to store different value based on object then use instance variable -> If we want to store same value for all objects then use static variable 
+
+How to declare and initialize static variable. 
+----------------------------------------------
+Example- 
+static int a; //Declaration of static variable 
+static int b=10; //Initialization of static variable 
+
+How to access static variable. 
+-------------------------------
+There are two ways to access the static variables. 
+1. By using class name. (Recommonded)
+2. By using object name. 
+
+
+Why it is called as single copy storage? 
+
+Note- Static members get loaded into memory as soon as (StaticDemo 
+staticDemo1) read this line. Non static members gets loaded into memory after 
+reading (new StaticDemo())- this line.
+
+========================================================
+ package com.nsa;
+ 
+ public class StaticDemo {
+ 
+	int a=10;
+	static int b =10;
+ 
+	public static void main(String[] args) {
+	  System.err.println("First Object");
+	  StaticDemo s1 = new StaticDemo();
+		s1.a++;
+		s1.b++;
+	  System.out.println("Instance variable : " + s1.a); //11
+	  System.out.println("static variable : " + s1.b);  //11
+	 
+	  System.err.println("Second Object");
+	  StaticDemo s2 = new StaticDemo();
+		s2.a++;
+		s2.b++;
+	  System.out.println("Instance variable : " + s2.a); //11
+	  System.out.println("static variable : " + s2.b);  //12
+	 
+	  System.err.println("Second Object");
+	  StaticDemo s3 = new StaticDemo();
+		s3.a++;
+		s3.b++;
+	  System.out.println("Instance variable : " + s3.a); // 11
+	  System.out.println("static variable : " + StaticDemo.b);  //13
+	 
+	  System.err.println("Second Object");
+	  StaticDemo s4 = new StaticDemo();
+		s4.a++;
+		s4.b++;
+	  System.out.println("Instance variable : " + s4.a); // 11
+	  System.out.println("static variable : " + StaticDemo.b); //14
+  }
+ }
+ 
+========================================================
+How to access static members from non-static members. 
+
+	package com.test; 
+		public class StaticDemo { 
+			void x2() { 
+				System.out.println("This is non static method"); 
+				x1(); // calling static method from non static method. 
+				} 
+			static void x1() { 
+				System.out.println("This is static method"); 
+			} 
+	public static void main(String args[]) { 
+		StaticDemo staticDemo = new StaticDemo(); 
+			staticDemo.x2(); 
+		} 
+	} 
+	
+Output- 
+This is non static method. 
+This is static method. 
+
+Static method- 
+==============
+-> If you define any method with static keyword then it is called as static method. 
+-> It is known as class method. 
+-> It belongs to class rather than object of class. 
+-> It loads into memory before object creation. 
+-> It can access only static data member only. 
+	
+	package com.test; 
+		public class StaticDemo { 
+			static void x1() { 
+				System.out.println("This is static method"); 
+			} 
+			public static void main(String args[]) { 
+				StaticDemo.x1(); 
+			} 
+		} 
+Output- 
+This is static method. 
+
+Static block- 
+============
+-> It is group of statements that are executed when class is loading into memory by Classloader. 
+-> It is widely used to create the static resource. 
+-> We cannot access non-static variable into static block. 
+-> It is always executed first. 
+		Example-1 
+		public class Test { 
+			static { 
+				System.out.println("this is the 1st static block..."); 
+			} 
+			public static void main(String[] args) { 
+				System.out.println("this is main method.."); 
+			} 
+		} 
+		
+Here, we will get first output is “This is 1st static block” because it is executed first 
+than main method. 
+Output- 
+this is the 1st static block... 
+this is main method.. 
+
+Example-2 
+		public class StaticExample { 
+			static { 
+				System.out.println("this is the 1st static block..."); 
+			} 
+			static { 
+				System.out.println("this is the 2nd static block..."); 
+			} 
+			static { 
+				System.out.println("this is the 3rd static block..."); 
+			} 
+			public static void main(String[] args) { 
+				System.out.println("this is main method.."); 
+				} 
+			} 
+output 
+this is the 1st static block... 
+this is the 2nd static block... 
+this is the 3rd static block... 
+this is main method.. 
+
+Note- 
+1. Local variables cannot be static. 
+2. We cannot call non-static member from static member because static 
+variables stored into memory before object creation and non-static variables 
+stored into memory after object creation. 
+3. Outer class cannot be static but inner class can be static. 
+4. Constructor cannot be static. 
+5. Main method is static method. 
+6. This and super keywords are not allowed inside the static method or static 
+area. 
+================== 
+Static Control Flow 
+================== -> When class is loaded into JVM then static control flow will start -> When we run java program, JVM will check for below static members & JVM will 
+allocate memory for them in below order 
+a) static variables 
+b) static methods 
+c) static blocks -> Once memory allocation completed for static members then it will start 
+execution in below order 
+a) static block 
+b) static method (if we call) -- only main method will execute automatically by jvm 
+c) static variable -> static variables can be accessed directley in static blocks and static methods. 
+Note: If we want to access any instance method or instance variable in static area 
+then we should create object and using that object only we can access. We can't 
+access directley without object.
+

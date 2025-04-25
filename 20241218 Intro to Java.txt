@@ -1,0 +1,152 @@
+								Java Full Stack Development
+									    18-12-2024
+								   Mr.Akash(NSA IT-POINT)   
+=========================================================================================
+
+WELCOME TO NSA IT-POINT
+
+Today is 3rd Session of JAVA FULLSTACK Development
+
+Class will start by 7.30am
+
+==============================================
+
+=============
+What is JAVA
+============= 
+
+-> JAVA is a programming language
+
+-> Java was developed by Sun Microsystem in 1991 (OAK)
+
+-> James Gosling is the leader of the team who developed Java 
+
+-> He is also called as Father of Java
+
+-> The first version of java come into he market in 1995
+
+Note : Oracle Corporation acquired Sun Microsystem
+
+-> Now java is under the licenses of Oracle 
+
+-> Java is Free and Open Source
+
+=========================
+Java is dived in 3 parts
+========================= 
+
+1) J2SE
+2) J2EE
+3) J2ME
+
+
+
+	J2SE : Java Standard Edition
+	     
+		    -> Stand-alone application
+			-> Runs only on one machine 
+			   e.g-> notepad, calculator, games....
+
+	J2EE : Java Enterprice Edition 
+		
+			-> Web Applications
+			-> Everyone can access it through internet 
+			
+			eg -> amazon, flipkart, google, gmail......
+	
+	J2ME  : JAVA Micro/Mobile Edition
+	
+			-> Mobiles apps
+			
+			eg. -> amazon, flipkart, gmail, youtube, games.....
+			
+
+=================================================
+
+==============
+Java Features
+==============
+
+1) Simple : The complex topics of C & C++ are eliminated in Java
+
+	Ex: Operators overloading, pointers, memory mgmt etc...
+
+2) Platform Independent
+
+	-> Java programs can be executed on any machine
+	-> JVM made java as platform independent
+	-> JVM stands for Java Virtual Machine
+	-> JVM is responsible to run/execute java programs
+
+3) Robust (Strong)
+
+	-> Automatic Memory Management
+	-> Exception Handling
+
+4) OOPS (Object Oriented Programming System)
+
+	-> Everything will be represented in objects format
+	-> Code Re-Usability
+
+5) Secure
+
+6) Distributed 
+
+7) Portable
+
+8) Dynamic
+
+Java Slogan : WORA (Write Once Run Anywhere)
+===============================
+Java Compiler :https://www.onlinegdb.com/online_java_compiler
+
+Note : your class name and file name should be same 
+
+Main.java
+
+====================================================
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+	}
+}
+====================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

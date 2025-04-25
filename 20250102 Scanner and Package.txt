@@ -1,0 +1,70 @@
+								Java Full Stack Development
+									  02-01-2025
+								Mr.Akash(NSA IT-POINT)   
+===========================================================================================
+=====================
+Packages
+Scanner class
+=====================
+
+Packages : Packages is nothing but the collections of classes and interfaces that works together.
+Library  : Collections of packages.
+
+->java.lang is a default package.
+->we can create our own package.
+-> Apart from java.lang package if we are using any method or class from another package then we need to import that package.
+
+
+Advantages : 
+  Reusability : We can use use already build code for our project.
+  
+Package Naming Conventions :
+
+com.tcs.amazon.amazonpay.paymentgateway.credentials
+org for organizations
+gov for government entities.
+
+com            : for commercial organizations.
+tcs            : your company name   ( Second-Level Domain)
+amazon         : your client company (Sub-Domain)
+amazonpay      : project name (Sub-Packages:)
+paymentgateway : module
+credentials    : sub module 
+
+==============================================================
+*************
+Scanner class  
+*************
+  -> Scanner class is in a a java.util package . It is used for taking the input from keyboard.
+  -> To create scanner class object we need to pass predefined object System.in.
+                   Scanner sc = new Scanner(System.in);
+  -> To read the numeric values 
+        sc.nextInt();
+        sc.nextShort();
+        sc.nextLong();
+        sc.nextByte();
+        sc.nextDouble();
+        sc.nextFloat();
+        sc.nextBoolean();
+		sc.nextLine();
+        sc.next();      
+=====================================================================
+import java.util.Scanner;
+
+
+class ScannerExample{
+	
+	public static void main(String... args){
+		
+		Scanner sc = new Scanner(System.in); //create the scanner class object
+		System.out.println("Enter your name"); // sop statement 
+		String name = sc.nextLine();               // scanner method to take input
+		
+		System.out.println("Enter your age");
+		int age = sc.nextInt();
+		
+		System.out.println("Name enter by you is : " + name);  //printing the name 
+		System.out.println("Age enter by you is : " + age);  //printing the name 		
+	}
+	
+}

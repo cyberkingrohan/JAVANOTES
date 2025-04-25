@@ -1,0 +1,69 @@
+								Java Full Stack Development
+									    17-12-2024
+								   Mr.Akash(NSA IT-POINT)   
+=========================================================================================
+
+Welcome to NSA IT-POINT
+
+Today is 2nd Session of JAVA Full-Stack Development.
+
+
+Roles and Responsibility of Java Full-Stack Developer
+======================================================
+
+1) Understand Requirement of Project : find out what is the end goal
+
+2) Analyze Requirement : break down the requirment 
+
+3) Design and Planning : how it will look and work
+
+4) Database design : 
+
+5) Backend Development : 
+
+6) Unit Testing :
+
+7) Code Review : 
+
+8) Code Integration : 
+
+9) Frontend : 
+
+10) Backend - Frontend Integration 
+
+11) Deployement :
+
+12) Support :
+
+=====================================
+
+
+Java Online Compiler : https://onecompiler.com/java
+======================
+
+public class Main {
+    public static void main(String[] args) {
+      
+      	  System.out.println("Hello, World!");
+      System.out.println("WELCOME TO NSA IT-POINT");
+            System.out.println("JOB oriented training on ");
+      System.out.println("JAVA FULL STACK DEVELOPMENT");
+  }
+}
+=====================
+print your name 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

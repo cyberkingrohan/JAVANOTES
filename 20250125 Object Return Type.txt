@@ -1,0 +1,195 @@
+								Java Full Stack Development
+									  25-01-2025
+								Mr.Akash(NSA IT-POINT)   
+================================================================================================
+
+package com.demo;
+
+public class Testing {
+
+    public static void main(String[] args) {
+        Testing.m1();
+    }
+
+    static void m1() {
+        Student.testStud();
+        System.out.println("m1 method");
+    }
+
+}
+-----------
+package com.demo;
+
+public class Student {
+
+    static void testStud() {
+        System.out.println("student static method");
+    }
+}
+
+----------
+student static method
+m1 method
+====================
+=====================
+
+package com.demo;
+
+public class Employee {
+
+    int age;
+    String name;
+    double salary;
+
+
+    public String toString() {
+        return
+                "age : " + age +
+                        " | name : " + name +
+                        " | salary : " + salary;
+    }
+
+}
+
+------------
+package com.demo;
+
+public class Testing {
+
+    public static void main(String[] args) {
+
+        Testing test = new Testing();
+        Employee result = test.empObject();
+        System.out.println(result);
+    }
+
+    //write a method to return Employee object
+    //input  :
+    //output : Employee obj
+
+    Employee empObject() {
+        Employee emp = new Employee();
+
+        //set the values in employee obj
+        emp.age = 18;
+        emp.name = "tom";
+        emp.salary = 200.50;
+        return emp;
+    }
+}
+=======================================================
+=======================================================
+package com.demo;
+
+public class Student {
+
+    String name;
+    int age;
+    double height;
+
+    //create getter and setter methods
+
+    public void setName(String firstname) {
+        this.name = firstname;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getHeight() {
+        return this.height;
+    }
+
+
+    public String toString() {
+        return "name: " + name + " age : " + age + " height : " + height;
+    }
+}
+-------------
+package com.demo;
+
+public class StudentTest {
+
+    public static void main(String[] args) {
+        StudentTest test = new StudentTest();
+        Student result = test.getStudent();
+        System.out.println(result);
+
+        int studAge = result.getAge();
+        String studName = result.getName();
+        double studHeight = result.getHeight();
+        System.out.println("studName: " + studName + " studAge : " + studAge + " studHeight : " + studHeight);
+    }
+    //write a method to return Student object
+    //input :
+    // output :
+    Student getStudent() {
+        Student stud = new Student();
+        //set the values in student object
+        stud.setAge(18);
+        stud.setHeight(6.5);
+        stud.setName("harry");
+        return stud;
+    }
+}
+=======================================================
+=======================================================
+package com.demo;
+
+public class Order {
+
+    int orderId;
+    String orderName;
+    double orderPrice;
+
+    public Order(int orderId, String orderName, double orderPrice) {
+        this.orderId = orderId;
+        this.orderName = orderName;
+        this.orderPrice = orderPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", orderName='" + orderName + '\'' +
+                ", orderPrice=" + orderPrice +
+                '}';
+    }
+}
+------------------
+package com.demo;
+
+public class OrderTest {
+
+    public static void main(String[] args) {
+        OrderTest test = new OrderTest();
+        Order order = test.getOrder();
+        System.out.println(order);
+        double orderPrice = order.orderPrice;
+        String orderName = order.orderName;
+        int orderId = order.orderId;
+        System.out.println("orderId=" + orderId +
+                ", orderName='" + orderName + '\'' +
+                ", orderPrice=" + orderPrice);
+    }
+    //create the method to return order object
+    public Order getOrder() {
+        Order order = new Order(1, "mobile", 500.50);
+        return order;
+    }
+}
+=========================================

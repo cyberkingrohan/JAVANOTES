@@ -1,0 +1,122 @@
+===============================
+StringBuilder and StringBuffer   : These are Mutable String classes.
+===============================
+StringBuilder and StringBuffer are classes in Java used for creating and manipulating mutable strings (strings that can be modified after creation). Both are alternatives to the String class when dealing with large or frequently changing strings.
+
+
+
+ -> Predefined classes available in java.lang package
+ -> Objects are mutable (content can be modified)
+ -> StringBuilder objects are NOT thread safe (Multiple thread can access at a time)
+ -> StringBuffer objects are thread safe (Multiple thread can NOT access at a time)
+ -> StringBuilder is Faster due to lack of synchronization
+ -> StringBuffer Slower due to synchronization overhead
+ 
+ StringBuilder sb = new StringBuilder("Java");
+                sb.length();   //4
+				sb.append("program);
+				
+=================================
+ class StringBuilderDemo{
+
+public static void main(String... args){
+
+              public static void main(String... args){
+		
+		StringBuilder sb = new StringBuilder("nsa");	 					
+		System.out.println(sb);                                 // nsa
+		System.out.println("StringBuilder sb :" + sb.length()); //3  		
+
+		sb.append("IT-POINT");
+		System.out.println("StringBuilder adfter append " + sb );                               
+		System.out.println("StringBuilder length after append :" + sb.length());		
+
+		String str = "nsa";						
+		System.out.println(str);   //nsa
+		System.out.println("String str : " + str.length());  //3
+		
+		str.concat("IT-POINT");			
+		System.out.println("str after concat " + str);  //nsa
+		System.out.println("String length after concat: " + str.length()); //3 	
+	}
+}
+
+=========================================
+public class StringBufferExample {
+    public static void main(String[] args) {
+        StringBuffer sb = new StringBuffer("Thread");
+        
+        StringBuilder sb = new StringBuilder("NSA");	 					
+			System.out.println(sb);    // NSA
+			
+			//append
+			sb.append("POINT");
+			System.out.println(sb);    // NSAPOINT
+			
+			//insert
+			sb.insert(3," IT-");    
+			System.out.println(sb);    // NSA IT-POINT	
+			
+			//replace
+			sb.replace(3,7, " java ");
+			System.out.println(sb);    // NSA Java POINT
+
+			//delete
+			sb.delete(3,9);
+			System.out.println(sb);    // NSAPOINT
+			
+			//Reverse
+			sb.reverse();
+			System.out.println(sb);    // TNIOPASN		
+    }
+}
+
+=============================================
+Using StringBuilder/StringBuffer with Strings
+If you’re performing repetitive or extensive string manipulations, converting a String to a StringBuilder or StringBuffer is more efficient:
+
+
+// Inefficient with String
+String str = "nsa";
+for (int i = ;1 i <= 5; i++) {
+    str += i; // Creates a new String object in each iteration
+	System.out.println("string str : " + str); 
+}
+
+
+// Efficient with StringBuilder
+StringBuilder sb = new StringBuilder("nsa");
+for (int i = 0; i < 5; i++) {
+    sb.append(i); // Modifies the existing object
+	System.out.println("StringBuilder sb : " + sb); 
+}
+
+
+
+
+Performance Comparison
+=======================
+public class PerformanceComparison {
+    public static void main(String[] args) {
+        long startTime,endTime;
+		
+		//String concatination
+		startTime = System.nanoTime();
+		String str = "nsa";
+		for(int i =1; i<=1000; i++){
+			str = str+i;         // nsa12345
+		}
+		endTime = System.nanoTime();
+		System.out.println("string execution : " + (endTime - startTime));
+		
+		//StringBuilder concatination		
+		startTime = System.nanoTime();
+		StringBuilder sb = new StringBuilder("nsa");	 					
+		for(int i =1; i<=1000; i++){
+			sb = sb.append(i);         // nsa12345 
+		}
+		endTime = System.nanoTime();
+		System.out.println("StringBuilder execution : " + (endTime - startTime));		
+			
+    }
+}

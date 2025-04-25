@@ -1,0 +1,511 @@
+								Java Full Stack Development
+									  11-01-2025
+								Mr.Akash(NSA IT-POINT)   
+=====================================================================================================
+
+class Testing{
+	
+	// write a method to print sum of two numbers 
+	
+	void sumNum(){
+		int a =10;
+		int b =20;
+		int c = a + b;
+       System.out.println("Sum of two numbers : " + c);
+		}
+	
+	public static void main(String... args){
+		
+		//call sumNum
+		// static or non static 
+        // if non static -> create the object
+		// object.methodName()
+		Testing testing = new Testing();
+		testing.sumNum();
+		
+	}
+}
+
+//output : Sum of two numbers : 30
+
+======================================
+class Testing{
+	
+	// write a method to print sum of two numbers 
+	void sumNum(int a, int b){
+		int c = a + b;
+       System.out.println("Sum of two numbers : " + c);
+		}
+	
+	public static void main(String... args){
+		//call sumNum
+		// static or non static 
+        // if non static -> create the object
+		// object.methodName()
+		Testing testing = new Testing();	
+		testing.sumNum(25,35);	
+	}
+}
+
+//output : Sum of two numbers : 60
+
+===========================================
+class Testing{
+	
+	// write a method to print sum of two numbers 
+	
+	int sumNum(int a, int b){
+		int c = a + b;
+		return c;
+		}
+	
+	public static void main(String... args){
+		//call sumNum
+		// static or non static 
+        // if non static -> create the object
+		// object.methodName()
+		Testing testing = new Testing();	
+		int result = testing.sumNum(55,35);	
+		System.out.println("Sum of two numbers : " + result);
+	}
+}
+
+//output : Sum of two numbers : 90
+
+===============================
+===============================
+	// write a method to print your name
+	
+		String printName(String name){
+			return name;
+		}
+	
+		void printName2(String name){
+			System.out.println("name : " + name);
+		}
+		
+		void printName2(){
+			Strinh name = "aaksh";
+			System.out.println("name : " + name);
+		}
+====================================
+class Testing{
+	
+	// write a method to print length(int) of your name(String)
+	//input  -> name(String)
+	//output -> length(int)
+	
+		int printName(String name){	
+			int leng = name.length();
+			return leng;
+		}
+		
+		
+	public static void main(String... args){
+		
+		Testing testing = new Testing();	
+		int result = testing.printName("akash");	
+		System.out.println("length : " + result);
+	}
+}
+//output : length : 5
+
+===========================================
+class Testing{
+	
+	// check the length of your name is more than 5 or not 
+	//input :
+	//output : yes/no true/false boolean
+	
+		boolean printName(String name){	
+			int leng = name.length();
+			
+			if(leng > 5){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		
+	public static void main(String... args){
+		
+		Testing testing = new Testing();	
+		boolean result  = testing.printName("akashji");	
+		System.out.println("result : " + result);
+	}
+}
+//output : 
+
+====================================
+class Testing{
+	
+	// write a method to concat two name
+	//input : two names 
+	//output : name
+	
+	          String concatTwo(String firstName, String lastName){
+				  String fullName = firstName.concat(lastName);  
+				  return fullName;
+			  }
+		
+	public static void main(String... args){
+		
+		Testing testing = new Testing();	
+		String result = testing.concatTwo("NSA", " IT-POINT");	
+		System.out.println("result : " + result);
+	}
+}
+//output : result : NSA IT-POINT
+==================================
+// Write a method to reverse a given String without using inbuilt methods.
+	//input : String
+	//output : String
+	
+	        String reverseString(String input){//h e l l o
+				String reverse = "";
+				
+				for(int index=0; index < input.length(); index++){ //4
+					reverse = input.charAt(index) + reverse;    //olleh
+				}
+				
+				return reverse;
+			}	
+==================================
+	// Write a method to reverse a given String without using inbuilt methods.
+	//input : String
+	//output : String
+	
+	        String reverseString(String input){//h e l l o
+				String reverse = "";
+				
+				for(int index=input.length()-1; index >=0; index--){ //
+					// reverse = reverse + input.charAt(index);    //olleh
+					reverse += input.charAt(index); 
+				}
+				
+				return reverse;
+			}
+============================
+class Testing{
+	
+	/* Write a method to find the sum of all elements in an array.
+		Example:
+		Input: [1, 2, 3, 4, 5]  // 1 + 2 + 3 +4 +5
+		Output: 15
+			input : Array
+			output : int
+	*/
+	        
+			int sumOfArray(int[] arr){
+				
+				int sum = 0;
+				for( int no : arr){
+					sum +=no;   //
+				}				
+				return sum;
+			}
+			
+	public static void main(String... args){
+		Testing testing = new Testing();	
+		int[] numberArray = {1,2,3,4,5,6,7,8,9};
+		int result = testing.sumOfArray(numberArray);	
+		System.out.println("result : " + result);
+	}
+}
+//output -> result : 45
+
+============================	
+import java.util.Arrays;
+
+class Testing{
+	
+/*Write a method to sort an array in ascending order without using predefined methods.
+//input  : Array  [4, 2, 6, 1, 3]
+//output : Array  
+[4, 2, 6, 1, 3]
+[1,4,6,2,3]
+[1,2,6,4,3]
+[1,2,3,6,4]
+[1,2,3,4,6]
+*/
+		 int[] reverseArray(int[] input){
+			    
+				for(int i =0; i<input.length; i++){
+
+					for(int j =i+1; j<input.length; j++){ //3  4
+						
+						if(input[i] > input[j]){   // 6 
+							int temp = input[i];  //
+							input[i] = input[j];  //
+							input[j] = temp;     // 
+						}	
+					}
+				}
+				return input;
+		 }
+
+	public static void main(String... args){
+		Testing testing = new Testing();	
+			int[] arr = {4, 2, 6, 1, 3};
+		int[] result =  testing.reverseArray(arr);
+		System.out.println("result 01: " + Arrays.toString(result));
+	}
+}
+		
+================================================
+class Demo{
+	
+	//write a method to print the msg on cmd
+	
+	String printMsg(){
+		
+		String s = "welcome to NSA IT-POINT";
+		
+		return s;
+	}
+	
+	public static void main(String... args){
+		
+		//obj.methodName
+		
+		Demo demo = new Demo();   //object created
+		
+		String msg = demo.printMsg();  // output of method  stored in variable "msg"
+		
+		System.out.println(msg);
+		
+	}
+	
+}
+============
+============
+class Demo{
+	
+	//write a method to print the msg on cmd
+	
+	String printMsg(String name){
+		
+		String s = "welcome to " + name +  "Pune";     // welcome to NSA IT-POINT Pune
+		
+		return s;
+	}
+	
+	public static void main(String... args){
+	
+		Demo demo = new Demo();
+
+		String msg = demo.printMsg("NSA IT-POINT");	
+		
+		System.out.println(msg);
+	}
+	
+}
+==============
+==============
+class Demo{
+	
+	//write a method to print the msg on cmd
+	
+	String printMsg(String name, String city){
+		
+		String s = "welcome to " + name + " " +  city;     // welcome to NSA IT-POINT Pune
+		
+		return s;
+	}
+	
+	public static void main(String... args){
+	
+		Demo demo = new Demo();
+
+		String msg = demo.printMsg("NSA IT-POINT", "Pune");	
+		
+		System.out.println(msg);
+	}
+	
+}
+=========
+=========
+class Demo{
+	
+	//write a method to print the length of a String
+	
+	int findLength(String str){
+		
+		int len = str.length();
+		
+		return len;
+	}
+
+	
+	public static void main(String... args){
+	
+		
+		Demo d = new Demo();
+		int output = d.findLength("Akash");
+		System.out.println(output);           //
+	}
+
+
+	
+}
+==============
+1)Write a method to find max element in an array, [1,2,3,4,5,6,7,8,9]
+      
+	int findMaxElement(int[] arr){
+	
+	maxElement =9; 
+	
+	return maxElement;
+	
+	}
+ 
+2)write a method to find out length of a string
+
+          int findLength(String s){
+
+              int len     s.length();
+			  
+			  return len;
+        }			 
+
+3)write a method to concat two names
+
+            String  concatNames(String first, String last){
+
+                 String s = first+last;
+				 
+				 return s;
+
+           }	
+4)write a method to display if person is eligible for vote or not
+
+
+              boolean checkAge(int age){  
+
+                   return age>=18;    //true/false
+            }			   
+             
+			  or
+			  
+		void checkAge(int age){
+
+         if(age>=18){
+				sop("eligible");
+		 }else{
+		     sop("NOT eligible");
+		 } 
+	}		
+
+5)Write a memthod to return a reverse array	
+
+        int[]  reverse(int[] arr){
+				
+				//logic
+				int brr[] = {reverse array};
+				
+				return brr;
+				
+				}
+				
+======================================
+methods With Class/Object Return Type				
+======================================
+
+if we are taking any class name as a return type then we can return that class object.
+
+	class Student{
+
+		//variables 
+		//methods
+
+	}
+
+	public class Driver{
+
+          Student getName(){
+		  
+		  return new Student();
+		  
+		  }
+	}
+	
+	public class School{
+
+          Student getAge(){
+		  
+		  Student stud = new Student();
+		  
+		  return stud;
+		  
+		  }
+
+
+	}
+	
+===========================================	
+	package com.nsa;
+
+public class Student {
+	
+	int age;
+	String name;
+
+	public static void main(String[] args) {
+
+		Student stud = new Student();
+
+		stud.age = 25;             //assigning the value to global varible
+		stud.name = "raju";        //initiliaing the value for variable
+
+		System.out.println(stud.age);
+		System.out.println(stud.name);
+
+	}
+
+}
+===============================
+	package com.nsa;
+
+public class Student {
+	
+	int age;
+	String name;
+	
+	}
+}
+
+------------
+package com.nsa;
+
+public class School {
+	
+	
+	public static void main(String[] args) {
+		
+		Student st = new Student();
+		st.age= 25;
+		st.name ="rani";
+		
+		School sc = new School();
+		
+		sc.studentData(st);
+		
+	}
+	
+//write a method to print the data available in Student Object
+	
+	void studentData(Student stud) {
+		
+		System.out.println(stud.name + " is " + stud.age + " years old");
+	}
+
+}
+=========================	
+	
+==============
+Write a method to find the sum of two integers and print the result.
+Write a method to check if a number is even or odd and print the result.
+Write a method to concatenate two strings and print the result.
+Write a method to find the maximum of three numbers and print the result.
+Write a method to reverse a string and print the result.
+

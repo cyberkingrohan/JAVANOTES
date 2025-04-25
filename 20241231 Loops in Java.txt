@@ -1,0 +1,347 @@
+								 Java Full Stack Development 
+									   31-12-2025
+								   Mr.Akash (NSA IT-POINT)
+================================================================================================
+
+=============
+Loops In Java 
+=============
+
+	-> Loops are used to execute the statement repeatedly 
+	-> In java we have below types of loos:
+	
+			1) For Loop
+	        2) While Loop
+			3) Do while Loop
+			4) For-each loop (Arrays and collections)
+			5) Nested Loop
+			
+==========
+While Loop
+==========
+
+	-> While loop is used to execute statement untill the condition is true 
+	-> While loop is called as conditional based loop
+	-> If the condition is true then the loop statement will execute otherwise loop will be terminated.
+	
+	sysntax :
+			  while(condition){
+			  
+					//statements 
+			  
+			  }
+			  
+   Ex-> Write a program to print the number from 1 to 10
+	  
+	 class WhileLoop{
+
+			public static void main(String... args){
+
+                  int no = 1;
+
+             while( no <= 10 ){       //1 2  3     9     10    11
+
+			System.out.println(no);   // 1  2  3     9      10
+						no++;         //  2  3  4     10    11
+                 }
+
+		System.out.println("Loop Terminated"); 
+
+		}
+	}
+	
+==============
+do while loop
+==============
+			
+	-> It is used to execute statement first then it will check the collections
+
+    sysntax:
+
+              do{
+
+					//statement
+					
+				}while(condition);
+				
+ Ex-> Write a program to print the number from 1 to 10			
+
+	class DoWhileLoop{
+
+		public static void main(String... args){
+
+               int no = 12;
+
+              do{
+				System.out.println(no);        //1  2   9     10
+				no++;                          //2  3   10    11
+				}while(no<=10);                //2  3   10    XXX
+
+		System.out.println("Do While Loop Terminated"); 
+
+		}
+	}
+===========================================================
+What is the difference between while loop and do while loop 
+
+	while loop -> It will check condition first then it will execute the statement
+ do while loop -> It will execute the statement first then it will check the condition
+
+Note : Even if the condition not satisfied for do while loop, still statement will get executed for the first iteration
+===========================================================
+
+
+=========
+for Loop	
+=========
+		-> It is used to execute statement multiple times
+		-> It is also called as Range based Loop
+		
+ sysntax:
+
+        for(initialize; condition; increameant/decreament){
+
+                      //statements
+					  
+            }		
+			
+ Ex-> Write a program to print the number from 1 to 10			
+ 
+ class WhileLoop{
+
+			public static void main(String... args){
+
+          //  Write a program to print the number from 1 to 10
+
+                     for(int no =1; no <=10; no++){     // 1 2 3  10  11
+				System.out.println(no);                 // 1 2 3  10  XXX
+			}             
+      
+
+		System.out.println("For Loop Terminated"); 
+
+		}
+	}
+	
+============================================================
+Q) What is the difference between while loop and for loop 
+
+A) for loop we generally use when we knowthe no of iterations, on ther ohter hand weuse while loop when we are not sure about the iterations
+============================================================
+
+============
+Nested Loop
+============	
+Note :
+Outer loop : No of Rows
+Inner Loop : No of Column
+println    : print in next line
+print      : print in same line 
+
+		-> Writting oen loop inside another loop called as nested loop
+		 
+class Loop{
+	
+	public static void main(String... args){
+		
+		for(int rows = 1; rows <= 5; rows++){         //rows 1 2
+			System.out.println("rows : " + rows);     //rows 1 2  
+	
+			for(int column = 1; column <= 5; column++){  //column 1 2 3 4 5
+				System.out.print("column : " + column);  //column 1 2 3 4 5
+				}
+				System.out.println();
+				
+			} 
+		}
+}
+
+rows : 1
+column : 1column : 2column : 3column : 4column : 5
+rows : 2
+column : 1column : 2column : 3column : 4column : 5
+rows : 3
+column : 1column : 2column : 3column : 4column : 5
+rows : 4
+column : 1column : 2column : 3column : 4column : 5
+rows : 5
+column : 1column : 2column : 3column : 4column : 5
+
+		
+=>> As per the above program, for every outer loop inner loop will be executing 5 times.	
+
+=================================================================
+
+-----------------
+* * * * *
+* * * * *
+* * * * *
+* * * * *
+* * * * *
+
+class Loop{
+	
+	public static void main(String... args){
+		
+		for(int rows = 1; rows <= 5; rows++){        // rows 1  2 
+			 
+			for(int column = 1; column <= 5; column++){  // 1 2 3 4 5 6
+				System.out.print("* ");            
+				}
+				System.out.println();
+				
+			} 
+		}
+}
+
+===============
+column
+|
+
+*            -> rows 
+* *          -> rows
+* * *        -> rows 
+* * * *      -> rows
+* * * * *    -> rows
+
+class Loop{
+	
+	public static void main(String... args){
+		
+		for(int rows = 1; rows <= 5; rows++){        // rows 3
+			 
+			for(int column = 1; column <= rows; column++){  // column
+				System.out.print("* ");            
+				}
+				System.out.println();
+				
+			} 
+		}
+}
+
+=====================
+1
+1 2 
+1 2 3
+1 2 3 4 
+1 2 3 4 5
+class Loop{
+	
+	public static void main(String... args){
+		
+		for(int rows = 1; rows <= 5; rows++){        
+			     
+			for(int column = 1; column <= rows; column++){      
+				System.out.print(column + " ");                     
+				}
+				System.out.println();
+				
+			} 
+		}
+}
+
+===============
+* * * * *
+* * * *
+* * *
+* *
+*
+
+class Loop{
+	
+	public static void main(String... args){
+		
+		for(int rows = 1; rows <= 5; rows++){        // 
+			     
+			for(int column = 5; column >= rows; column--){  //     
+				System.out.print("* " );                   // 
+				}
+				System.out.println();
+				
+			} 
+		}
+}
+
+=============================
+Assignment Questions 
+==================================
+Assignment Deadline : 6th Jan-25
+==================================
+Note : DO NO USE YOUTUBE/GOOGLE FOR SOLVING ASSIGNMENT QUESTIONS
+==================================================================
+
+1) Write a program to print all even numbers between 1 and 50 using a while loop.
+2)Write a program to find the sum of digits of a number using a while loop (e.g., for 123, output = 1 + 2 + 3 = 6).
+3)Write a program to reverse a number using a while loop (e.g., for 123, output = 321).
+4)Write a program to find the factorial of a given number using a do-while loop.
+5)Write a program to repeatedly ask the user to enter a number until they enter a negative number, then print the sum of all positive numbers entered.
+6)Write a program to generate a multiplication table for a given number using a do-while loop.
+7)Write a program to calculate the sum of all numbers from 1 to 100 using a for loop.
+8)Write a program to print the Fibonacci series up to n terms using a for loop.
+9)Write a program to check if a given number is prime using a for loop.
+10)Write a program to print the multiplication table for numbers 1 to 5 using nested loops.
+11)Write a program to find the largest and smallest digits in a number.
+12)Write a program to calculate the sum of the first n prime numbers using a while loop inside a for loop.
+13)Write a program to check if a given number is an Armstrong number (e.g., 153 = 1³ + 5³ + 3³).
+
+Draw below programs
+
+------------
+      *
+     **
+    ***
+   ****
+  *****
+-----------
+* * * * *
+*       *
+*       *
+*       *
+* * * * *
+-----------
+    *
+   ***
+  *****
+   ***
+    *
+-------------
+1
+2 3
+4 5 6
+7 8 9 10
+-------------
+       1
+     1   1
+    1   2   1
+   1   3   3   1
+----------------
+*
+**
+***
+****
+*****
+****
+***
+**
+*
+----------------
+* * * * *
+ * * * *
+  * * *
+   * * 
+    *
+   * *	
+  * * *
+ * * * *
+* * * * *
+-----------------
+    *
+   * *	
+  * * *
+ * * * *
+* * * * *
+ * * * *
+  * * *
+   * *
+    *
+ 

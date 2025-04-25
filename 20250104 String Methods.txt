@@ -1,0 +1,331 @@
+								 Java Full Stack Development 
+									   04-01-2025
+								   Mr.Akash (NSA IT-POINT)
+=========================================================================================
+
+=========
+String Method
+=========
+
+
+=====================
+String class methods till Java 7    : https://docs.oracle.com/javase/7/docs/api/java/lang/String.html
+
+
+till Java 21 : https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html
+=====================
+
+charAt() -> to get the character based on the index.
+
+                  String s = "akash";
+				  //System.out.println(s.charAt(index));
+				  System.out.println(s.charAt(0));  //a
+				  
+===============
+length() -> to get the size of the String (whaterver present in " " for that String, including character, space, digit, symbol, etc) 
+
+      String s = "akash";      
+			s.length();     //5
+	  String s = "akash  @7";   
+			s.length();    //9
+Note->
+arr.length;-> in array length is a property
+s.length(); -> in String, length() is a method
+
+==============
+concat() -> To join the two String  (appending) 
+
+        String s1 = "akash";
+		String s2 = "kalamkar";
+		String s3 = s1.concat(s2); //akashkalamkar
+		
+		String s4 = s1+s2;
+		
+==============
+equals() -> To compare the content of two string -> will return true/false
+
+            String s1 = "akash";
+			String s2 = "akash";
+			String s3 = "Akash";			
+			System.out.println(s1.equals(s2)); //true
+			System.out.println(s1.equals(s3)); //false
+			
+Note : == it will compare address of the String
+
+************
+equalsIgnoreCase(String anotherString) -> To compare the content of two string, ignoring case considerations.-> will return true/false
+
+            String s1 = "AKASH";
+			String s2 = "akash";
+			String s3 = "AKasH";			
+			System.out.println(s1.equalsIgnoreCase(s2)); //true
+			System.out.println(s1.equalsIgnoreCase(s3)); //true
+ 
+==============
+contains(CharSequence s)
+Returns true if and only if this string contains the specified sequence of char values.
+
+		String str1 = "akash kalamkar"; 
+		System.out.println(str1.contains("aka"));       //true
+		System.out.println(str1.contains("ama"));       //	false
+		
+================		
+replace() => to replace characters with another character
+                  
+				   String s1 = "akashkalamakar";
+				   String s2 = s1.replace("kalamakar", "Gupta");
+				   System.out.println(s2);  //akashGupta
+==========
+toUpperCase() => to convert String to Upper case letter
+                         
+						  String s1 = "akash";
+						  String s2 = s1.toUpperCase();
+                         System.out.println(s2);         //AKASH
+						 
+toLowerCase() =>  to convert String to Lower case letter				   
+                        
+						 String s1 = "AKash";
+						 String s2 = s1.toLowerCase();
+                         System.out.println(s2);           //akash
+
+===================
+indexOf() - > it will give the index of first occurance of that character in string
+                       
+					    String s1 = "akash";	
+      					System.out.println(s1.indexOf('a'));  //0
+						System.out.println(s1.lastIndexOf('x'));  //-1
+
+lastIndexOf() -> it will give the index of last occurance of that character in String						
+						String s1 = "akash";	
+      					System.out.println(s1.lastIndexOf('a')); //2
+						
+						System.out.println(s1.lastIndexOf('x'));  //-1
+						
+Note -> if the given character is not present in string then it will return -1.
+
+================
+substring()  -> it is used to get the some part of the String. it will take start and end index.						
+                        
+						 String s1 = "akashKalamkar";
+						 System.out.println(s1.substring(5));  //Kalamkar
+						 String s1 = "akashKalamkar";
+						 System.out.println(s1.substring(5, 8)); //Kal
+Note -> it will return from first Index till last index (will not consider last index).
+
+==============
+split() ->  it is used to split the String based on delimiter
+
+                 String s1 = "Welcome To NSA IT-POINT";	
+				 String []str = s1.split(" ");   //["Welcome", "To", "NSA", "IT-POINT" ]		
+
+                 String s1 = "Welcome@To@NSA@IT-POINT";	
+				 String []str = s1.split("@");   //["Welcome", "To", "NSA", "IT-POINT" ]					 
+				 System.out.println(Arrays.toString(str));
+				 
+				 for(String s : str){
+				 System.out.println(s)
+				 }
+				 
+				 for(int x=0; x<str.length; x++){
+				 System.out.println(str[x])
+				 }
+				 
+Note : import java.util.Arrays;				 
+===========================				
+valueOf() -> it is used to convert any type of value into string.
+
+               int a =10;
+			   int b =20;
+			   
+			   a +b => 30
+			   
+			   String s1 ="10";
+			   String s2 = "20";
+			   
+			   s1+s2 => "1020"
+			   
+	String.valueOf(a) + String.valueOf(b)    //1020 		   
+                  "10"                "20"   //1020
+===========================================
+startsWith()- > it is used to check the given string startWith particular char or not, return true/false
+                  String s = "akash";
+                   s.startsWith("a");    ->	true
+                   s.startsWith("h");    ->   false				   
+===========================================
+endsWith()- > it is used to check the given string end With particular char or not
+                  String s = "akash";
+				  
+                   s.endsWith("a");    ->   false
+                   s.endsWith("h");    ->   true			
+=============================
+trim() ==> it is used to remove the spaces from and start and end of String
+             
+			  String s = "   akash   ";
+			  s.length();    //12
+              s= s.trim();   //"akash"
+		      s.length();    //5
+==============
+intern() -> it is used to access the object from SCP
+To move the string from the heap to the pool, you use the intern() method:
+
+String s1 = new String("hello");
+String s2 = "hello";
+String s3 = s1.intern();
+System.out.println(s2 == s3); // true (both refer to the pool object)
+			  
+================================
+toString()  ->  to convert object into String format
+================
+
+toCharArray() -> This method is used to convert String to char Array;
+
+                   String s1 ="akash";
+				   char ch[] = sq.toCharArray();   //['a', 'k', 'a', 's', 'h'];
+				   
+				 System.out.println(Arrays.toString(ch));
+				 
+				 for(char s : ch){
+				 System.out.println(s)
+				 }
+				 
+				 for(int x=0; x<str.length; x++){
+				 System.out.println(ch[x])
+				 }
+					 
+==========================XXXXXXX==================			   			   
+Java Compiler for practice : https://www.tutorialspoint.com/online_java_compiler.php
+
+=================================================================
+=======================Assignmnet================================
+=================================================================
+1)Reversing a String:
+1.1)Write a program to reverse a given String without using inbuilt methods.
+Example:
+Input: "hello"
+Output: "olleh"
+
+1.2) Reverse string in string 
+Input : "I love India"
+output : "aidnI evol I";
+
+1.3) Reverse each word in string 
+Input : "I love India"
+output : "I evol aidnI";
+
+
+2)Check Palindrome:
+Write a program to check if a given String is a palindrome.
+Example:
+Input: "madam"
+Output: true
+
+3)Count Vowels and Consonants:
+Write a program to count the number of vowels and consonants in a String.
+Example:
+Input: "Java Developer"
+Output: Vowels: 6, Consonants: 8
+
+4)Character Frequency:
+Find the frequency of a given character in a String.
+Example:
+Input: "hello", 'l'
+Output: 2
+
+5)Remove Spaces:
+Remove all spaces from a String.
+Example:
+Input: "Java Developer"
+Output: "JavaDeveloper"
+
+6)Duplicate Characters:
+Write a program to find and print all duplicate characters in a String.
+Example:
+Input: "programming"
+Output: ['r', 'g', 'm']
+
+7)Anagram Check:
+Write a program to check if two Strings are anagrams of each other.
+Example:
+Input: "listen", "silent"
+Output: true
+
+8)String Rotation:
+Check if one String is a rotation of another.
+Example:
+Input: "abcd", "dabc"
+Output: true
+
+9)Count Words in a Sentence:
+Write a program to count the number of words in a given sentence.
+Example:
+Input: "Welcome to Java programming"
+Output: 5
+
+10)Find First Non-Repeated Character:
+Find the first non-repeated character in a String.
+Example:
+Input: "swiss"
+Output: 'w'
+
+11)Remove Duplicate Words:
+Write a program to remove duplicate words from a sentence.
+Example:
+Input: "Java is fun and Java is powerful"
+Output: "Java is fun and powerful"
+
+12)Longest Palindromic Substring:
+Write a program to find the longest palindromic substring in a String.
+Example:
+Input: "babad"
+Output: "bab" or "aba"
+
+13)Check Substring:
+Write a program to check if one String is a substring of another.
+Example:
+Input: "developer", "lop"
+Output: true
+
+14)Capitalize First Letter of Each Word:
+Write a program to capitalize the first letter of each word in a sentence.
+Example:
+Input: "hello world"
+Output: "Hello World"
+
+15)Remove Specific Characters:
+Remove all occurrences of a specific character from a String.
+Example:
+Input: "banana", 'a'
+Output: "bnn"
+
+16)Substring Occurrences:
+Write a program to count the number of times a given substring appears in a String.
+Example:
+Input: "hellohello", "hello"
+Output: 2
+
+17)Find Largest Word:
+Write a program to find the largest word in a sentence.
+Example:
+Input: "I love programming"
+Output: "programming"
+
+18)Permutations of a String:
+Generate all permutations of a given String.
+Example:
+Input: "abc"
+Output: ["abc", "acb", "bac", "bca", "cab", "cba"]
+
+19)Check Balanced Parentheses:
+Check if a String containing parentheses is balanced.
+Example:
+Input: "((()))"
+Output: true
+
+20)Count Character Occurrences Without a Loop:
+Write a program to count the occurrences of a character in a String using replace() or replaceAll().
+Example:
+Input: "programming", 'm'
+Output: 2
+
+
+  

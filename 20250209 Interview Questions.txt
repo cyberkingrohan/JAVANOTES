@@ -1,0 +1,50 @@
+What are enums in Java?
+What is the advantage of using generics in Java?
+What is the difference between super and this keywords?
+What is the purpose of the final keyword in Java?
+Explain Object class and its methods in Java?
+What are wrapper classes in Java, explain autoboxing and boxing.
+What is typecasting in java 
+What is abstraction, difference between an abstract class and an interface?
+What is polymorphism, difference between method overloading and method overriding?
+Explain inheritance and its type.
+What is the purpose of the static keyword in Java and  Can you access a non-static variable from a static method? Why or why not?
+What are the different access specifiers in Java?
+What is the purpose of the break and continue statements?
+Why are getter and setter methods used and What is the advantage of using getters and setters instead of making variables public?
+Constructor vs methods 
+Can a constructor be private? If yes, why would you use a private constructor?
+can you override/overload static and final method
+How do you declare and initialize an array in Java?
+What is the String Constant Pool in Java?
+Why are Strings immutable in Java?
+What is the difference between String, StringBuffer, and StringBuilder?
+Explain use of scanner class and its methods
+What is the difference between a for loop and a while loop?
+What is the difference between == and .equals() in Java?
+What is the difference between local, instance, and static variables?
+What is the difference between JVM, JRE, and JDK?
+what is the role of java compiler vs java interpreter 
+--------
+String s1 = "Hello";
+String s2 = "Hello";
+String s3 = new String("Hello");
+System.out.println(s1 == s2); // What is the output?
+System.out.println(s1 == s3); // What is the output?
+---------
+int[] arr = new int[5];
+System.out.println(arr[2]); // What is the output?
+---------
+int[] arr = {1, 2, 3, 4, 5};
+System.out.println(arr[5]); // What is the output?
+----------
+Programs :
+1)Write a java program to check given year is a leap year or not
+2)Write a program to find the largest and smallest digits in a number.
+3)Write a program to calculate the sum of the first n prime numbers using a while loop inside a for loop.
+4)Write a program to check if a given number is an Armstrong number (e.g., 153 = 1³ + 5³ + 3³).
+5)Write a program to find the sum of digits of a number using a while loop (e.g., for 123, output = 1 + 2 + 3 = 6).
+6)Write a program to reverse a number using a while loop (e.g., for 123, output = 321).
+7)Write a program to find the factorial of a given number using a do-while loop.
+8)Write a program to print the Fibonacci series up to n terms using a for loop.
+ 

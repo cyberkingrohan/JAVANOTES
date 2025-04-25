@@ -1,0 +1,209 @@
+								Java Full Stack Development
+									  15-01-2025
+								Mr.Akash(NSA IT-POINT)   
+=====================================================================================================
+
+======
+Class
+======
+
+  -> Class is a plan or model or templete 
+  -> Class is a blue print of a object
+  -> Class is used to declare the variables and methods 
+  -> Project means collections of classes
+  -> Once a class is created then we can create any number of objects for that class.
+  -> "class" is a keyword in java and it is a case sensitive.
+  
+  class <class_name>{
+  
+  //variables
+  //methods
+  
+  }
+  
+=======
+Object
+=======  
+
+ -> Any real-world entity is called a object.
+ -> Object exists physically
+ -> Object will be created based on the classes.
+ -> Without having class, we can NOT create object.
+ -> Object creation means allocating the memory in jvm.[Heap Area]
+ -> "new" keyword is used to create the object.
+   
+       <CLASS_NAME> <ref_variable> = new <CLASS_NAME>();
+	                  Test t1 = new Test();
+					 Test t2  = new Test();
+					 
+ -> Object will be created by jvm in a run time.
+ -> Object will be created in heap area.
+ -> If the object is not in use then Garbage Collector will remove that object from heap area.
+ -> Garbage Collector is responsible for memory clean up activities in heap area.
+ -> Garbage Collector will remove un-used object from heap area.
+ -> Garbage Collector will be managed and Controlled by JVM. 
+ 
+ Note : Programmer don't have control over Garbage Collector.
+ Note : <ref_variable> should start with small case. eg : myTest, myApp, app, test
+ 
+=========
+HashCode 
+=========
+
+ -> JVM will assign unique hashcode for every object
+ -> NO two objects will have same hashcode.
+ -> We can get hashcode of the object by calling java.lang.Object class hashCode() method.
+ 
+                 Test t1 = new Test();
+                  t1.hashCode();
+				  
+Note : java.lang.Object is a by default parent class for all classes.
+
+	public class Test {
+
+    public static void main(String[] args) {
+
+        Test t1 = new Test();
+        System.out.println("t1 hashcode : " + t1.hashCode());
+
+        Test t2 = new Test();
+        System.out.println("t2 hashcode : " + t2.hashCode());
+
+        Test t3 = new Test();
+        System.out.println("t3 hashcode : " + t3.hashCode());
+
+    }
+}
+
+============
+CONSTRUCTOR
+============
+
+ -> Constructor is a special method in java having exactly name as class name.
+ -> It is used to intitialise current class Global/instance variable.
+ -> It is used to execute any code at the time of object creation 	 
+ -> CONSTRUCTOR should NOT have any return type. (not even void)
+ -> It is invoked by JVM automatically when we create the object of the class.
+
+ Two types of constructor we have
+ 
+         1) Default Constructor or Zero Parameter constructor or No-args Constructor
+		 2) Paramaterized Constructor
+		 
+-------------------
+Default Constructor
+-------------------
+ -> Default Constructor do not accept any parameter.
+ -> If we dont write any No-args Constructor then Default Constructor will be added by jvm.
+ -> Default constructor is must.
+ -> Object creation means calling the constructor (new Test();)
+ 
+ 
+public class Demo {
+
+
+    Demo(){
+        System.out.println("this is default constructor ");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("before object");
+        Demo d = new Demo();
+        System.out.println("after object");
+
+    }
+}
+	   
+	   
+ Note:If we add Paramaterized Constructor then JVM will not add default constructor we need to add it explecitly.
+ 
+==========================
+Paramaterized Constructor 
+==========================
+   This constructor will accept some or all variables as a parameter.
+   Paramaterized Constructor is used to initialize gloabal variables.
+   
+public class ParamConstructor {
+
+    ParamConstructor(int a, int b){
+        System.out.println("value of a : " + a);
+        System.out.println("value of b : " + b);
+        System.out.println("value of a+b : " + (a+b));
+    }
+
+
+    public static void main(String[] args) {
+		System.out.println("Main method started");
+        ParamConstructor pc = new ParamConstructor(10, 20);
+		System.out.println("Main method end");		
+    }
+
+}
+	/*
+Main method started
+Value of a : 10
+Value of b : 20
+Value of a + b : 30
+Main method End
+*/
+}
+-----------------
+===============
+class Test{
+
+			Test(String name){
+					System.out.println("My name is " + name);				
+			}		
+
+			Test(){
+					System.out.println("This is defult constructor");				
+			}					
+			
+		
+	public static void main(String... args){
+			
+	    System.out.println("Main method started");		
+
+		Test test = new Test();  //calling default constructor 
+
+		Test test2 = new Test("AKASH");  //calling paramaterized constructor 
+		
+	    System.out.println("Main method End");		
+	}
+	
+	/*
+Main method started
+This is defult constructor
+My name is AKASH
+Main method End
+	*/
+
+-------------------------
+NOTE :: Every time we create the object for the class Constructor will be invoked.
+
+----------
+class Test{
+
+     Test(String name){
+          System.out.println("My Name is " + name);
+       }
+Test(){
+  System.out.println("This is my default constructor");
+}
+
+         public static void main(String... args){
+ Test t1 = new Test();
+ Test t2 = new Test();
+ Test t3 = new Test();
+ Test t4 = new Test();
+ Test t5 = new Test();
+
+             Test test1 = new Test("Akash");
+    Test test2 = new Test("John");
+Test test3 = new Test("Marry");
+Test test4 = new Test("Aman");
+Test test5 = new Test("Raju");
+}
+
+}
+-------------------

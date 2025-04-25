@@ -1,0 +1,141 @@
+								Java Full Stack Development
+									  04-07-2024
+								Mr.Akash(NSA IT-POINT)   
+====================================================================================================
+
+OOPS Relationship
+
+   1)IS-A Relationship
+   2)Has-A Relationship
+
+=================   
+IS-A Relationship : Inheritance 
+=================
+
+    class Vehicle{
+	
+	int wheels;
+	int fuelCapacity;
+	
+	}
+
+	class Car extends Vehicle{
+     
+	  int no_Of_AirBag;
+
+	}
+
+-> Here car is having all the properties of Vehicle so we can say car IS-A vehicle.
+->its a unidirectional Relationship mean Car IS-A vehicle but vehicle IS NOT A car.
+
+==================================
+Has-A Relationship : Associtation
+==================================
+HAS-A relationship means that one class contains an object of another class. This is called Association, which can be categorized into:
+
+	1)Aggregation (Weak Association)
+	2)Composition (Strong Association
+
+------------
+Aggregation  
+------------
+-> In Aggregation, one class contains another class, but both can exist independently.
+		e.g -> Car HAS-A music system, Human Has-A hair.
+-> If the container class (Car) is destroyed, the contained class (Music) still exists separately.
+-> It is also called "Weak Association."
+-> It is loosely coupled.
+
+   
+  eg->
+      
+	public class Music {
+    int noOfSong;
+
+    public Music(int noOfSong) {
+        this.noOfSong = noOfSong;
+    }
+
+    void playMusic() {
+        System.out.println("Playing music...");
+    }
+}
+
+public class Car {
+    String carName;
+    Music music;  // Car Has-A Music system
+
+    Car(String carName, Music music) {
+        this.carName = carName;
+        this.music = music;
+    }
+
+    void driveCar() {
+        System.out.println(carName + " is being driven.");
+    }
+}
+
+class AggregationTest {
+    public static void main(String[] args) {
+        Music music = new Music(10);   // Music system can exist independently
+        music.playMusic();
+
+        Car car = new Car("Honda City", music);
+        car.driveCar();
+    }
+}
+
+✔ One class contains another class, but both objects can exist separately.
+✔ The Car class contains a Music object, but Music can exist even if Car is destroyed.
+✔ Example in real life: A Human Has-A Hair, but if a person shaves their hair, they still exist.
+
+------------
+Composition
+------------
+-> In Composition, one class contains another class, but the contained class cannot exist without the container class.
+	e.g -> human Has-A brain, car HAS-A engine
+-> If the container class (Car) is destroyed, the contained class (Engine) is also destroyed.
+-> It is also called "Strong Association."
+-> It is tightly Coupled
+
+
+e.g->
+
+public class Engine {
+    Engine() {
+        System.out.println("Engine is created.");
+    }
+
+    void startEngine() {
+        System.out.println("Engine started.");
+    }
+}
+
+public class Car {
+    Engine engine;  // Car Has-A Engine (Strong Association)
+
+    Car() {
+        engine = new Engine();  // Engine is created with Car
+    }
+
+    void startCar() {
+        engine.startEngine();
+        System.out.println("Car is started.");
+    }
+}
+
+class CompositionTest {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.startCar();
+    }
+}
+	
+
+✔ One class fully controls the lifecycle of another class.
+✔ The Car class contains an Engine, but an Engine cannot exist without a Car.
+✔ Example in real life: A House Has-A Room, but if the house is destroyed, the rooms are also destroyed.	
+
+============================================
+Use Aggregation when objects can exist separately. (e.g., A University Has-A Student, but a Student can exist without the University.)
+Use Composition when objects cannot exist separately. (e.g., A Car Has-A Engine, but an Engine cannot exist without a Car.)
+==============================================  

@@ -1,0 +1,194 @@
+								Java Full Stack Development
+									  08-02-2025
+								Mr.Akash(NSA IT-POINT)   
+============================================================================================
+
+=============
+Enums in Java
+=============
+
+-> Enum introduced in java 1.5v
+
+-> Enum is a special data type in java
+
+-> Enum data type is used to create pre-defined Constants
+
+-> To declare constants using Enum we will use 'enum" keyword
+
+-> Enum stands for Enumeration
+
+	enum WEEKDAYS {
+		MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY;
+	}
+
+	enum WEEKENDDAYS {
+		SATURDAY, SUNDAY;
+	}
+
+
+-> When we want to declare pre-defined constants then we will use Enums concept.
+
+
+======================================
+Few Points To Remember Related To Enums
+======================================
+
+1) Enum constants we can't override
+2) Enum doesn't support object creation
+3) Enum can't extend classes
+4) Enum can be created in seperate file or we can create in existing class also
+5) Enums are public static final
+
+When to Use Enums?
+When dealing with fixed sets of values (days, colors, status codes, etc.).
+When needing constant values with additional properties.
+When wanting type safety instead of using integer or string constants.
+When requiring easy iteration over a predefined set of values.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+package com.test;
+
+public enum Day {
+    MONDAY,
+    TUEDAY,
+    WEDNESDAY,
+    THRUDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
+}
+---------------
+package com.test;
+
+
+public class EnumTesting {
+
+    public static void main(String[] args) {
+
+        Day[] values = Day.values();
+
+        for (Day day : values) {
+            System.out.println(day);
+        }
+
+        String day = "monday";
+        String upperCase = day.toUpperCase();
+
+//        Day day = Day.valueOf("monday");
+//        System.out.println(day);  //exception
+
+        //converting string to enum
+        Day day1 = Day.valueOf("MONDAY");
+        System.out.println("Day : " + day1);
+
+        //converting enum to string
+        Day friday = Day.FRIDAY;  //return enum
+        String name = Day.FRIDAY.name(); //return String
+
+    }
+}
+package com.test;
+
+
+public class EnumTesting {
+
+    public static void main(String[] args) {
+
+        Day[] values = Day.values();
+
+        for (Day day : values) {
+            System.out.println(day);
+        }
+
+        String day = "monday";
+        String upperCase = day.toUpperCase();
+
+//        Day day = Day.valueOf("monday");
+//        System.out.println(day);  //exception
+
+        //converting string to enum
+        Day day1 = Day.valueOf("MONDAY");
+        System.out.println("Day : " + day1);
+
+        //converting enum to string
+        Day friday = Day.FRIDAY;  //return enum
+        String name = Day.FRIDAY.name(); //return String
+
+
+    }
+}
+package com.test;
+
+
+public class EnumTesting {
+
+    public static void main(String[] args) {
+
+        Day[] values = Day.values();
+
+        for (Day day : values) {
+            System.out.println(day);
+        }
+
+        String day = "monday";
+        String upperCase = day.toUpperCase();
+
+//        Day day = Day.valueOf("monday");
+//        System.out.println(day);  //exception
+
+        //converting string to enum
+        Day day1 = Day.valueOf("MONDAY");
+        System.out.println("Day : " + day1);
+
+        //converting enum to string
+        Day friday = Day.FRIDAY;  //return enum
+        String name = Day.FRIDAY.name(); //return String
+
+
+    }
+}
+================================
+================================
+
+package com.test;
+
+public enum Day {
+    MONDAY("weekday"),
+    TUEDAY("weekday"),
+    WEDNESDAY("weekday"),
+    THRUDAY("weekday"),
+    FRIDAY("weekday"),
+    SATURDAY("weekEnd"),
+    SUNDAY("weekEnd");
+
+    private String dayInfo;
+
+    Day(String dayInfo) {
+        this.dayInfo = dayInfo;
+    }
+
+    public String getDayInfo() {
+        return dayInfo;
+    }
+    }
+---------------
+package com.test;
+
+
+public class EnumTesting {
+
+    public static void main(String[] args) {
+
+        Day day = Day.FRIDAY;
+        System.out.println("enum Day : " + day);
+
+        String name = Day.FRIDAY.name();
+        System.out.println("String Day : " + name);
+
+        String dayInfo = Day.FRIDAY.getDayInfo();
+        System.out.println("dayInfo : " + dayInfo);
+
+    }
+
+}
+

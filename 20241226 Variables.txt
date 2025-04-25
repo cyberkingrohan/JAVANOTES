@@ -1,0 +1,145 @@
+						  Java Full Stack Development
+								26-12-2024
+							Mr.Akash(NSA IT-POINT)
+=====================================================================================
+ =========
+ Variables
+ =========
+      It is an entity that may change during the execution of program.
+	  Variables is something in which we can store the data.
+	  
+Guidlines :
+==========
+
+ -> Variablesit is an combination of digit, alphabet and special character.
+ -> Variable first letter can be alphabet or underscore but can not be digit or any other symbol.
+                       int a;        //allow
+					   int age_18;   //allow
+					   int 18_age;  //not allow
+					   int @ge;     //not allow
+					   int _age;    //allowed
+ 
+ -> Variable name must be some meaning full name.
+                  int age;
+				  long salary;
+ 
+ -> No white spaces/spaces are allowed in variable name.
+                   
+				     int my age = 18;   //not allow
+					 int my_age =18;    //allow
+					 int myAge =18 ;    //allow
+ 
+ -> We can not used reserved words for variables.
+         e.g->  int byte = 36; //not allow
+ 
+ ->It should start with lower case.
+      e.g-> int age = 25;     //allow
+	        int Age = 30;     //not allow 
+			int myAge = 18;   //allow
+ 
+=======================================
+How to Declare/Initialize the Variables
+=======================================
+
+    int age;   //declaration
+	age=30;    //Initialize
+ 
+ boolean flag;   //declaration
+ flag=true;      //Initialize
+ 
+===========================================
+There Two types of variables
+     1) Global Variable (Instance Variable) -> Heap Area
+     2) Local Variable    	                -> Stack Area
+=========================	 
+ 1) Global Variable (Instance Variable)
+ 
+      It is defined as outside the method but inside the class.
+	  Scope is throught the class
+	  To print the Global variable in static method we need to call <object.variable>
+ e.g->
+             class Demo{
+        
+		int num = 25;  //globalvariable
+		
+    public static void main(String... args){
+
+					}
+					}
+ 
+ 2)Local Variable 
+      It is defined as inside the method and inside the class
+	  Scope for that particular block, method, constructor, etc.
+ 
+         class Demo{
+		
+    public static void main(String... args){
+      int num = 25;  // local variable variable
+					}
+			}
+===================================
+How To Create Object 
+
+  <ClassName> <variable> = new <ClassName();>
+  
+  Test t = new Test();
+  Demo d = new Demo();
+  Example example = new Example();
+=====================Example 01====================
+class GlobalVariables{
+             
+             String name = "NSA";
+             int age   = 25;
+             long salary = 500;
+         short sh;
+
+public static void main(String... args){
+          
+       //<ClassName> <ObjectName> =  new <ClassName>();
+                     
+                     GlobalVariables objName = new GlobalVariables();
+
+           System.out.println("Value of name : " + objName.name);
+           System.out.println("Value of age : " + objName.age);
+           System.out.println("Value of salary : " + objName.salary);
+
+    System.out.println("Default Value of short : " + objName.sh);
+                        
+       }
+  }
+
+
+=====================Example 02====================
+class LocalVaraibles{
+
+public static void main(String... args){
+          String name = "NSA";
+             int age   = 25;
+             long salary = 500;
+          
+               long weight;
+                   int i;
+
+              System.out.println("Value of name :  " + name);
+              System.out.println("Value of age :  " + age);
+              System.out.println("Value of salary :  " + salary);
+
+              System.out.println("default value of  long :  " + weight);
+}
+}
+===================================================
+===========
+Assignment 
+===========
+ 
+ 1) you need to print the value for all the global variables;
+ 2) you need to print the value for all the local  variables;
+ 3) you need to print the default value for all the primitive data type(global/local variable).
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

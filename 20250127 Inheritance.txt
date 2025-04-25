@@ -1,0 +1,211 @@
+								Java Full Stack Development
+									  27-01-2025
+								Mr.Akash(NSA IT-POINT)   
+=====================================================================================================
+
+============
+Inheritance  : IS-Relationship
+============
+
+ -> The process of creating new class using existing class finctionality Or
+ -> The process of Extending the properties from one class to another class 
+         ex.-> Child will inherit the properties from parent
+ -> To the properties we will use "extend" keyword
+ -> Class which is extending the properties is called as "Child class" or "sub-class" or "Derived class"
+ -> From which class we are extending the properties that class is called as "Parent" or "Super" or "Base"
+ -> The main aim of Inheritance is code Reusability.
+ -> It is also called as IS-RELATIONSHIP 
+ 
+ e.g->
+ 
+  class Employee{
+   
+    //variables
+	//methods
+  
+  }
+  
+  class Admin extend Employee{
+  
+  //logic
+  
+  }
+  
+  Note : In above example, Employee is a "Parent class" and Admin is "Child class".
+ ---------------
+ Note : All the parent class members are derived into child class but they are depends upon the below conditions:
+ 
+ 1)Access Specifier
+ 2)Duplicate members(Member should not exist in child class)
+ -----------------
+ 
+=============Parent/Base/Super==================
+ package com.nsa.inheritance;
+
+public class Bike {
+
+	int wheels = 2;
+	String fuel = "petrol";
+}
+===========Child/Derived/Sub=================
+package com.nsa.inheritance;
+
+public class Pulser extends Bike{
+
+	int noGears = 5;
+	//after extending Bike class, Bike class members will be available here
+	public static void main(String[] args) {
+		
+		Pulser pul = new Pulser();
+	
+		System.out.println("My Pulser having grears : " + pul.noGears);
+		System.out.println("My Pulser having wheels : " + pul.wheels);
+		System.out.println("My Pulser having fule : " + pul.fuel);
+	}
+}
+=======================
+Hierachical Inheritance
+=======================
+=============Parent/Base/Super==================
+package com.nsa.inheritance;
+
+public class Bike {
+
+	int wheels;
+	String fuel;
+}
+===========Child/Derived/Sub=================
+package com.nsa.inheritance;
+
+public class Activa extends Bike{
+
+	long storage = 5;
+	
+	public static void main(String[] args) {
+		
+		Activa a = new Activa();
+		a.wheels=2;
+		a.fuel="battery";
+		
+		System.out.println(a.storage);
+		System.out.println(a.wheels);
+		System.out.println(a.fuel);
+	}
+}
+===========================
+package com.nsa.inheritance;
+
+public class Pulser extends Bike{
+
+	int noGears = 5;
+	//after extending Bike class, Bike class members will be available here
+	public static void main(String[] args) {
+		
+		Pulser pul = new Pulser();
+		pul.wheels=2;
+		pul.fuel="petrol";
+	
+		System.out.println("My Pulser having grears : " + pul.noGears);
+		System.out.println("My Pulser having wheels : " + pul.wheels);
+		System.out.println("My Pulser having fule : " + pul.fuel);
+	}
+}
+===============Multilevel Inheritance================
+package com.nsa.inheritance;
+
+public class Vehicle {
+
+	int noOfSeat;
+}
+-------------------
+package com.nsa.inheritance;
+
+public class Car extends Vehicle{
+ 
+	int wheels;
+	String fuel;
+	
+	//noOfSeat -> Hidden
+}
+------------------------
+package com.nsa.inheritance;
+
+public class HondsCity extends Car
+{
+
+	double price = 7.5;
+	//wheels;
+	// fuel;
+	 // noOfSeat
+	
+	public static void main(String[] args) {
+		HondsCity h = new HondsCity();
+		h.noOfSeat=5;
+		h.wheels=4;
+		h.fuel="Deisel";
+		
+		
+		System.out.println(h.noOfSeat);
+		System.out.println(h.wheels);
+		System.out.println(h.fuel);
+		System.out.println(h.price);
+		
+	}
+}
+==============================
+
+Multiple Inheritance : Not Allow in Java claasses
+   The reason behind this is to prevent ambiguity.
+
+Consider a case where class "Student" extends  both class "Tuition" and "School" have the same method rollNo().
+
+Now java compiler cannot decide, which rollNo() method it should inherit. To prevent such situation, multiple inheritances is not allowed in java.
+=================================
+Questions to practice :
+Define inheritance and explain its primary objective in programming.
+What is the significance of the extends keyword in Java?
+Differentiate between parent class and child class with examples.
+What is the IS-A relationship in inheritance? Explain with a code example.
+Why is multiple inheritance not allowed in Java classes? Provide an example to explain the ambiguity it avoids.
+
+=============================
+1) Write a Java program to demonstrate single inheritance using the following.
+A Person class with attributes name and age, and a method displayDetails() to print the details.
+An Employee class that extends the Person class and adds the attribute salary.
+
+expected output :
+Name: John  
+Age: 30  
+Salary: 50000  
+=============================
+2) A parent class Animal with attributes name and type.
+Two child classes Dog and Cat that extend Animal.
+Add an attribute sound in both Dog and Cat classes. Demonstrate how the child classes inherit from the parent.
+
+Expected Output:
+
+Dog: Name=Buddy, Type=Pet, Sound=Bark  
+Cat: Name=Whiskers, Type=Pet, Sound=Meow 
+=============================
+3) Write a program that implements multilevel inheritance:
+
+Device class with an attribute brand.
+Phone class extends Device and adds attributes model and price.
+Smartphone class extends Phone and adds an attribute os.
+Print all the details of a smartphone.
+
+Expected Output:
+
+Brand: Samsung  
+Model: Galaxy S23  
+Price: 80000  
+Operating System: Android
+=============================
+4)Demonstrate, using an example, why multiple inheritance is not allowed in Java.
+
+Create two classes, Parent1 and Parent2, both having a method with the same name show().
+Try to create a class Child that extends both Parent1 and Parent2.
+Questions to Answer:
+
+What error does the compiler throw?
+==============================

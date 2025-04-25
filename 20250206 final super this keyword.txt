@@ -1,0 +1,376 @@
+								Java Full Stack Development
+									  06-02-2025
+								Mr.Akash(NSA IT-POINT)   
+===================================================================================================
+=============
+final keyword
+=============
+
+-> final is a reserved keyword in java
+
+-> We can use final keyword at 3 places
+
+		1) class level 
+		2) variable level
+		3) method level
+
+-> final classes can't be inherited. We can't extend properties from final classes. Final classes are immutable.
+
+			public class User extends String { // invalid because String is final class
+
+			}
+
+-> final variables are nothing but constants. Final variable value can't be modified.
+
+					public final int pi = 3.14;
+
+						pi = 4.32; // invalid
+
+-> final methods can't overriden. We can't override final methods.
+
+============
+This Keyword
+============
+
+It is used to refer current class variables, method and constructor.
+Note- this keyword is not used in static context
+
+
+# Program-1 use of current class variable.
+
+	class Parent {
+	int x = 20;
+	}
+
+	class Child extends Parent {
+	int x = 25;
+	void test() {
+	int x = 30;
+	Child c = new Child();
+	
+	//In Scenario 1
+	System.out.println("By creating objects=" + c.x);
+	
+	//In Scenario 2
+	System.out.println("By using this keyword=" + 
+	this.x);
+	}
+	}
+	public class TestMain {
+	public static void main(String[] args) {
+	Child c= new Child();
+	c.test();
+	}
+	}
+	
+Output :By creating objects=25
+By using this keyword=25
+
+In Scenario 1, we are calling the x variable of child class for that purpose we loading the whole class that is not good programmer approach. For use of single variable, we should go for this keyword in java.
+In Scenario 2, we are trying to calling the x variable of current class by using the keyword that is the best approach because we are not wasting the memory here.
+	
+
+# Program 2-
+	2.1 program for use of current class method.
+	
+	public class Parent {
+	void test() {
+	System.out.println("Parent class method.");
+	}
+	}
+	class Child extends Parent {
+	void test() {
+	System.out.println("Child class method");
+	}
+	void demo() {
+	this.test();
+	}
+	}
+	public class TestMain {
+	public static void main(String[] args) {
+	Child c= new Child();
+	c.demo();
+	}
+	}
+2.2 
+Output :Child class method.
+
+# Program-3.1 to use of current class constructor
+
+package com.test;
+
+	class Test {
+	  public Test() {
+	System.out.println("Test constructor called 
+	using" + " this keyword..");
+	}
+	public Test(int x) {
+	this(); // invoke the constructor of current 
+	class
+	}
+	public static void main(String[] args) {
+	Test test = new Test(10);
+	}
+	}
+Output : Test constructor called using this keyword..
+
+# Program-3.2 to use of current class constructor
+
+public class Example {
+	Example() {
+	this("Java");
+	System.out.println("Inside Constructor without 
+	parameter");
+	}
+	Example(String str) {
+	System.out.println("Inside Constructor with 
+	parameter" + str);
+	}
+	public static void main(String[] args) {
+	Example obj = new Example();
+	}
+	}
+Output : Inside Constructor with String parameter as Java
+	Inside Constructor without parameter
+	
+	
+==============
+Super Keyword 
+==============
+Super Keyword-
+It is used to refer immediate parent class object, method and constructor.
+Why?
+# Program-1 for use of immediate parent class objects.
+
+public class Parent {
+
+	int x= 20;
+
+}
+
+class Child extends Parent {
+
+	int x = 25;
+
+	public void test() {
+		int x= 30;
+
+		//Scenario-1
+		Parent p = new Parent(); 
+		System.out.println("Parent class x variable=" + p. x);
+
+		//Scenario-2
+		System.out.println("Immediate super class of child class x variable" + super. x);
+	}
+}
+
+
+public class TestMain {
+
+	public static void main(String[] args) {
+		
+		Child c= new Child();
+		c.test();
+	}
+}
+
+Output-
+Parent class x variable=20
+Immediate super class of child class x variable20
+
+In Scenario 1, we are calling the x variable of parent class for that purpose we loading the whole class that is not good programmer approach. For use of single variable, we should go for super keyword in java.
+
+In Scenario 2, we are trying to print the x variable of immediate super class by using the super keyword that is the best approach because we are not wasting the memory here.
+
+# Program 2- program for use of immediate super class method.
+class Parent {
+
+	void test() {
+		System.out.println("Parent class method.");
+	}
+
+}
+
+class Child extends Parent {
+
+	void test() {
+		super.test();
+	}
+
+}
+
+public class TestMain {
+
+	public static void main(String[] args) {
+		
+		Child c= new Child();
+		c.test();
+	}
+}
+
+Output-
+Parent class method.
+
+
+# Program-3 to use of immediate super class constructor-
+class Parent {
+
+	Parent() {
+		System.out.println("Parent class constructor.");
+	}
+}
+
+class Child extends Parent {
+
+	Child() {
+		super();
+	}
+}
+
+public class TestMain {
+
+	public static void main(String[] args) {
+		
+		Child c= new Child();
+		
+	}
+}
+
+
+
+Output-
+Parent class constructor.
+========================================================
+Example : calling variables using super and this keyword
+========================================================
+package com.test;
+
+public class Example {
+    int a = 20;
+}
+-----------
+package com.test;
+
+public class Demo extends Example {
+
+    int a = 40;
+    
+    public void test() {
+        int a = 60;
+        Demo d = new Demo();
+
+        System.out.println("printing local variable a  : " + a);   //60
+
+        //way to call current class variable
+        System.out.println("using object a : " + d.a);      //40
+        System.out.println("using this keyword a : " + this.a);  //40
+
+        //way to call parent class variable
+        Example ex = new Example();
+        System.out.println("printing variable using parent class object  : " + ex.a);   //20
+        System.out.println("printing variable using super keyword   : " + super.a);   //20
+
+    }
+}
+-------------------
+package com.test;
+
+public class TestingMain {
+
+    public static void main(String[] args) {
+        Demo d = new Demo();
+        d.test();
+    }
+}
+========================================================
+Example : calling methods using super and this keyword
+========================================================
+package com.test;
+
+public class Example {
+
+    public void check() {
+        System.out.println("Parent class Example test()");
+    }
+
+}
+-------------------
+package com.test;
+
+public class Demo extends Example {
+
+    public void check() {
+        System.out.println("Child class Demo test()");
+    }
+
+    public void test() {
+        //way to call current class method
+        Demo demo = new Demo();
+
+        //1st way
+        demo.check();
+        //2nd way
+        this.check();
+
+        //way to call parent class method
+        Example ex = new Example();
+        //1st way
+        ex.check();
+        //2nd way
+        super.check();
+
+    }
+}
+-------------------
+package com.test;
+
+public class TestingMain {
+
+    public static void main(String[] args) {
+        Demo d = new Demo();
+        d.test();
+    }
+}
+========================================================
+Example : handling constructor using super and this keyword
+========================================================
+package com.test;
+
+public class Example {
+
+    Example() {
+        System.out.println("parent class default constructor");
+    }
+
+    Example(String str) {
+        System.out.println("parent class param constructor : " + str);
+    }
+}
+------------------
+package com.test;
+
+public class Demo extends Example {
+
+    Demo() {
+        //  super(); //hidden
+        super("akash");
+        System.out.println("child class default constructor");
+    }
+
+    Demo(int id) {
+        this();  //call current class default constructor
+        System.out.println("this child param constructor : " + id);
+    }
+
+    public static void main(String[] args) {
+        Demo d = new Demo(10);
+    }
+}
+------------
+Output : 
+parent class param constructor : akash
+child class default constructor
+this child param constructor : 10
+=======================================================
+=======================================================	
+	

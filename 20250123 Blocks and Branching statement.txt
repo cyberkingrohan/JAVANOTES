@@ -1,0 +1,153 @@
+								Java Full Stack Development
+									  23-01-2025
+								Mr.Akash(NSA IT-POINT)   
+================================================================================================
+Branching Statement : Break, Continue, return
+	
+	break     : It is used to come out of the loop;
+	continue  : it is used to skip one iteration base on condition and then continue in loop
+    return    :  it come out of the method.	
+
+================================================	
+package com.nsa;
+
+public class Test {
+    public static void main(String[] args) {
+
+        Test test = new Test();
+        // test.testingBreak();
+        // test.checkContinue();
+        test.checkReturn();
+    }
+
+    public void testingBreak() {
+        System.out.println("method start");
+        for (int index = 1; index <= 10; index++) {
+            System.out.println("before block index : " + index);
+            if (index == 5) {
+                break;
+            }
+            System.out.println("after block index : " + index);
+        }
+        System.out.println("method End");
+    }
+
+    public void checkContinue() {
+        System.out.println("checkContinue method start");
+        for (int index = 1; index <= 10; index++) {
+
+            System.out.println("before block index  : " + index);
+            if (index == 5) {
+                continue;
+            }
+            System.out.println("after block index  : " + index);
+        }
+        System.out.println("checkContinue method END");
+    }
+
+    public void checkReturn() {
+        System.out.println("checkReturn method start");
+        for (int index = 1; index <= 10; index++) {
+
+            System.out.println("before block index  : " + index);
+            if (index == 5) {
+                return;
+            }
+            System.out.println("after block index  : " + index);
+        }
+        System.out.println("checkReturn method END");
+    }
+
+}
+================================================
+================================================
+Blocks in java
+============
+
+-> Block means some part or some piece of information or some piece of code
+
+-> In java program we can write 2 types of blocks
+
+			1) instance block
+			2) static block
+
+==============
+Instance Block
+=============
+
+-> If you want to execute some piece of code when object is created then we can go for instance block
+-> Instance block will be executed before constructor execution
+
+syntax:
+
+{
+	// stmts
+}
+
+==============
+static Block
+=============
+
+-> If you want to execute some piece of code when class is loaded into JVM then we can go for static block
+-> static block will execute before main ( ) method execution
+
+syntax:
+
+static 
+{
+	// stmts
+}
+
+====================
+Instance Control Flow
+====================
+
+-> instance means Object
+
+-> Instance control flow will begin when object is created for a class
+
+-> When Object is created then memory will be allocated for 
+		
+		a) instance variables
+		b) instance methods 
+		c) instance blocks
+
+-> Once memory allocation completed then execution will happen in below order
+
+		a) instance block
+		b) constructor
+		c) instance methods (if we call)
+
+Note: static members can be access directley in instance areas becase for static memebers memory aready allocated at the time of class loading.
+
+package com.nsa;
+
+public class BlockTesting {
+
+    BlockTesting() {
+        System.out.println("Default Constructor");
+    }
+
+    {
+        System.out.println("Instance Block");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("main method START");
+        BlockTesting test = new BlockTesting();
+        System.out.println("main method END");
+    }
+
+    static {
+        System.out.println("static block");
+    }
+}
+
+
+Output :
+
+static block
+main method START
+Instance Block
+Default Constructor
+main method END

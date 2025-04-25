@@ -1,0 +1,197 @@
+								Java Full Stack Development
+									    25-12-2024
+								   Mr.Akash(NSA IT-POINT)   
+=========================================================================================
+
+
+.txt convert into .java
+
+
+Control Panel -> Appearance And Personalization -> File Exploreer option -> view -> 
+Show hidden files(Check) 
+Hide extension for know file types(Unchecked)
+Appy and OK
+
+           Compiler      Interpreter
+Source  Code -> Byte Code  -> Machine Code 
+   .java     ->   .class   -> 
+
+
+Java platform Independent : WORA : Write once Run Anywhere 
+
+JVM -> Interpreter : it convert the byte code into  machin code line by line : executation slow
+
+JIT : Just-In-Time Compiler : byte code into  machin code :executation fast
+
+=======================================================================================
+                            *********************************
+							 <DataType> <Variable> = <Value>;
+							*********************************
+==========
+Variables
+==========
+
+-> variables are used to store the data.
+
+        name = akash
+		age  = 45
+		gender=  m
+		salary = 400.00
+		isStudent = false
+		
+-> we need to specify the type of data to store in variables	
+-> to specify the type of data we need to know "Data Types"
+
+==========
+Data Types
+==========
+
+->Data types are used to specify type of the data.
+->Data types are divided into two types :
+         
+		 1)Primitive data type (Pre-defined) and 
+		 2) Non-primitive      (referenced type)
+
+1)Primitive data
+===============
+     
+	 1) Boolean   : boolean
+     
+     2) Character : char
+
+     3) Integral  : byte, short, long, int 	 
+	 
+	 4)Decimal/floating point : float, double
+	 
+Non-primitive
+=============
+               Arrays
+               String
+			   class
+               Interface
+			   Enum
+
+=======
+Boolean
+=======
+	Boolean   : boolean	  
+
+-> It is used to store true or false values only
+-> it will occupy 1 bit memory (8 bits = 1 byte) 
+-> deafult value for boolean is false	
+	
+	e.g-> boolean isStudent = false;
+		   boolean isFalied = true;	
+		   boolean isOdd    = true;
+		  boolean isMarried = false;
+
+=========
+Character
+=========
+ -> Character data type is used to stored single character 
+ -> Any Single character (Alphabet, digit, Special Symbol) we can store using 'char' data type
+ -> char datatypes will occupy 2 bytes memory
+ -> when we storing data type into 'char' data type Single quotation is mandetory.
+ ->	deafult value : 'u0002'
+ 
+      char gender = 'm';
+	  char rank   = '1';
+	  char symbol = '@';
+	  
+	  char num    = '1@';  //invalid
+	  char num    = '01'   //invalid
+	  
+========
+Integral
+========
+
+--> Integral data types are used to stored number without decimal point.
+--> we can storeed negative and positive number using Integral data type.
+
+    1) byte  -> default value :0     -> 1 byte  -> -128 to 127
+    2) short -> default value :0     -> 2 byte  -> -32768 to 32767
+	3)  int  -> default value :0     -> 4 byte  -> -2147483648 to 2147483647 
+	4) long  -> default value :0L    -> 8 byte  -> -9223372036854775808 to 9223372036854775807
+         	
+			
+			int balance = 50000;
+			byte age = 30;
+			byte count =10;
+			
+======================
+Decimal/floating point
+======================
+
+--> Integral data types are used to stored numberdecimal point.
+--> we can storeed negative and positive number using floating data type.
+
+   2 type of floating data type
+         
+		 1)float    : 4 bytes   : upto 6 decimal points
+		 2)double   : 8 bytes   : upto 8 decimal points
+		 
+		float height = 5.8f;
+		double stockPrice = 550.86532132d;
+		
+============================================================================
+============================================================================		
+Example :
+Example :
+public class Datatype{
+
+public static void main(String... args){
+
+        //  syntax : <Data_Type> <Varaible> = <value>;
+
+                          String name = "akash";
+                       boolean isOver = false;
+                          char gender = 'F';
+                               byte b = 20;
+                              short s = 250;
+                                int i = 751752;
+                               long l = 7517566959L;
+                              float f = 75.50f;
+                             double d = 750.75050d;
+
+System.out.println(" My name is :  " +  name);
+System.out.println("boolean value of  isOver : " +  isOver);
+System.out.println("char value of  gender : " +  gender);
+System.out.println("byte value of  b : " +  b);
+System.out.println("short value of  s : " +  s);
+System.out.println("int value of  i : " +  i);
+System.out.println("long value of  l : " +  l);
+System.out.println("float value of  f  : " +  f);
+System.out.println("double  value of  d : " +  d);
+
+         }
+    }
+Output :
+ My name is :  akash
+boolean value of  isOver : false
+char value of  gender : F
+byte value of  b : 20
+short value of  s : 250
+int value of  i : 751752
+long value of  l : 7517566959
+float value of  f  : 75.5
+double  value of  d : 750.7505
+==========================================
+Assignment :
+   You need to print all the variables into cmd.
+==========================================  
+
+
+Fees = 25000/-
+10 students = 15000/-
+3000/month = 5 months 
+recording = 2500/-
+3500/-
+
+===========================
+notes + assignment + mock + mock interview+ 
+
+
+Sunday :   Interview 
+Pay : 9766126959
+call : 7517566959
+

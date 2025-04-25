@@ -1,0 +1,500 @@
+								Java Full Stack Development
+									  11-02-2025
+								Mr.Akash(NSA IT-POINT)   
+============================================================================================
+=================
+Exception Handling
+=================
+1) What is Exception 
+2) Why to handle exception
+3) Types of Exceptions
+4) Exception Vs Error
+5) Exceptions Hierarchy
+6) Checked Exceptions
+7) Un-Checked Exception
+8) Exception Propogation
+9) Exception Handling Keywords
+			8.1 try
+			8.2 catch
+			8.3 finally
+			8.4 throw
+			8.5 throws
+10) Try with Resources (java 1.7v feature)
+11) User Defined Exceptions
+
+
+Succesful / Graceful Termination :  Termination after executing program successfully
+
+Abnormal Termination :  Termination in middle of program execution
+
+
+What is exception :
+-----------------------------
+ An exception is an unexpected event that occurs during program execution, disrupting the normal flow of the program. It is an object that represents an error condition in a program.
+Example: Dividing a number by zero, accessing an array out of bounds, or opening a file that does not exist.
+
+
+Why Handle Exceptions?
+---------------------------------------
+If an exception is not handled, it stops the program execution abruptly.
+	Handling exceptions helps in:
+Avoiding abnormal termination of the program.
+Providing meaningful messages to users instead of system-generated messages.
+Ensuring smooth execution of important logic.
+Logging errors for debugging.
+
+==============================
+public class Demo {
+
+	public static void main(String[] args) {
+
+		System.out.println(10);
+		System.out.println(20);
+		System.out.println(30);
+
+			int no = 10 / 0;
+		
+		System.out.println(40);
+		System.out.println(50);
+	}
+}
+-----------
+10
+20
+30
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+	at com.nsa.Demo.main(Demo.java:11)
+
+=================
+What is Exception ?
+=================
+
+-> Un-expected and Un-wanted situation in the program execution is called as Exception.
+
+-> Exception will distrub normal flow of the program execution
+
+-> When Exception occured program will be terminated abnormally
+
+Note: As a programmer we are responsible for programs graceful termination.
+
+-> To Achive graceful termination we need to handle the execptions occured while program executing.
+
+-> The process of handling Exceptions is called as Exception Handling.
+
+-> The main aim of Exception Handling to achieve graceful termination of the program
+
+-> In java we have so many predefined exceptions
+
+		
+		Ex:
+				ArithematicException
+				NullPointerException
+				FileNotFoundException
+				SQLException
+===============
+public class Demo {
+
+	public static void main(String[] args) {
+
+		System.out.println(10);
+		System.out.println(20);
+		System.out.println(30);
+	
+
+		try {
+			int no = 10 / 0;
+
+		} catch (Exception exception) {
+		 //   System.out.println(exception);
+		 //   System.out.println(exception.getMessage());
+			exception.printStackTrace();
+		}
+		System.out.println(40);
+		System.out.println(50);
+	}
+}
+-----------
+10
+20
+30
+try blok start
+start Catch Block
+java.lang.ArithmeticException: / by zero
+End Catch Block
+40
+50
+===================
+Exception Hierarchy
+=================
+
+-> In this hierarchy Throwble is the root class
+
+							1. Throwble
+
+								1.1 Exception
+
+									1.1.1  Checked Exception
+									1.1.2  Un-Checked Exception
+									 
+								1.2  Error
+								
+
+ Q) What is the difference between Exception and Error ?
+
+ -> Exceptions can be handled where as Errors can't be handled.
+
+==============
+Exception Types
+==============
+
+-> Exceptions are divided into 2 types
+
+1) Checked Exceptions :: Will be identified at compile time (occurs at run time)
+
+		Ex: IOException, FileNotFoundException, SQLException etc....
+ 
+2) Un-Checked Exceptions : Will occur at Run time ( Compiler can't identify these exception )
+
+		Ex: NullPointerException, ArithematicException etc...
+
+
+=================
+Exception Handling
+=================
+
+-> Java provided 5 keywords to handle exceptions
+
+1) try
+2) catch
+3) finally 
+4) throws
+5) throw
+
+
+========
+try block
+========
+
+-> It is used to keep risky code
+
+syntax:
+
+	try {
+		// stmts
+	}
+
+Note: We can't write only try block. try block required catch or finally (it can have both also)
+
+try with catch ------>  valid combination
+
+try  with multiple catch blocks ----> valid combination  
+
+try with finally -----> valid combination
+
+try with catch & finally ---> valid combination
+
+only try block ----> invalid
+
+only catch block ---> invalid
+
+only finally block ---> invalid
+
+======
+catch 
+======
+
+-> catch block is used to catch the exception which occured in try block
+
+-> To write catch block , try block is mandatory
+
+-> One try block can contain multiple catch blocks also
+
+syntax:
+
+try {
+
+	// logic
+
+} catch ( Exception e ){
+
+	// logic to catch exception info
+
+}
+
+Note: If exception occured in try block then only catch block will execute otherwise catch block will not execute
+
+
+public class Demo {
+
+	public static void main(String[] args) {
+		System.out.println("main( ) method started...");
+		try {
+			System.out.println("try block start");
+			String s = null;
+			s.length(); // NPE
+			System.out.println("try block end");
+		} catch (Exception e) {
+			System.out.println("in catch block");
+			e.printStackTrace();
+		}
+		System.out.println("main( ) method ended...");
+	}
+}
+
+// in below scenario catch block will not be executed bcz there is no exception in try block
+
+public class Demo {
+
+	public static void main(String[] args) {
+		System.out.println("main( ) method started...");
+		try {
+			System.out.println("try block start");
+			String s = "hi";
+			int i = s.length();
+			System.out.println("try block end");
+		} catch (Exception e) {
+			System.out.println("in catch block");
+			e.printStackTrace();
+		}
+		System.out.println("main( ) method ended...");
+	}
+}
+
+// we can write one try block with multiple catch blocks also like below
+public class Demo {
+
+	public static void main(String[] args) {
+		System.out.println("main( ) method started...");
+		try {
+			System.out.println("try block start");
+			String s = "hi";
+			int i = s.length();
+			System.out.println("try block end");
+		} catch (ArithmeticException e) {
+			System.out.println("in catch block");
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("main( ) method ended...");
+	}
+}
+
+Note: Catch blocks order should be child to parent
+
+// below program will fail at compile time because of un-reachable second catch block
+public class Demo {
+
+	public static void main(String[] args) {
+		System.out.println("main( ) method started...");
+		try {
+			System.out.println("try block start");
+			String s = "hi";
+			int i = s.length();
+			System.out.println("try block end");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("first catch");
+		} catch (NullPointerException ne) {
+			System.out.println("second catch");
+		}
+		System.out.println("main( ) method ended...");
+	}
+}
+
+=============
+finally block
+=============
+
+-> It is used to perform resource clean up activities
+
+		Ex: file close, db connection close etc....
+
+-> finally block will execute always ( irrespective of the exception )
+
+try with finally :  valid combination
+
+try with catch and finally :  valid combination
+
+catch with finally :  invalid combination
+
+only finally : invalid combination
+
+Finally Block NOT Executed : System.exit(0) in try block
+
+// java program with try-catch-finally scenario
+public class Demo {
+
+	public static void main(String[] args) {
+		System.out.println("main( ) method started...");
+		try {
+			System.out.println("try block - start");
+			int i = 10 / 2;
+			System.out.println("try block - end");
+		} catch (Exception e) {
+			System.out.println("catch block");
+			e.printStackTrace();
+		} finally {
+			System.out.println("finally - block");
+		}
+		System.out.println("main( ) method ended...");
+	}
+}
+
+// java program with try-finally scenario
+
+public class Demo {
+
+	public static void main(String[] args) {
+		System.out.println("main( ) method started...");
+		try {
+			System.out.println("try block - start");
+			int i = 10 / 0;
+			System.out.println("try block - end");
+		} finally {
+			System.out.println("finally - block");
+		}
+		System.out.println("main( ) method ended...");
+	}
+}
+
+
+Q) What is the differnece between   final, finalize( ) and finally ?
+
+
+final : it is a keyword  which is used to declare final variables, final methods and final classes
+
+finalize ( ) : It is predefined method available in Object class, and it will be called by garbage collector before removing unused objects from heap area.
+
+finally : it is a block we will use to execute some clean acitivites in exception handling
+
+======================
+
+try : it is used to keep our risky code
+
+catch : It is used to catch the exception occured try block
+
+finally : to execute clean up activities
+
+
+==============Possible Combination=================
+	try {
+			int no = 10 / 2;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			System.out.println("Finally Block Executed");
+		}
+======================
+try {
+			int no = 10 / 2;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+=====================
+try {
+			int no = 10 / 0;
+		}
+		finally {
+			System.out.println("Finally Block Executed");
+		}
+====================
+Only try block : NOT possible 
+try {
+			int no = 10 / 2;
+		} 
+===========
+Only catch block : NOT possible 
+catch (Exception e) {
+			e.printStackTrace();
+		}		
+===============
+Only finally block : Not Possible 		
+finally {
+			System.out.println("Finally Block Executed");
+		}
+==============
+Multiple try block is possible but for every try block we need a catch block.	
+	try {
+			int no = 10 / 2;
+		}catch(Exception e) {
+			
+		}
+		try {
+			System.out.println();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}	
+-----------
+For Single try block we can write multiple catch block.
+try {
+			int no = 10 / 2;
+		}catch(ArithmeticException e) {
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+================
+
+package com.test;
+
+import java.io.IOException;
+
+public class Demo {
+
+	public static void main(String[] args) {
+
+		System.out.println(10);
+		System.out.println(20);
+		System.out.println(30);
+
+		try {
+			int no = 10 / 2;
+			String s=null;  
+			System.out.println(s.length());//NullPointerException
+			Class t = Class.forName("abc");
+		} catch (ArithmeticException ar) {
+			System.out.println("Arithmatic Exception");
+			ar.printStackTrace();
+		} catch (ClassNotFoundException cs) {
+			System.out.println("ClassNotFoundException Exception");
+			cs.printStackTrace();
+		} catch (NullPointerException e) {
+			System.out.println("NullPointerException Exception");
+
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			System.out.println("Exception Exception");
+
+			e.printStackTrace();
+		} finally {
+			System.out.println("Finally Block Executed");
+		}
+
+		System.out.println(40);
+		System.out.println(50);
+	}
+}
+
+=========================
+------------------------------
+practice nested try-catch block
+------------------------------		
+		try{
+
+		try{
+
+
+		}catch(exception e){
+
+		}
+
+		}catch(ex e){
+
+		}

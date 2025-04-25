@@ -1,0 +1,45 @@
+-> Can a constructor be private? If yes, why would you use a private constructor?
+-> can you override/overload static and final method
+-> what is the role of java compiler vs java interpreter 
+-> What is the purpose of the final keyword in Java?
+-> Store object, varaibles
+-> static keyword, varaible,method, block
+-> Why are Strings immutable in Java?
+-> Explain Object class and its methods in Java?
+-> Oop Principle 
+-> Overloading vs overriding, example 
+-> interface vs abstract class,use case 
+-> Inheritance 
+-> Serialization - deserialization, transient static 
+-> Difference between catch and finally block 
+-> Difference between throw and throws keyword
+-> Difference between compiletime and runtime exception
+-> Difference between exception and errror
+-> custom exception
+-> array, advantages, disadv, 
+-> code snippet
+
+
+-> "Longest Palindromic Substring:
+Write a program to find the longest palindromic substring in a String.
+Example:
+Input: ""babad""
+Output: ""bab"" or ""aba"""
+"Remove Duplicate Words:
+
+->Write a program to remove duplicate words from a sentence.
+Example:
+Input: ""Java is fun and Java is powerful""
+Output: ""Java is fun and powerful"""
+"Sort an Array Without Using Predefined Methods
+
+->Write a program to sort an array in ascending order without using predefined methods.
+Example:
+Input: [4, 2, 6, 1, 3]
+Output: [1, 2, 3, 4, 6]"
+"Move Zeroes to End
+
+->Move all zeroes in an array to the end while maintaining the order of non-zero elements.
+Example:
+Input: [0, 1, 0, 3, 12]
+Output: [1, 3, 12, 0, 0]"

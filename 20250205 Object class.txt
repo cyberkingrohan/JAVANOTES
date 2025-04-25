@@ -1,0 +1,354 @@
+								Java Full Stack Development
+									  05-02-2025
+								Mr.Akash(NSA IT-POINT)   
+====================================================================================================
+Object Class
+===========
+
+java.lang package 
+->It is a top mpost class in java.
+-> Object class will act as Super/Parent Class for all the classes in java either directly or inderectly.
+
+Note: if our class doesnt have any Parent class then object class will be parent class directly.
+If our class having any super class then Objct class will become indrect super class.
+
+There are 11 methods in Object Class.
+
+1)protected Object clone()
+2)boolean equals(Object obj)
+3)protected void	finalize()
+4)Class<?> getClass()
+5)int hashCode()
+6)String	toString()
+7)void notify()
+8)void notifyAll()
+9)void wait()
+10)void wait(long timeout)
+11)void wait(long timeout, int nanos)
+
+*********************************************************
+-------------------------------
+String toString()
+------------------------------
+ public String toString() {
+        return getClass().getName() + "@" + Integer.toHexString(hashCode());
+    }
+
+
+ Note: this is parent class toString method implementation, it will return object representation like "in.nsa.objExamples.Employee@5e265ba4" and if we dont want thois kind of epresentation then we need to override toString method.
+------------------------------------------
+package in.nsa.objExamples;
+
+public class Employee {
+
+	int a;
+	String name;
+	
+	public static void main(String[] args) {
+		
+		Employee e1 = new Employee();
+		e1.a=10;
+		e1.name="akash";
+		
+		System.out.println(e1);//toString        //String object representation
+		System.out.println(e1.toString());
+		
+	}
+	
+	public String toString() {
+		return a + " :: " + name;
+	}
+}
+-----------------------------------------
+Note: String class is already overriding tpString().
+--------------------------------------------------------------------------------
+
+
+===================
+int hashcode() method
+===================
+
+-> When we create object for the class then JVM will asign one unique interger code for every object.
+-> Using hascode() method we can get the hashcode of the object
+-> If we dont want to execute Object class hashcode() method, then we need to override hashcode() method in our class.
+
+package in.nsa.objExamples;
+
+public class Employee {
+
+	int a;
+	String name;
+
+	public static void main(String[] args) {
+
+		Employee e1 = new Employee();
+		e1.a = 10;
+		e1.name = "akash";
+
+		System.out.println(e1.hashCode());// toString
+
+		Employee e2 = new Employee();
+		e2.a = 10;
+		e2.name = "akash";
+
+		System.out.println(e2.hashCode());
+
+	}
+
+	public int hashCode() {
+
+		return a;
+	}
+
+}
+***********************************************************************
+=============================
+boolean equals(Object obj) method
+=============================
+
+-> equals() method is used to compare one object with other object and return boolean value.
+     if Objects are same then it will return true otherwise it will return false.
+
+Note : Object class equals() method will compare address of the object not the content.
+
+
+package in.nsa.objExamples;
+
+public class Employee {
+
+	int a;
+	String name;
+
+	public static void main(String[] args) {
+
+		Employee e1 = new Employee();
+		e1.a = 10;
+		e1.name = "akash";
+
+		Employee e2 = new Employee();
+		e2.a = 10;
+		e2.name = "akash";
+
+		System.out.println(e1.equals(e2));   //false
+		System.out.println(e1==e2);          //false
+		
+		String e3 = new String("Aman");
+		String e4 = new String("Aman");
+		System.out.println(e3.equals(e4));    //true
+		System.out.println(e3==e4);           //false
+
+		//String class equals() method check the content
+	}
+
+}
+
+-------------------------
+
+In string class equals() method overriden to compare the content of the object thats why in above example Strings we are getting "true" as a output.
+For the Employee class it is checking address hence we are getting "false" as a output.
+
+->If we want to compare the content of our Employee object then we need to oveeride equals()
+
+package in.nsa.objExamples;
+
+import java.util.Objects;
+
+public class Employee {
+
+	int a;
+	String name;
+
+	public static void main(String[] args) {
+
+		Employee e1 = new Employee();
+		e1.a = 11;
+		e1.name = "akash";
+
+		Employee e2 = new Employee();
+		e2.a = 10;
+		e2.name = "akash";
+
+		System.out.println(e1 == e2); // false
+
+		System.out.println("Employee class Equal METHOD : " + e1.equals(e2));
+
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(a, name);
+	}
+
+	public boolean equals(Object obj) {
+
+		if (this == obj) // e1==e2
+			return true;
+		if (obj == null) // e2==null
+			return false;
+
+		Employee other = (Employee) obj; // type casting
+		if (a != other.a) { // e1.a != e2.a
+			return false;
+		}
+		if (name == null) { // e1.name=null
+			if (other.name != null) { // e2.name != null
+				return false;
+			}
+		} else if (!name.equals(other.name)) // !e1.name.equals(e2.name)
+			return false;
+
+		return true;
+
+	}
+
+}
+****************************************************************
+package com.nsa;
+
+import java.util.Objects;
+
+public class Person {
+
+	String email;
+	int password;
+	String address;
+	long salary;
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, password);
+	}
+
+	public boolean equals(Object obj) {
+
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+
+		Person otherObj = (Person) obj; // typeCast
+		if (password != otherObj.password) {
+			return false;
+		}
+
+		if (email == null) {
+			if (otherObj.email != null) {
+				return false;
+			}
+		} else if (!email.equals(otherObj.email)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public static void main(String[] args) {
+
+		Person person = new Person();
+		person.email = "email@123";
+		person.password = 123456;
+		person.address = "nagpur";
+		person.salary = 5000;
+
+		Person person2 = new Person();
+		person2.email = "email@123";
+		person2.password = 123456;
+		person2.address = "Pune";
+		person2.salary = 10000;
+
+		System.out.println(person.equals(person2));
+
+	}
+}
+
+============================================
+In above example 
+The hashCode method uses Objects.hash(email, password) to generate the hash code based on the email and password fields.
+This ensures that the hash code is consistent with these two fields, which means any change in email or password will affect the hash code.
+
+The equals method checks for equality based on the email and password fields.
+It ensures that if two Person objects have the same email and password, they are considered equal.
+============================================
+==============================================================
+What is the contract between equals() and hashCode() methods in Java?
+==============================================================
+-> If two objects are equal(according to equals() method) then the hashCode() method should return the same integer value for both the objects.
+-> But, it is not necessary that the hashCode() method will return the distinct result for the objects that are not equal (according to equals() method).
+-> It is necessary to override the hashCode() method of Object class if we are overriding the equals() method.
+
+In Short : ->
+Equal objects must have equal hash codes: If a.equals(b) is true, then a.hashCode() == b.hashCode().
+
+Unequal objects can have the same hash code: If a.equals(b) is false, a.hashCode() and b.hashCode() may still be the same
+
+****************************************************************
+
+=================
+Class<?> getClass()
+=================
+This method is used to get the instance of the class.
+
+
+package in.nsa.objExamples;
+
+public class Student {
+
+	public static void main(String[] args) throws InstantiationException, IllegalAccessException {
+
+		Student s = new Student(); // first way to create object
+
+		Class cls = s.getClass();
+		String name = cls.getName();
+		System.out.println(name);
+
+		String className = s.getClass().getName();
+		System.out.println(className);
+
+		System.out.println(s.getClass().getName());
+
+		Object obj = cls.newInstance(); // 2nd way to create object
+		System.out.println(obj);
+
+	}
+}
+
+
+*********************************************
+
+=====================
+protected Object clone()
+=====================
+-> This method is used to create duplicate object for the given object
+->If we want to clone any object then that class should be implement clonable interface which is marker interface.
+-> If your class is iplements clonable interface then jvm will allow you to clone the object of that class.
+
+package in.nsa.objExamples;
+
+public class Product implements Cloneable{
+
+	public static void main(String[] args) throws Exception {
+		
+		
+		Product p = new Product();
+		System.out.println(p);
+		
+		Object clone = p.clone();  // another way to create object
+		System.out.println(clone);
+	}
+}
+
+************************************************************ 
+======================
+protected void finalize()
+======================
+-> When garbage collector removing any object from jvm then it will call finalize() method.
+Note-> Garbage collector is used to remove un-used objects / un-referenced objects from jvm heap area.
+
+==========================================
+==========================================
+1)What is the difference between object class Equals method and String class Equals method
+2)Explain the contract between equals and hashcode method
+3)what is finalize method
+4)what is clone method

@@ -1,0 +1,136 @@
+								Java Full Stack Development
+									  03-01-2025
+								Mr.Akash(NSA IT-POINT)   
+=====================================================================================================
+
+======
+String
+======
+  ->   String is a class in java.lang package.
+  ->   String represent sequence of character
+  ->   String can be used as data type(Referenced Data type/ Non Primitive data type)
+	 
+  ->  String is immutable in java [Once string object is created, iot can not be modified but new object can be created]
+	 
+	 We can create String object in two ways.
+	 
+	 //Approach -1 (using new keyword)
+	 String name = new String("Akash");
+	 
+	 //Approach -2 (String literal)
+	 String name = "Akash";
+	 
+	
+==========================
+String Constant Pool (SCP)	
+=========================
+
+-> it is special memory in jvm to store String object.
+-> It will not allow to create duplicte object 
+
+     String s1 = "akash";   //String literal -> object will be stored in SCP
+	 String s2 = "akash";   //object will be stored in SCP
+	 
+-> s1 and s2 objects are having same content hence only one object will be created and both the variables will be pointed to same object.
+
+    class Test{
+        public static void main(String... args){
+
+           String s1 = "akash";
+           String s2 = "akash";
+		  
+          System.out.println(s1==s2);         //true
+		  System.out.println(s1.equals(s2));  // true
+
+}
+}
+
+
+=> If we create String object using "new" keyword then it will always create new object in heap area.
+
+      String s1 = new String("akash");
+      String s2 = new String("akash");	  
+	  
+	  class Test{
+        public static void main(String... args){
+
+             String s1 = new String("akash");
+             String s2 = new String("akash");
+       
+              System.out.println(s1==s2);         //false 
+             System.out.println(s1.equals(s2));   // true 			  
+
+}
+}
+=============================
+Note :
+  In String,   == it will check the address/reference of the object but not the content 
+          equals() will check the content of the object.  
+=============================		  
+
+class Test{
+public static void main(String... args){
+
+		String s1  = "akash" ;                    //SCP           
+		String s2   = "akash";                   //SCP            
+		String s3  = new String("akash");        // heap area  
+		String s4  = new String("akash");                               
+
+
+		System.out.println(s1 == s2);             //true 
+		System.out.println(s1 == s3);             //false
+		System.out.println(s3 == s4);             //false 
+		System.out.println(s1.equals(s3));        //true
+		System.out.println(s3.equals(s4));        //true  
+
+}
+}
+
+==========================
+How many new and total object will be created 
+
+                                  New       Total
+String s1 = "akash";	           1	       1
+String s2 = "akash";               0           1
+String s3 = new String("virat");   2           4
+String s4 = new String("virat");   1           5
+String s5 = "virat";               0           5
+String s6 = new String("akash");   1           6
+
+s1 == s2   -> true
+s1 == s3   -> false
+s1 == s6   -> false
+s2 == s6   -> false
+s3 == s4   -> false   
+s3 == s5   -> false
+s3 == s6   -> false 
+
+s1.equals(s2)   -> true
+s1.equals(s6)   -> true
+s3.equals(s4)   -> true
+s3.equals(s5)   -> true
+s5.equals(s6)   -> false
+s1.equals(s3)   -> false		   
+==================XXXXX===========================
+
+String is immutable in java [Once string object is created, it can not be modified but new object can be created]
+ 
+ class StringExample{
+	
+	public static void main(String... args){
+		
+		String s1 = "akash";
+		String s2 = "akash";
+		
+		System.out.println("s1 before concat : " + s1);		
+		System.out.println(s1 == s2);     //location/reference
+		System.out.println(s1.equals(s2)); //content		
+		
+		s1 = s1.concat(" java");
+
+		System.out.println("s1 after concat : " + s1);
+		System.out.println(s1 == s2);     //location/reference
+		System.out.println(s1.equals(s2)); //content	
+		
+	}	
+}

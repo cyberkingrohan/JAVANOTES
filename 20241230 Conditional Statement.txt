@@ -1,0 +1,300 @@
+								 Java Full Stack Development 
+									   30-12-2024
+								   Mr.Akash (NSA IT-POINT)
+==========================================================================================
+
+==================
+Control Statements
+==================
+-> Java program code will execute line by line sequentially (this is default behaviour)
+-> In project code should execute based on user operation
+-> To satisfy user requirement our code should execute based on some conditions
+->  Using Control Statements we can control program execution flow
+-> Control Statements are divided into 3 types
+
+	1) Decision Making Statements  / Conditional Statements
+	2) Looping Statemetns
+	3) Transfer / Branching Statements
+
+=====================
+Conditional Statement : Decision Making Statement
+=====================
+
+=> Execute the code only once based on condition
+
+  1) if
+  2) if else
+  3) if else if (ladder)
+  4) if-if (nested)
+  5) switch
+  
+  
+1) if statement
+==================
+
+syntax :  
+
+		if(condition){
+			//logic to be executed if condition is true 
+		}
+---------Example-------------
+
+class Statement{
+
+   public static void main(String... args){
+
+     int age = 20;   
+	
+	System.out.println(age >= 18);  // 10 >= 18 //false
+	
+	//if your age is more than 18
+	if(age >= 18){
+	System.out.println("you are eligible for vote"); 		
+	}
+
+	}
+}
+==================================
+==================================
+2) If Else Statement
+                 
+Syntax :				 
+				  if(condition){
+				
+				     //logic will be executed only when condition satisfied(true)
+					 
+				}else{
+				
+		     //logic will be executed only when condition does notget satisfied (false)
+				
+				}
+				  			  
+---------Example-------------
+class Statement{
+
+   public static void main(String... args){
+
+     int age = 18;   
+	
+
+	
+	//if your age is more than 18 "you are eligible for vote"
+	//if age not more than 18 then write "you are not eligible for vote"
+	
+	System.out.println(age >= 18);  // 18 >= 18 	
+	if(age >= 18){
+		System.out.println("you are eligible for vote"); 		
+	}else{
+		System.out.println("you are not eligible for vote"); 
+	}
+
+	}
+}
+=========================================				  
+  3) if else if (ladder)	
+	
+syntax :
+
+       if(condition - 1){		
+		   	 //logic will be executed only when condition- 1 satisfied(true)
+		}else if(condition - 2){
+			 // logic 2 will be executed only when condition- 2 satisfied(true)
+		}else if(condition - 3){
+		     // logic 3 will be executed only when condition- 3 satisfied(true) 
+		}else if(condition - n){
+		    //logic 4 will be executed only when condition- n satisfied(true) 
+		}else{
+			//logic 5 will be executed only when NONE of the condition satisfied(true)
+		}
+------Examople---------
+class Statement{
+
+   public static void main(String... args){
+
+     int age = 85;   
+	
+	if(age < 18){
+		System.out.println("you are NOT eligible for vote"); 		
+	} 
+	else if(age >= 18 && age <= 60){
+		System.out.println("You are eligible"); 
+		System.out.println("bring your voting card"); 
+	}else if(age >60  && age <= 85){
+		System.out.println("You are eligible"); 
+		System.out.println("bring your adhar card "); 
+	
+	}else if(age > 85  && age <= 100){
+		System.out.println("You are eligible"); 
+		System.out.println("bring your adhar card and come with relatives "); 
+	}else{
+		System.out.println("check election department");
+	}
+
+	}
+}
+	
+				
+==========================================
+==========================================
+
+ 4) if-if (nested)	
+ 
+   Syntax :
+
+	 if(condition-1){
+			 //logic will be executed only when condition- 1 satisfied(true)
+	
+		if(condition-2){
+			 //logic will be executed only when condition- 1 and condition-2 satisfied(true)
+			}
+		}
+					 
+------------Example-------------
+
+class Statement{
+
+   public static void main(String... args){
+
+     int age = 21;   
+	char gender = 'F';
+    
+	if(age >= 18){
+		System.out.println("You are eligible"); 
+			if(gender == 'F'){
+				System.out.println("allow to bring child"); 				
+					}
+				}
+	System.out.println("Happy Voting"); 
+	}
+}	
+==========================================
+==========================================
+5) Switch Statement
+
+-> Using switch case we can make decision
+
+-> When we have upto 5 conditions test then if-else is recommended
+
+-> When we have 10 or 20 conditions to test then switch is recommended
+
+
+       switch(expression){
+
+        case 1 : 
+		         statement-1;
+				 break;
+		case 2 : 
+		         statement-2;
+				 break;
+		case 3 : 
+		         statement-3;
+				 break;	
+		case 4 : 
+		         statement-1;
+				 break;	
+		case 5 : 
+		         statement-5;
+				 break;	
+		default :
+               default statement		
+            }	   
+			
+--------------Example--------------
+
+class Statement{
+
+   public static void main(String... args){
+
+     String day= "Holiday"; 
+
+      switch(day){
+
+			case "Monday" : 
+			   		System.out.println("Today Is Monday");
+					break;
+			case "Tuesday" : 
+			   		System.out.println("Today Is Tuesday");
+					break;
+			case "Wednesday" : 
+			   		System.out.println("Today Is Wednesday");
+					break;
+			case "Thursday" : 
+			   		System.out.println("Today Is Thursday");
+					break;
+			case "Friday" : 
+			   		System.out.println("Today Is Friday");
+					break;
+			case "Saturday" : 
+			   		System.out.println("Today Is Saturday");
+					break;
+			case "Sunday" : 
+			   		System.out.println("Today Is Sunday");	
+					break;
+			default :
+			   		System.out.println(day + " : No Such Day");				
+
+	  }		  
+
+	}
+}
+
+============================Conclusion====================
+
+1) 'if' accepts only boolean value (or) boolean expression 
+
+2) 'switch' accepts numbers, char & strings (added in java 1.7v)
+
+3) switch will not accept boolean and decimal values
+
+4) switch cases should belongs to same type
+
+5) switch case datatype and switch case input value should belongs to same datatype
+
+6) 'default' case is optional in 'switch case' 
+
+7) 'break' keyword is also optional in 'switch case'
+
+=========================================================	   
+	   
+=================Assignment=======================
+1)-------------------
+Requirement : 
+-----------------------
+int  a = 20;
+
+if a > 0 -----> display msg as 'a is positive number'
+
+if a < 0 ----> display msg as 'a is negative number'
+
+When above both conditions are failed then display msg as 'a is zero'
+
+=======================================
+2)if person if above 18 print "Eligible For Vote" if below 18 print Not Eligible
+==========================================
+
+3)Develop a java program to decide role of software engineer based on his/her experience
+-----
+3 - 5 years exp -----> Software Engineer
+
+6 - 9 years exp -----> Sr.Software Engineer
+
+10 - 13 years exp ----> Manager
+
+4)  Write a java program to find given number is odd or even
+
+5) Write a java program to check given number is a prime number or not
+
+6) Write a java program to check given year is a leap year or not
+
+7) Requirement : Write a java program to read a number from keyboard.
+
+Based on the given number print week of the day using 'switch' case
+
+1 - Monday
+2 - Tuesday
+3 - Wednesday
+4 - Thursday
+5- Friday
+6 - Saturday
+7 - Sunday
+>7 - No day found

@@ -1,0 +1,78 @@
+								Java Full Stack Development
+									  24-01-2025
+								Mr.Akash(NSA IT-POINT)   
+================================================================================================
+
+==========================
+Access Specifiers / Modifiers
+==========================
+
+-> These are used to specify accessibility for our classes, constructors, variables & methods
+-> It is used to restirct the access.
+-> In java we have below 4 access specifiers / modifiers
+
+			1) public
+			2) private
+			3) protected
+			4) default
+
+ 
+========= 
+ private		
+=========
+    Apply ->  global variable, method, constructor and inner class.
+	      ->  class can not be private
+		  ->  local variable can not be private
+  Access  ->  It can be access within class only NOT outside class or package
+   Scope  ->  Scope is limited to class only.  
+   
+=======
+default
+=======
+   Apply ->  global variable,local variable, method, constructor and inner class and outer class
+         ->  No need to write "default" keyword like "private"
+  Access ->  It can be access within the same package
+         ->  If access specifier is not mentioned then it is consider as default.
+
+==========
+protected
+==========
+
+   Apply ->  global variable, method, constructor and inner class
+         ->  It can NOT be apply to local variable and outer class
+  Access ->  It can be used within same package.
+             If INHERITANCE is there within classes then it can be access outside the package 
+			 
+=======
+public
+=======		 
+   
+   Apply ->  global variable, static variable, method, constructor, inner class and outer class 
+  Access -> it can be access ANYWHERE within and outside same/different the class and packages
+         -> local variable can NOT be public bacause local variable scope is limited to that method only.
+		 
++----------------------------------+---------+---------+-----------+--------+
+| 				   | private | deafult | protected | public |
++----------------------------------+---------+---------+-----------+--------+  
+| Same class                       |  YES    |   YES   |    YES    | YES    |
++----------------------------------+---------+---------+-----------+--------+
+|same package child class          |   NO    |   YES   |    YES    |  YES   |
++----------------------------------+---------+---------+-----------+--------+
+|same package non child class      |   NO    |   YES   |    YES    |  YES   |
++----------------------------------+---------+---------+-----------+--------+
+|different package child class     |   NO    |   NO    |    YES    |  YES   |
++----------------------------------+---------+---------+-----------+--------+
+|different package non-child class |   NO    |   NO    |    NO     |  YES   |
++----------------------------------+---------+---------+-----------+--------+
+| local variable                   |  NO     |   YES   |     NO    |   NO   |
++----------------------------------+---------+---------+-----------+--------+
+| Global avariable                 |   YES   |   YES   |    YES    |  YES   |
++----------------------------------+---------+---------+-----------+--------+
+|   method                         |   YES   |   YES   |    YES    |  YES   |
++----------------------------------+---------+---------+-----------+--------+
+|    Constructor                   |   YES   |   YES   |     YES   |   YES  |
++----------------------------------+---------+---------+-----------+--------+
+|     INNER CLASS                  |   YES   |  YES    |    YES    |   YES  |
++----------------------------------+---------+---------+-----------+--------+
+|    OUTER CLASS                   |    NO   |   YES   |    NO     |   YES  |
++----------------------------------+---------+---------+-----------+--------+ 

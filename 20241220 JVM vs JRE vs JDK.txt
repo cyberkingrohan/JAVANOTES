@@ -1,0 +1,69 @@
+								Java Full Stack Development
+									    20-12-2024
+								   Mr.Akash(NSA IT-POINT)   
+=========================================================================================
+
+Welcome to NSA IT-POINT
+
+Today is 4th Session of Java Full stack Development 
+
+
+1) Download and Install Java Software
+
+		- JDK (Java Development Kit)
+		- JRE (Java Runtime Environment)
+
+Q) What is the difference between JDK, JRE & JVM ?
+
+		- JDK contains set of tools to develop java programs
+		- JRE providing a platform to run our java programs
+		- JVM will take care of program execution
+========
+JVM
+========
+
+-> JVM stands for Java Virtual Machine (We can't see with our eyes)
+
+-> JVM will be part of JRE
+
+-> JVM is responsible for executing java programs
+
+-> JVM will allocate memory required for program execution & de-allocate memory when it is not used
+
+-> JVM will convert byte code into machine understandable format
+
+
+================
+JVM Architecture
+===============
+
+1) Class loader subsystem : It will load .class file into JVM
+
+2) Method Area   : Class code will be stored here
+
+3) Heap area : Objects will be stored into heap area
+
+4) Java Stack : Method execution information will be stored here
+
+5) PC Register : It will maintain next line information to execute
+
+6) Native Stack : It will maintain non-java code execution information
+
+7) Execution Engine   ( Interpreter + JIT ) : It is responsible to execute the program and provide output/result
+
+8) Native Interface : It will load native libraries into jvm
+
+9) Native Libraries : Non-java libraries which are required for native code execution
+
+
+
+
+
+
+
+
+
+
+
+
+

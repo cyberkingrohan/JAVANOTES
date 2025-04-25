@@ -1,0 +1,324 @@
+								Java Full Stack Development
+									  16-02-2025
+								Mr.Akash(NSA IT-POINT)   
+===================================================================================================
+
+****************
+Multi Threading
+****************
+Multithreading is the process of executing multiple threads concurrently to improve application performance.
+
+Why Do We Need Multithreading?
+✅ Better CPU utilization
+✅ Faster execution by running tasks in parallel
+✅ Efficient for I/O operations (reading files, database queries, network calls)
+✅ Provides a responsive UI in desktop & mobile applications
+
+
+==============
+Task : Work
+
+Single Tasking : Performing only one task at a time is called as Single Tasking
+
+Ex: 
+
+1) Explain the topic
+2) Dictate the notes
+3) Ask questions
+
+-> If we perform single tasking then it will take lot of time to complete all our work.
+
+Multi Tasking : Performing multiple tasks at a time is called as Multi Tasking
+
+Ex:
+
+1) Walking & listening music
+
+2) Speaking and Writing
+
+3) Reading book & eating
+
+-> If we perform multi tasking then we complete multiple works at the same time.
+
+
+-> Multi Tasking we can achieve in 2 ways
+
+----------------------------------
+1) Process Based Multi Tasking:
+----------------------------------
+i)	Executing several tasks simultaneously where each task is separate independent process such as multitasking is called as process based.
+ii)	Example 1- Typing java program into eclipse, also listening the audio songs, download a file from internet.
+iii)	In this every activity is independent process here.
+iv)	Example-2 Task manager, see the multiple process list.(Control+Shift+Esc key)
+v) Process is heavy weight components.
+vi)	Each process has own address into memory.
+
+----------------------------------
+2) Thread Based Multi Tasking
+----------------------------------
+
+-> Executing several tasks simultaneously where each task is separate part of same program called as thread based.
+
+-> To execute our program logics paralelly then we need to go for Thread Based Multi Tasking
+
+-> Using Thread Based Multi Tasking our program can complete the work quickly
+
+-> To implement Thread Based Multi Tasking we will use Multi Threading
+
+-> Java Supports Multi Threading
+
+->Example- suppose I have 1000 lines of code into java program and it will takes 8 hours to execute it where first 500 line is executed after that remaining 500 lines is executed but there is no any dependency between them so I can run that tasks simultaneously to minimize the execution time.
+
+-> Thread is light weight components.
+-> Thread shares the same address space.
+
+
+=============================
+Use case to go for Multi Threading
+=============================
+
+1) Send sms to all customers at a time
+2) Send Email to all customers at a time
+3) Generate & Send Bank Statements to all customers in email
+
+
+Note: The main aim of Multi Tasking is used execute our program logic paralelly so that we can complete more work in less time.
+
+-> For Every Java program execution, JVM will create one thread by default. That thread is called as Main thread.
+
+
+// Java Program to get the details of Main thread
+
+
+public class Demo {
+
+	public static void main(String... args) {
+
+		Thread currentThread = Thread.currentThread();
+		System.out.println(currentThread.getName()); // main
+
+	}
+}
+
+
+Note: Thread is a predefined class available in java.lang package. In Thread class we have a static method currentThread ( ).
+
+===================
+User Defined Threads
+===================
+
+-> In Java we can create Thread in 2 ways
+
+1) By extending Thread class
+
+2) By Implementing Runnable interface
+
+
+// Java program to create user defined thread using Thread class
+
+package com.nsa.multithreading;
+
+public class DemoThread extends Thread {
+
+	public void run() {
+
+		System.out.println("run method started");
+		Thread currentThread = Thread.currentThread();
+		System.out.println(currentThread);
+		System.out.println("thread terminated");
+	}
+
+	public static void main(String[] args) {
+
+		DemoThread dth = new DemoThread();
+		dth.start();
+
+	}
+}
+
+
+
+// Java program to create the thread using Runnable interface
+
+package com.nsa.multithreading;
+
+public class DemoRunnable implements Runnable {
+
+	@Override
+	public void run() {
+		System.out.println("run method started");
+		Thread currentThread = Thread.currentThread();
+		System.out.println(currentThread);
+		System.out.println("thread terminated");
+	}
+
+	public static void main(String[] args) {
+
+		DemoRunnable dr = new DemoRunnable();
+		Thread d = new Thread(dr);
+		d.start();
+	}
+}
+
+
+
+==================================================================================================
+Q) What is the difference between extending Thread class and implementing Runnable interface, which is recommended ?
+==================================================================================================
+
+-> If we extend properties from Thread class then we can't extend properties from any other class because java doesn't support multitple inheritance. (We are closing gate for Inheritance)
+
+-> If we implement Runnable interface then in future we can extend properties from any class based on requirement. (Our gate is open for inheritance)
+
+->If class is already extended by any other class then we can not create thread by extending Thread Class, in this situation we have only one way to create thread that is by Implementing Runnable interface.
+
+Note: Implementing Runnable interface is always recommended.
+
+
+==============Example================
+Example- Program for multithreading 
+package com.nsa.multithreading;
+
+public class MultiThreadingDemo implements Runnable {
+
+	public void run() { // running
+		System.out.println(Thread.currentThread());
+
+		for (int i = 0; i <= 5; i++) {
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.out.println(i);
+		}
+	}
+
+	public static void main(String[] args) {
+
+		MultiThreadingDemo d = new MultiThreadingDemo();
+		Thread t1 = new Thread(d); // new state
+		Thread t2 = new Thread(d); // new state
+
+		t1.start(); // runnable
+		t2.start(); // runnable
+	}
+}
+
+==============================
+Methods-
+
+1.	public void run(): is used to perform action for a thread.
+2.	public void start(): starts the execution of the thread.JVM calls the run() method on the thread.
+3.	public void sleep(long miliseconds): Causes the currently executing thread to sleep (temporarily cease execution) for the specified number of milliseconds.
+4.	public void join(): waits for a thread to die.
+5.	public void join(long miliseconds): waits for a thread to die for the specified miliseconds.
+6.	public int getPriority(): returns the priority of the thread.
+7.	public int setPriority(int priority): changes the priority of the thread.
+8.	public String getName(): returns the name of the thread.
+9.	public void setName(String name): changes the name of the thread
+
+
+=======================
+What is Thread Schedular
+=======================
+
+-> Thread Schedular is a program in the JVM which is responsible to schedule Threads execution and resources allocation  required for the thread.
+
+-> When we call start ( ) method then Thread Schedular will start its operation.
+
+			1) Allocating Resources
+
+			2) Thread Scheduling
+
+			3) Thread Execution by calling run ( ) method
+
+
+================================
+start  ( ) method  vs run ( ) method
+================================
+
+-> To start thread execution we will call start ( ) method
+
+			t.start ( )
+
+-> once start ( ) method is called then Thread Schedular will come into picture to execute our thread
+
+-> start ( ) method will call run ( ) method internally
+
+-> inside run ( ) method we will write the logic which should be executed by the thread.
+
+
+=======================================================
+Can we call run ( ) method directley without calling start ( ) method
+========================================================
+
+-> Yes, we can call run ( ) method directley but it will execute like a normal method (there is no use) by "main" thread.
+
+-> If we want to execute run ( ) method as a thread  method then we should call start ( ) method then internally it will call run ( ) method (Thread Schedular will take care of thread execution)
+
+
+public class Demo implements Runnable {
+
+	public void run() {
+		System.out.println("run () method started...");
+
+		Thread t = Thread.currentThread();
+		System.out.println(t.getName());
+
+		System.out.println("run () method ended...");
+	}
+
+	public static void main(String... args) {
+		Demo d = new Demo();
+
+		Thread t = new Thread(d);
+		//t.start();
+		// t.run();
+	}
+}
+
+
+=> If we call start ( ) method then run ( ) method will be executed by our user defined thread (we can see thread name as Thread-0)
+
+=> if we call run ( ) method then run ( ) method will be executed by "main" thread (we can see thread name as main)
+
+
+
+======================
+What is Thread Life Cycle
+======================
+
+-> Thread Life cycle contains several phases of Thread execution
+
+1) New/Born
+
+2) Runnable
+
+3) Running
+
+4) Blocked
+
+5) Terminated
+
+
+New: A thread begins its life cycle in the new state. Thread remains in the new state until we will call start ( ) method.
+
+Runnable : After calling start ( ) method, thread comes from new state to runnable state.
+
+Running : A thread comes to running state when Thread Schedular will pick up that thread for execution.[CPU is executing the thread]
+
+Blocked  : A thread is in the BLOCKED state when it wants to execute a synchronized block or method but another thread is already holding the lock.
+
+Waiting  : A thread enters the WAITING state when it calls wait(), join(), park() or sleep(), join(timeout), or wait(timeout) It remains in this state until another thread signals it to continue	
+
+Terminated : A thread enters into terminated state once it completes its task.
+
+==============================
+ Runnable ≠ Running → A thread in Runnable is not guaranteed to run immediately.
+🔸 CPU Time is shared → The operating system decides which thread runs and for how long.
+🔸 Preemptive Scheduling → If a thread is running, it can be paused to allow another thread to execute.
+==============================

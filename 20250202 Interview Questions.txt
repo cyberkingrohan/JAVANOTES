@@ -1,0 +1,56 @@
+jvm jre jdk
+waht is source code and byte code ? what convert it ?
+what are the data types explain in details
+explain all varaibles 
+why string is immutablein java, explain string constant pool
+what is the diff between string builder string buffer and string 
+what is the use of scanner class
+explain branching statement 
+explain array in details
+difference between construcotr and method,in details
+explain static keyword 
+explain all branching statement
+explain in detail all the access modifier 
+explain oops principles in java with example of each 
+can we override/ overload main method 
+abstract class vs interface 
+-------------------------
+
+String s1 = "java";
+String s2 = "java";  
+
+s1 == s2 
+s1.equals(s2)
+---------------------------
+String s3 = new String("java"); 
+String s4 = new String("java"); 
+
+s1 == s2 
+s2 == s3 
+s3 == s4
+
+-------------------------
+
+String s3 = new String("java"); 
+String s1 = "java";
+
+s1 == s3
+
+-------------------------
+int[] arr = new int[10];
+arr[10]=10;
+SOP(arr[1]);
+
+-------------------------
+
+int[] arr = new int[10];
+arr[10]=10;
+SOP(arr[10]);
+
+-------------------------
+
+public void add(String a ){
+
+return "10"
+}
+-------------------------

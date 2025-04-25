@@ -1,0 +1,131 @@
+								Java Full Stack Development
+									  14-02-2025
+								Mr.Akash(NSA IT-POINT)   
+=========================================================================================================
+
+==========================
+Serialization & De-Serialization
+==========================
+
+-> When we store data in the object, that data will be available if our program is running. If our program got terminated then we will loose our objects and data available in the objects.
+
+-> If we don't want to loose the data even after program got terminated then we should go for Serialization.
+
+-> The process of converting java object into file data in the form of bits and bytes is called as Serialization.
+
+-> The process of converting file data back to java object is called De-Serialization.
+
+
+Note: To perform Serialization & De-Serialization we have to implement java.io.Serializable interface which is marker interface
+
+
+// Java program on Serialization & De-Serialization
+package com.exceptions;
+
+import java.io.*;
+
+public class Employee implements Serializable {
+
+
+
+    Integer empId;
+    String userName;
+    transient String password;
+    static Double salary = 500.50;
+
+    public static void main(String[] args) throws FileNotFoundException, IOException {
+        Employee emp = new Employee();
+        emp.empId = 101;
+        emp.userName = "akashak";
+        emp.password = "nsa@2022";
+        Employee.salary = 1500.00;
+
+        System.out.println("seriazlation started");
+        FileOutputStream fos = new FileOutputStream("employee.ser");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(emp);
+        oos.flush();
+        oos.close();
+        System.out.println("seriazlation end");
+
+
+        try{
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+
+        }
+    }
+}
+---------------
+package com.exceptions;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+public class DeSerTesting {
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+
+        FileInputStream fileInputStream = new FileInputStream("employee.ser");
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        Object object = objectInputStream.readObject();
+        Employee emp = (Employee) object;
+        System.out.println("empId : " + emp.empId);
+        System.out.println("userName : " + emp.userName);
+        System.out.println("password : " + emp.password);
+        System.out.println("salary : " + Employee.salary);
+
+    }
+}
+======================================
+
+========================
+What is SerialVersionUID ?
+========================
+
+-> For every .class file JVM will assign one random number that is called as serialVersionUID.
+
+-> When we serialize the object, JVM will assign .class file serialVersionUID to serialized file
+
+-> When we de-serialize JVM will compare serialized file UID and .class file UID. If both ids are matching then only de-serialization will happen otherwise it will throw INvalidClassException.
+
+-> To overcome this problem we can write our own serialVersionUID then jvm will not assign that.
+
+
+
+
+================
+transient keyword
+================
+
+-> If we have any sensitive / secret data then we shouldn't serialize those fileds.
+
+-> transient keyword is used to ignore variables from serialization process
+
+static keyword vs transient Keyword
+-------------------------------------
+
+static : Belongs to the class, not an instance
+transient:  Used to skip serialization of a variable
+
+static : Stored in the Method Area (Class Memory)
+transient : Stored in Heap (but ignored during serialization)
+
+static : Associated with the class, shared among all objects	
+transient: Instance-level, specific to an object
+
+static : Accessible via both class and object reference
+transient : Only accessible through object (not class name)
+
+static : Serialized (if part of the object)	
+transient: Not serialized (ignored in serialization)
+
+
+=============
+flush() writes the content of the buffer to the destination and makes the buffer empty for further data to store but it does not closes the stream permanently. That means you can still write some more data to the stream.
+
+But close() closes the stream permanently. If you want to write some data further, then you have to reopen the stream again and append the data with the existing ones.
+=============

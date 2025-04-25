@@ -1,0 +1,204 @@
+										Java Full Stack Development
+											  25-01-2025
+										Mr.Akash(NSA IT-POINT)   
+=====================================================================================================
+
+==================================================
+OOPS (Object Oriented Programming System)
+================================================
+
+-> Programming languages are divided into 2 types
+
+1) Procedure Oriented
+
+		Ex: C, Cobol, Pascal etc.....
+
+2) Object Oriented
+
+		Ex: Java, C#, Python etc.....
+
+-> In Procedure Oriented programming language, we will develop functions & procedures
+
+-> If we want to add more functionalities then we need to develop more functions
+
+-> Maintaining & Managing more functions is difficult task
+
+-> In PoP, data is exposed globally
+
+-> In Pop, there is no security
+
+
+
+-> If we want to develop a project using OOP lanaguage then we have to use Classes & Objects
+
+-> Any language which follows OOPS Principles is called as OOP Language
+
+-> Object Oriented languages provides security for our data
+
+-> The main advantage of OOPS is code re-usability
+
+===============
+OOPS Principles
+===============
+
+1) Encapsulation
+
+2) Abstraction
+
+3) Polymorphism
+
+4) Inhertience
+
+
+================
+Encapsulation
+===============
+
+-> Encapsulation is used to combine our variables & methods as single entity / unit
+
+-> Encapsulation provides data hiding
+
+-> We can achieve encapsulation using Classes
+
+class  Demo {
+
+	//variables
+
+	// methods
+}
+
+============
+Abstraction
+=============
+
+-> Abstraction means hiding un-necessary data and providing only required data
+
+-> We can achieve Abstraction using interfaces & abstract classes
+
+
+Ex : we will not bother about how laptop working internally
+	We will not bother about how car engine starting internally
+
+===============
+Polymorphism
+===============
+
+-> Exhibiting multiple behaviours based on situation is called as Polymorphism
+
+
+Ex:-1 : in below sceario + symbol having 2 diffenent behaviuours
+
+10 + 20 ===> 30    (Here + is adding)
+ 
+"hi" + "hello" ==> hihello  (here + is concatinating)
+
+
+Ex:-2: 
+
+When i come to class i will behave like a trainer
+
+When i go to ofc i will behave like a employee
+
+When i go to home i will behave like a family member
+
+
+============
+Inheritance
+============
+
+-> Extending the properties from one class to another class is called as Inheritance
+
+Ex:   child will inherit the properties from parent
+
+-> The main aim of inhertience is code re-usability
+
+
+Note: In java, one child can't inherit properties from two parents at a time
+
+============================
+============================
+
+=============
+Encapsulation
+=============
+
+-> It is used for data hiding
+
+-> We will combine variables & methods as one single unit using Class
+
+-> Java class is one of the best example for Encapsulation
+
+================
+package com.nsa.Encapsulation;
+
+public class Locker {
+
+    private int goldCoin;
+    private String jwellery;
+    private double amount;
+
+    public Locker() {
+    }
+
+    public int getGoldCoin() {
+        return goldCoin;
+    }
+
+    public void setGoldCoin(int goldCoin) {
+        if (goldCoin > 0) {
+            this.goldCoin = goldCoin;
+        } else {
+            System.out.println("gold coin can not be zero or less");
+        }
+    }
+
+    public String getJwellery() {
+        return jwellery;
+    }
+
+    public void setJwellery(String jwellery) {
+        this.jwellery = jwellery;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+}
+-----------------
+package com.nsa.Encapsulation;
+
+public class Testing {
+
+    public static void main(String[] args) {
+
+        Locker locker = new Locker();
+
+        //set the values
+        locker.setAmount(200.50);
+        locker.setJwellery("silver");
+        locker.setGoldCoin(50);
+//        locker.goldCoin = -10;
+
+        double amount = locker.getAmount();
+        String jwellery = locker.getJwellery();
+        int goldCoin = locker.getGoldCoin();
+
+        System.out.println("amount : " + amount);
+        System.out.println("jwellery : " + jwellery);
+        System.out.println("goldCoin : " + goldCoin);
+
+    }
+}
+========================
+Why Make Variables private?
+
+-> we can set Validation 
+ : Setters can include validation logic to ensure that only valid values are assigned to a variable:
+
+-> Read-Only or Write-Only Access
+ : Sometimes, you may want to provide read-only or write-only access to a variable. This can be achieved by providing only a getter or a setter

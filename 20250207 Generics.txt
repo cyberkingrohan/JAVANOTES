@@ -1,0 +1,171 @@
+								Java Full Stack Development
+									  07-02-2025
+								Mr.Akash(NSA IT-POINT)   
+============================================================================================
+
+=================
+Generics In Java
+=================
+
+-> Generics introduced in java 1.5 version
+
+-> Using Generics, we can write our classes / variable / methods which are indendent of data type
+
+-> Generics are used to achieve type safety
+
+public void m1 ( Integer i ){
+
+}
+
+m1 (10) ;  // valid
+
+m1 ("hi") ; // in-valid
+
+
+-> The above method is taking Integer as a parameter (It is tightly coupled). If we want to pass String as a parameter for m1 ( ) method it is not possible. Compiler will not accept it.
+
+-> To overcome above problem we can use Generics in Java.
+
+package in.nsait;
+
+public class Demo<T> {
+
+	public void m1(T arg) {
+		System.out.println("Param Recieved : " + arg);
+	}
+
+	public static void main(String[] args) throws Exception {
+		Demo d = new Demo();
+
+		d.m1(10); // passing int value
+		d.m1("hi"); // passing String value
+		d.m1(100.51); // passing double value
+		d.m1(true); // passing boolean value
+	}
+}
+
+// Java program with Generic Type to achieve Type Safety
+
+package in.nsait;
+
+public class Demo<T> {
+
+	T obj;
+
+	public void set(T obj) {
+		this.obj = obj;
+	}
+
+	public T get() {
+		return obj;
+	}
+
+	public static void main(String[] args) throws Exception {
+
+		Demo<Integer> d1  = new Demo<>();
+		d1.set(10);
+		System.out.println(d1.get());
+		
+		Demo<String> d2 = new Demo<>();
+		d2.set("Hi");
+		System.out.println(d2.get());
+	}
+}
+
+
+// Java Program with Generic Parameters for Constructor
+
+package in.nsait;
+
+public class Demo<T1, T2> {
+
+	T1 obj1;
+	T2 obj2;
+
+	Demo(T1 obj1, T2 obj2) {
+		this.obj1 = obj1;
+		this.obj2 = obj2;
+	}
+
+	public void print() {
+		System.out.println(obj1 + ", " + obj2);
+	}
+
+	public static void main(String[] args) throws Exception {
+		Demo<Integer, String> d1 = new Demo<>(101, "Ram");
+		d1.print();
+
+		Demo<String, Long> d2 = new Demo<>("Akash", 798686868l);
+		d2.print();
+
+		Demo<String, Boolean> d3 = new Demo<>("Raju", true);
+		d3.print();
+	}
+}
+
+=====================
+Generics with wild Cards
+======================
+
+Demo< ? extends Number > 
+
+=> The above wild card represents Demo class should take any class obj which is extending from Number class.
+
+--------------
+public class RBI {
+
+    public void testRBI() {
+        System.out.println("RBI Method");
+    }
+}
+---------------
+public class AXIS extends RBI {
+    public void testAxis() {
+        System.out.println("AXIS method");
+    }
+}
+--------------
+public class BOI extends RBI {
+    public void testBOI() {
+        System.out.println("BOI method");
+    }
+}
+--------------
+package com.test;
+
+public class Corporatebank<T extends RBI> {
+
+    private T obj;
+//    private BOI obj;
+//    private AXIS obj;    
+
+
+    public Corporatebank(T roi) {
+        this.obj = roi;
+    }
+
+    public T getObj() {
+        return obj;
+    }
+
+    public void coporateTest() {
+        obj.testRBI();
+        System.out.println("coporateTest method");
+    }
+
+    public static void main(String[] args) {
+
+        BOI boi = new BOI();
+        Corporatebank<BOI> bank = new Corporatebank<>(boi);
+        bank.coporateTest();
+        BOI obj1 = bank.getObj();
+        obj1.testBOI();
+
+        AXIS axis = new AXIS();
+        Corporatebank<AXIS> cbank = new Corporatebank<>(axis);
+        cbank.coporateTest();
+        AXIS axisObj = cbank.getObj();
+        axisObj.testAxis();
+
+    }
+}

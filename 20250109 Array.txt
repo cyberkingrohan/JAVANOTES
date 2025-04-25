@@ -1,0 +1,292 @@
+								Java Full Stack Development
+									  09-01-2025
+								Mr.Akash(NSA IT-POINT)   
+=====================================================================================================
+=======
+Arrays
+=======
+
+Variable ===> It is used to store the data
+
+Datatype ===> It is used to specify type of the data
+
+		
+				// variable declaration
+				int number0 ; 
+
+				// variable intialization
+				number0 = 20 ;
+
+				int number1 = 45; // this is valid
+
+				int number2 = 20, 30 ;    // this is in-valid (we can store only one value)
+
+
+// store one student subject wise marks  (we need 3 variables for 3 subjects for one student)
+
+int number0 = 78;
+
+int number1 = 98;
+
+int number2 = 79;
+
+
+// i want to store 50 students subject wise marks ( we need 150 variables to store all students marks)
+
+=> This is not recommended because so many variables we have to create
+
+=> To overcome this problem we can go for 'Arrays' concept
+
+
+======
+Array    :
+======
+Defination : Array is a container which is used to store collection of elements with same data type.
+
+-> It is a non premititve data type (Referenced Data type)
+-> It is used to store multiple values
+-> Arrays support only homogenious element (same data type)
+->In Array, sized is fixed (we can not change the size at run time)
+-> Array is a Index-based, The first element of the array is stored at the 0th index, and 2nd element will stored at 1st index and so on.
+
+
+Advantages : 
+->Code Optimization : we can retrieve or sort the data effeciently.
+->Random Access :  we can get any data loacted at any index position.
+
+Disadvanteges : 
+->Arrays support only homogenious element (same data type): we can not store different data type.
+->In Array, sized is fixed (we can not change the size at run time)
+
+=========================
+Syntax :
+
+Declare :
+-----------
+dataType[] varaibleName; -> int[] marks;     String[] names;   char[] gender;
+dataType []varaibleName; -> int []marks;     String []names;   char []gender;
+dataType varaibleName[]; -> int marks[];     String names[];   char gender[];
+
+Initialization:
+----------------
+varaibleName = new dataType[size];
+     marks   = new int[5];
+	 names   = new String[12];
+	 gender  = new char[20];
+	 
+	 
+Declare and Initialization
+---------------------------	 
+	 dataType[] varaibleName = new dataType[size];
+	 
+	 int[] age = new int[50];
+     short[] values = new short[21];
+	 byte[] var = new byte[85];
+-------------
+NOTE:-> At the time of creating the array size is mandetory;
+     -> Array size represent how many values we can stored into array
+     -> Array is a Index-based, The first element of the array is stored at the 0th index, and 2nd element will stored at 1st index and so on. 
+	 
+========================================================================== 
+NOTE ====>>> No of index = No of Elements stored in array(array size) - 1 
+========================================================================== 
+Example :->
+------------------------------------------------
+class ArrayTest{
+	
+	public static void main(String... args){
+		
+		//decalre the array
+		//DT[] var = new DT[SIZE];
+		
+		int[] ageList = new int[3];
+		
+		ageList[0] = 18;
+		ageList[1] = 25;
+		ageList[2] = 30;
+		
+		System.out.println(ageList[0]);
+		System.out.println(ageList[1]);
+		System.out.println(ageList[2]);
+	}
+}
+===============
+class ArrayTest{
+	
+	public static void main(String... args){
+		
+		//decalre the array
+		//DT[] var = new DT[SIZE];
+		
+		int[] ageList = new int[5];
+		
+		ageList[0] = 18;
+		ageList[1] = 25;
+		ageList[2] = 30;
+		
+		System.out.println(ageList[0]);
+		System.out.println(ageList[1]);
+		System.out.println(ageList[2]);
+		System.out.println(ageList[3]);   // default value 0
+		System.out.println(ageList[4]);   // default value 0		
+	}
+}
+=================
+class ArrayTest{
+	
+	public static void main(String... args){
+		
+		//decalre the array
+		//DT[] var = new DT[SIZE];
+		
+		int[] ageList = new int[3];
+		
+		ageList[0] = 18;
+		ageList[1] = 25;
+		ageList[2] = 30;
+		ageList[3] = 40;   //ArrayIndexOutOfBoundsException
+		
+		/* 
+		Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 3
+        at ArrayTest.main(ArrayTest.java:13)
+		*/
+		
+		System.out.println(ageList[0]);
+		System.out.println(ageList[1]);
+		System.out.println(ageList[2]);
+		System.out.println(ageList[3]);		
+		
+	}
+}
+========================
+class ArrayTest{
+	
+	public static void main(String... args){
+		
+		//decalre the array
+		//DT[] var = new DT[SIZE];
+		
+		int[] ageList = new int[3];
+		
+		ageList[0] = 18;
+		ageList[1] = 25;
+		ageList[2] = 30;
+		
+		System.out.println(ageList[0]);
+		System.out.println(ageList[1]);
+		System.out.println(ageList[2]);
+		System.out.println(ageList[3]);	  //ArrayIndexOutOfBoundsException
+
+/*
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 3
+        at ArrayTest.main(ArrayTest.java:17)
+		*/		
+		
+	}
+}
+==================
+class ArrayTest{
+	
+	public static void main(String... args){
+		
+		//decalre the array
+		//DT[] var = new DT[SIZE];
+		
+		String[] nameList = {"akash", "vikas", "zakas", "prakash", "tom"};
+		
+		System.out.println("size : " + nameList.length); //5	
+		
+		System.out.println(nameList[1]);  //vikas
+		System.out.println(nameList[3]);  //prakash
+		System.out.println(nameList[4]);  //tom
+		System.out.println(nameList[2]);  //zakas	 
+	}
+}
+=========
+class ArrayTest{
+	
+	public static void main(String... args){
+		
+		//decalre the array
+		//DT[] var = new DT[SIZE];
+		
+String[] nameList = {"akash", "vikas", "zakas", "prakash", "tom", "harry", "marry"};
+		
+		System.out.println("sort");
+		for(int index = 0; index <= 6; index++){
+			System.out.println(nameList[index]);
+			}
+		
+		System.out.println("reverse sort");
+		for(int index = 6; index >= 0; index--){
+			System.out.println(nameList[index]);
+			}
+			
+			for(int index = nameList.length-1; index >= 0; index--){
+			System.out.println(nameList[index]);
+			}
+			
+		for(int index = 0; index < nameList.length; index++){
+			System.out.println(nameList[index]);
+			}		
+	}
+}
+===================
+class ArrayTest{
+	
+	public static void main(String... args){
+		
+		//decalre the array
+		//DT[] var = new DT[SIZE];
+		
+String[] nameList = {"akash", "vikas", "zakas", "prakash", "tom", "harry", "marry"};
+		
+		/*
+		Syntax for "for-each loop"
+		  for(DT var : Array){	 
+		 }		
+		*/
+		
+		 for(String name : nameList){
+		    System.out.println(name); 
+		 }
+		
+	}
+}
+=========================
+Note-> In above problem All elements are stored in "nameList", in for each loop we will see which type of data is stored in nameList and that data type we will use in for each loop.
+we need to take one variables "name" so that all the data stored in "nameList" will come to that variable "name" one by one
+
+==================
+class Demo1{
+
+public static void main(String... args){
+
+
+          char []arr = {'a', 'b', 'c', 'd', 'e', 'f'};  
+       
+           //for(datatype variablename : arrays)
+    
+             for( char ch : arr){
+                        System.out.println(ch);
+              }
+
+}
+}
+===================
+class Demo1{
+
+public static void main(String... args){
+
+
+          String []str = {"aman", "naman", "raja", "rani"};  
+       
+           //for(datatype variablename : arrays)
+    
+             for( String ch : str){
+                        System.out.println(ch);
+              }
+
+}
+}
+===========================

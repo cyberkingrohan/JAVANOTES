@@ -1,0 +1,267 @@
+                         Java Full Stack Development 
+						       27-12-2024
+						   Mr.Akash (NSA IT-POINT)
+===============================================================================
+						  
+Operators : Operators are nothing but toperform some operations on variables.
+
+       1)Arithmatic Operators  (+ - * / %)
+	   2)Logical Operators  (AND [&&] OR[||])
+	   3)Relational Operators (> >=<  <= == !=)
+	   4)Assignment Operators  (=)
+	   5)Bitwise Operators   (AND [&] OR[|])
+	   6)Unary Operators  (++   --)
+	   7)Ternary Operators
+	   8)shift Operators
+	   9)new Operators
+	   10). Operators
+	   11) instanceof Operators
+	   
+1)Arithmatic Operators : +(Addition) -(Subtraction) *(multipilication) /(division) %(modules) 	   
+======================Example=============
+class Arithmatic{
+
+
+public static void main(String... args){
+
+int a = 50;
+int b = 100;
+
+System.out.println(a+b);  // 150
+System.out.println(b-a);  // 50
+System.out.println(a*b);  // 5000
+System.out.println(b/a);  // 2
+System.out.println(b%a);  // 0
+		}
+	}
+
+===================
+Relational Operator
+===================
+     It will return true/false base on the conditions
+(>)  : Greater than
+(<)  : Less Than
+(>=) : Greater than equal to
+(<=) : Less Than equal to 	 
+(==) : Equal to
+(!=) : Not Eqaul to
+
+-------------Example------------
+class Relational{
+
+public static void main(String... args){
+
+int a = 50;
+int b = 100;
+
+System.out.println(a>b);   // "a" is greater than "b"                -> 50 > 100   false
+System.out.println(b>=a);  //  "b" is greater than or equal to "a"   -> 100 >= 50  true
+System.out.println(a<b);   //  "a" is less than "b"                  -> 50 < 100   true
+System.out.println(b<=a);  //  "b" is less than or equal to "a"      -> 100 <= 50  false
+System.out.println(b==a);  //   "b" is equal to "a"                  -> 100 == 50  false
+System.out.println(b!=a);  //   "b" is not equal to "a"              -> 100 != 50  true
+
+}
+}
+
+=================
+Logical Operator
+=================
+    AND (&&) and OR(||)   : it return true/false base on the following conditions.
+	
+(i)Logical AND Operator(&&): Does not check the second condition if first conditon is false.
+Note: if any one condition is false the output will be false if both condition istrue then only output will be true
+
+	+-----------+-----------+--------+    
+    | condition1| condition2| output |
+	+-----------+-----------+--------+
+	|   true    |  true     |  true  |
+	+-----------+-----------+--------+
+	|   true    |  false    | false  |
+	+-----------+-----------+--------+
+	|  false    |  true     |  false |
+	+-----------+-----------+--------+
+	|  false    |  false    |  false |
+	+-----------+-----------+--------+
+-----------Example------------
+class LogicalAnd{
+
+public static void main(String... args){
+
+int x = 50;
+int y = 10;
+
+System.out.println(x > y &&  x < y);       //true  false -> false
+System.out.println(x > y &&  x >= y);    //true   true -> true
+System.out.println(x <= y &&  x < y);   //false false  -> false
+System.out.println(x == y &&  x !=y);  //false true    -> false 
+
+
+}
+}
+==========================================================	
+	
+(ii)Logical OR Operator(||): 
+Note: if any one condition is true the output will be true if both condition is alse then only output will be false
+
+	+-----------+-----------+--------+    
+    | condition1| condition2| output |
+	+-----------+-----------+--------+
+	|   true    |  true     |  true  |
+	+-----------+-----------+--------+
+	|   true    |  false    | true   |
+	+-----------+-----------+--------+
+	|  false    |  true     |  true  |
+	+-----------+-----------+--------+
+	|  false    |  false    |  false |
+	+-----------+-----------+--------+
+-----------Example------------
+class LogicalAnd{
+
+public static void main(String... args){
+
+int x = 50;
+int y = 10;
+
+System.out.println(x > y ||  x < y);       //true  false -> true
+System.out.println(x > y ||  x >= y);    //true   true -> true
+System.out.println(x <= y ||  x < y);   //false false  -> false
+System.out.println(x == y ||  x !=y);  //false true    -> true
+
+
+}
+}
+================================
+ 4)Assignment Operators  (=)
+      it is used to assign the value.
+	  e.g;
+	  int a = 10;
+	  char c = 'm';
+	  
+===================================	
+ 6)Unary Operators	
+             It is used to perform Increament(++) and Decreament(--) operation
+
+Increament(++) : pre-Increament(++a) and Post-Increament(a++)
+   add +1;
+-------------------------------------------------------------------
+ class Increament{
+
+public static void main(String... args){
+
+int a = 10;
+int b = 10;
+
+System.out.println(++a);  //11 Pre-increament
+System.out.println(b++);  //10 Post-Increament
+System.out.println(b);     //11
+
+}
+
+}
+-------------------------------------------------------------------
+Decreament(--) : pre-Decreament(--a) and Post-Decreament(a--)
+class Decreament{
+
+public static void main(String... args){
+
+int a = 10;
+int b = 10;
+
+
+System.out.println(--a);  // 9  Pre-Decreament
+System.out.println(b--);  //10  Post-Decreament
+System.out.println(b);     //9
+
+}
+
+}
+-------------------------------------------------------------------
+7)Ternary Operators
+        It is use for decision making 
+ Syntax : 
+       (Condition)? expression_1 : expression_2	
+     	   
+
+->If condition satisfied then expression_1 will get execute else expression_2 will execute	   
+------------------------Example---------------------
+class Teranry{
+
+public static void main(String... args){
+
+int a =10;
+int b =50;
+
+  boolean flag = (a>b)?true:false;      //false
+  int smaller = (a<b)?a:b;                    //a
+
+System.out.println(flag);
+System.out.println(smaller);
+
+}
+}
+-------------------------------------------------
+ 8)shift Operators
+             (>> : Right Shift Operators)
+			 (<< left shift Operators)
+  ---------------------------Example---------------
+class Shift {
+
+public static void main(String... args){
+
+int a =10;
+/*
+(a<<2) 10*2*2 = 40
+ (a<<3) 10*2*2*2 = 80
+ (a>>2) 10/2/2   = 2.5~~ 2
+ (a>>3) 10/2/2/2 = 1.25 ~~ 1
+*/
+System.out.println(a<<2 );
+System.out.println(a<<3 );
+System.out.println( a>>2 );
+System.out.println( a>>3 );
+
+}
+}
+ ====================================================
+ 
+ 9)new Operators : It used to create object for the class.
+ 
+        ClassName refvar = new ClassName();
+Note: Creating object means allocating memory into heap area.
+
+===============================
+
+10) dot (.) Operators
+     Dot Operators is used to access class variables and methods
+	e.g-> System.out.println();
+	 
+	 
+11) instanceof Operators : isis used to check object reference belongs  to a class or not
+     
+	     String   s = "My name is Akash"; 
+		 
+		 (s instanceof String)?true:false;
+
+=======================================================================================AAA 
+
+Assignment::
+============
+1)Write a Java program to take two integers as input and perform all arithmetic operations (+, -, *, /, %). Display the results.
+
+2)Create a Java program that compares three integers x, y, and z. Print the largest and smallest numbers using relational operators.
+
+3)Write a program that checks whether a given number is divisible by both 3 and 5 using logical AND. Modify the program to check if it is divisible by either 3 or 5 using logical OR.
+
+4)Write a program that takes an integer as input and checks if it is even or odd using the ternary operator.
+
+5)Implement a program to demonstrate the difference between pre-increment and post-increment operations. Include examples for both increment (++) and decrement (--) operators.
+
+6)Create a Java program that accepts an integer from the user and performs the following operations:
+
+Left shift the number by 2 positions.
+Right shift the number by 2 positions. Print the results and explain the output.
+Dot Operator: Write a program that creates a class Student with properties name and age. Use the dot operator to access and print these properties after creating an object.
+
+7)Create a class hierarchy where Animal is the parent class, and Dog and Cat are subclasses. Write a program to check whether an object belongs to Dog or Cat using the instanceof operator.
+

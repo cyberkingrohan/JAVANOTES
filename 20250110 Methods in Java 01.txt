@@ -1,0 +1,228 @@
+								Java Full Stack Development
+									  10-01-2025
+								Mr.Akash(NSA IT-POINT)   
+=====================================================================================================
+
+
+========
+Methods
+========
+
+-> Methods are used to perform some operation / action
+
+-> In a class we can write any no.of methods including main method
+
+Note: JVM will always invokes main ( ) method
+
+-> If we want to execute our method then we have to invoke / call our methods from main ( ) method.
+
+returnType   <methodName>   (param1, param2, para3..... paramN) {
+
+		//logic
+
+		return value;
+
+}
+
+-> Every method contains 2 parts
+	
+		1) Method Declaration
+		2) Method Body
+
+------------------------------------------
+What is Method Declaration ?
+------------------------------------------
+Method declaration means we are going to decide what is the name of the method , what are the parameters it will take and what kind of value is return by the method.
+
+syntax:
+			returntype  methodname (list of parameters);
+--------------------------------
+What is returntype ?
+-----------------------------
+->  returntype is data type that indicates what type of value is return by the particular method.
+-> returntype can be any primitive type or array type or reference type
+-> if method does not return any value then return type must be specified using a java keyword called " void ".
+-> specifying returntype is mandatory 
+
+-----------------------------------
+What is  method name ?
+----------------------------------
+-> To identify and access the method there is a suitable name is given for a method which is called as method name.
+-> a methodname can be any valid java identifier.
+-> specifying method name is mandatory
+
+--------------------------------------------
+What are method parameters ?
+------------------------------------------
+-> parameters are the variables that will receive the values that are passed into the. particular method on which data method will perform the operations.
+
+-> we can write 0 or more number of parameters of any primitive type or array type or reference type
+
+-> specifying parameters is optional.
+
+-------------------------------------------------------------------------------
+Method body / Method Definition / Method implementation
+-------------------------------------------------------------------------------
+-> Method body means we are going to write the group of statements that are executed by the method.
+-> A method body can be written in between a pair of curly braces
+
+syntax:
+
+returntype methodname(list of parameters)
+{
+	//statements; 
+	return value;
+}
+
+-> here we can write 0 or more number of statements in between the pair of curly braces.
+-> when we write 0 statements then it is called as null implementation
+ 
+-> if the return type is specified as other than void then we must return a value from our method using java keyword called " return ".
+
+syntax:
+return value;
+
+-	the datatype of the value we return must be match with the datatype that we specify as return type.
+-	but if return type specified as void then we must not write any return value statement.
+
+-> In java we can create any number of methods which are in any of the following 4 combinations of methods
+
+
+without returntype and without parameter :-> void m1(){ //logic   }	 
+without returnType and with parameter    :-> void m1(list of param){ //logic   }   
+With  returnType and without parameter   :-> returnType m1(){ //logic   return value; }
+With  returnType and with parameter      :-> returnType m1(list of param){ //logic   return value; }
+	 
+=====================
+Types of Methods
+=====================
+
+=> Methods are divided into 2 types
+
+1) instance methods(Non Static)   ---> Object level methods 
+
+2) static methods ----> Class level method : Method with Static keyword
+
+
+->  instance method will be called by using Object
+           object.methodName();
+  
+	   
+-> static method will be called by using Class
+   	   className.methodName();
+
+
+-> When we write methods in java class, by default jvm will not execute them
+
+-> To execute our methods we have to call them 
+
+
+Note: JVM will start our program execution from main method. Main method is called as entry point for JVM execution
+
+
+// this is valid
+void   m1 ( ) {
+
+}
+
+// this is valid
+void m1 (int a, float f){
+
+}
+
+// this is valid
+int  add (int a, int b){
+	int c = a + b;
+	return c;
+}
+
+// this is valid
+int add (int a, int b){
+	return a +  b;
+}
+
+// this is valid
+int div (int a, int b){
+	return a / b ;
+}
+
+
+// below method is invalid (method return type is int but it is trying to return string value)
+int  m1 (String name){
+
+	Stirng s1 = name.toUpperCase( ) ;
+
+	return s1;
+
+}
+
+// this is valid
+boolean   m2 ( int a, int b){
+
+	if (a > b )
+		return true;
+	else
+		return false;
+
+}
+
+// this is valid
+boolean m2 (int a, int b){
+
+	return a > b ;
+
+}
+
+
+// this is invalid because it is having 2 return types
+String void m2(){
+
+	return "hi";
+
+}
+
+// this is valid
+boolean   m3( ) {
+
+	return true ;
+}
+
+// this is valid
+void   c1 (int [ ] arr ){
+
+	System.out.println(arr);
+}
+	 
+==============
+class Testing{
+	
+	void printName(){
+		System.out.println("NSA IT-POINT");
+	}
+	
+	public static void main(String... args){
+		
+		System.out.println("Welcome to method class");
+		
+		Testing test = new Testing();  //create object
+			test.printName();          // object.methodName();
+				
+	}
+}
+
+==========================
+class Testing{
+	
+	static void printName(){
+		System.out.println("NSA IT-POINT");
+	}
+	
+	public static void main(String... args){
+		
+		System.out.println("Welcome to method class");
+		
+			Testing.printName();          // className.methodName();
+				
+	}
+}
+=====================

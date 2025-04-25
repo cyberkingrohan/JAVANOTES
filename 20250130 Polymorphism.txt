@@ -1,0 +1,651 @@
+								Java Full Stack Development
+									  30-01-2025
+								Mr.Akash(NSA IT-POINT)   
+=====================================================================================================
+Polymorphism-
+=============
+Poly ----> Many
+
+Phism ---> Forms
+
+
+  -> One entity that behaves differently in different cases called as polymorphism.
+  
+	Ex:-1 : in below sceario + symbol having 2 diffenent behaviuours
+
+		10 + 20 ===> 30    (Here + is adding)
+		 
+		"hi" + "hello" ==> hihello  (here + is concatinating)
+
+
+	Ex:-2: 		
+
+	When i come to class i will behave like a trainer
+
+	When i go to ofc i will behave like a employee
+
+	When i go to home i will behave like a family member
+	Example- Light button, we are using that button to on or off the lights.
+	
+=================
+	
+
+->How to achieve polymorphism in java?
+     We can achieve polymorphism by using two ways.
+	 
+	 1) Static polymorphism / Compile-time Polymorphism
+		
+					Ex: Overloading
+
+	2) Dynamic polymorphism / Run-time Polymorphism
+
+					Ex: Overriding
+					
+======================
+1) Method overloading:
+======================
+
+Definition: Same method name with different arguments is called method overloading.
+Class Relationship: No need for a superclass and subclass relationship (can occur within the same class).
+Binding: Known as early binding, compile-time polymorphism, or static binding 
+
+-------
+Rules :
+-------
+-> Method Name: Must be the same.
+-> Parameters: Must differ (in type, number, or order of parameters).
+-> Return Type: Can be anything (but doesn't differentiate overloaded methods).
+-> Access Specifiers: Can be anything.
+-> Exceptions: Can throw any exceptions (checked or unchecked).
+-> Static/Final Methods: Overloading is possible for static methods. 
+
+Example-1
+package com.nsa.Polymorphism;
+
+public class Student {
+
+    public void enrollStudent() {
+        System.out.println("enroll all the student");
+    }
+
+    private int enrollStudent(int age) {
+        System.out.println("logic for enrolling the student based on age : " + age);
+        return age;
+    }
+
+    protected String enrollStudent(String caste) {
+        System.out.println("logic for enrolling the student based on caste : " + caste);
+        return caste;
+    }
+
+    public static void main(String[] args) {
+        Student stud = new Student();
+        int result = stud.enrollStudent(18);
+        System.out.println(result);
+
+    }
+}
+
+
+========================
+package com.nsa.Polymorphism;
+
+public class Calculator {
+
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    public double add(double a, double b) {
+
+        return a + b;
+    }
+
+    public final int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    public long add(long a, long b) {
+        return a + b + 50;
+    }
+}
+
+------------
+package com.nsa.Polymorphism;
+
+public class Testing {
+
+    public static void main(String[] args) {
+
+        Calculator cal = new Calculator();
+        double d = cal.add(10.20, 20.50);
+        System.out.println(d);
+    }
+
+}
+=================================
+package com.tests;
+ 
+ public class TestMain {
+	
+	void add(int a, int b) {
+		System.out.println(a + b);
+	}
+	
+	void add(double a, double b) {
+		System.out.println(a + b);
+	}
+	
+	void add(double a) {
+		System.out.println(a);
+	}
+	
+	void add(int a, int b, int c) {
+		System.out.println(a + b + c);
+	}
+}
+-------------		
+package com.tests;
+public class ExampleMain {
+		
+	public static void main(String[] args) {
+		
+		TestMain testmain = new TestMain();
+		testmain.add(10.5);
+		testmain.add(10.5, 11.5);
+		testmain.add(2, 4);
+		testmain.add(5, 10, 15);
+	}
+}
+Output is
+10.5
+22.0
+6
+30
+		
+============================		
+Why?
+ Suppose we got the business requirement from the client in last year :
+ 
+public Class Employee {
+   Void addStudent (String firstname, string lastname, string city) {
+        //logic for adding student
+   }
+------------   
+   End user is calling the class as below :
+//End User 1
+     addStudent (“ram”,”pawar”,”Pune”);
+
+//End User 2
+    addStudent (“ram”,”deshmukh”,”Mumbai”);
+---------------	
+	
+After that I got the new requirement from the client in current year, to update the 
+pan card details.
+
+What options we have?
+    1. Modified into the existing method.
+	2. Create the new method with new parameter.
+
+   First way modifying into existing method is not good approach, it will increase the unit testing of 
+it. If we are make the changes into existing method, then how user  calls the method I mean they need to add one more extra field, in future again, you  got requirement to add one more field so every time user need to change at their side, this is not the good thing.
+
+	Second way, create the same method in that class and add the new field into it. If client second want
+pan card details so he can call that method otherwise calls the first method if pan card is not required.
+
+Example- 2 {{{String vs Object}}}
+package com.poly;
+  public class A{
+		
+	void test(Object object) {
+		System.out.println("test- Object");
+	}
+		
+	void test(String string) {
+		System.out.println("test- String");
+	}
+
+	public static void main(String[] args) {
+		A a = new A();
+		a.test(new Object());
+		a.test("ram");
+		a.test(new A());
+		a.test(new String());
+		}
+	}
+test- Object
+test- String
+test- Object
+test- String
+		
+===============
+package com.nsa.ploymorphism;
+
+public class Employee {
+//I want name and age of employee
+	public void employeeInfo(String name, int age) {
+
+		System.out.println("Emoployee name is :" + name);
+		System.out.println("Emoployee age is :" + age);
+	}
+
+	// I want name, age and salary of employee and salary
+
+	void employeeInfo(String name, int age, double salary) {
+
+		System.out.println("Employee Name is " + name);
+		System.out.println("Employee age is " + age);
+		System.out.println("Employee salary is " + salary);
+
+	}
+
+}
+=====================
+package com.nsa.ploymorphism;
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+		Employee emp = new Employee();
+		emp.employeeInfo("Marry", 18);
+		emp.employeeInfo("Marry", 18, 752.20);
+	}
+}
+==============================
+package com.nsa.ploymorphism;
+
+public class Check {
+
+	void m1(int a) {
+		System.out.println("First Method");
+	}
+	void m1(double a) {
+		System.out.println("Second Method");
+		
+	}
+	
+	void m1(int a, double b) {
+		
+		System.out.println("third Method");
+	}
+	
+	void m1(double a, int b) {
+		System.out.println("Fourth Method");
+		
+	}
+}
+
+===========================
+package com.nsa.ploymorphism;
+
+public class TestMain {
+	public static void main(String[] args) {
+
+	Check ch = new Check();
+		
+	ch.m1(25.01); //2nd
+	
+	ch.m1(10);  //1st
+
+	ch.m1(10.20, 50); // 4th
+	
+	ch.m1(100, 36.5); //3rd
+	}
+}
+======		
+
+==============================================		
+Why it is called as compile time polymorphism?
+==============================================
+ Because it is decided at compile time which one method should get called that’s why it is 
+called as compile time polymorphism.
+
+  Live Example-1
+			
+	Class MobilePattern{
+		void getMobilePattern(Thumb thumb){
+			//logic here
+		}
+			
+		void getMobilePattern(int number){
+			//logic here
+			}
+		void getMobilePattern(int x1, int y1, int x2, int y2){
+			//logic here
+			}
+			}
+	
+Live Example-2
+	Class Banking{
+		
+	void getBanking(CreditCard creditCard){
+		//logic here
+		}
+	void getBanking(Netbanking netBanking){
+		//logic here
+		}
+	void getBanking(DebitCard debitCard){
+		//logic here
+		}
+	void getBanking(UPI upi){
+		//logic here
+		}
+		}
+
+===================================================
+===================================================
+			Method Overriding
+===================================================
+===================================================
+
+Definition: A method in a subclass that has the same name, return type, and parameters as a method in the superclass.
+Class Relationship: Requires a superclass and subclass relationship.
+Binding: Known as late binding, runtime polymorphism, or dynamic binding.
+
+Rules:
+-> Method Name: Must be the same as the superclass method.
+-> Parameters: Must be the same as the superclass method.
+-> Return Type: Must be the same or covariant (a subclass of the return type in the superclass).
+-> Access Specifiers:
+-> Cannot reduce the visibility of the method (e.g., if the superclass method is public, the overriding method must also be public).
+-> Exceptions: Can only throw the same exceptions or narrower exceptions than the superclass method.
+-> Annotations: It is recommended to use @Override for clarity, but not mandatory.
+-> Static/Final Methods: Cannot be overridden.
+
+	Note- we can extend the method scope in overriding but not reduce the visibility of it.
+
+Why?  ---> Maintainability  and Readability of code.
+
+==================================
+package com.nsa.Polymorphism;
+
+public class Parent {
+
+    public void getMarriedTo() {
+        System.out.println("get Married to Kareena Kapoor");
+    }
+
+}
+---------------
+package com.nsa.Polymorphism;
+
+public class Child extends Parent {
+    
+    @Override
+    public void getMarriedTo() {
+        System.out.println("get Married to Angelina July");
+    }
+
+    public static void main(String[] args) {
+        Child child = new Child();
+        child.getMarriedTo();
+    }
+}
+
+=================================
+package com.nsa.Polymorphism;
+
+public class RBI {
+
+    public void approveLoan(double salary, double cibil) {
+
+        if (salary > 20000 && cibil > 650) {
+            System.out.println("approve the loan with rate of Interest : " + "7%");
+        } else {
+            System.out.println("reject the loan");
+        }
+
+    }
+
+    public void doVerification(String adhar, String pan, int age) {
+        System.out.println("logic to check Valid Adhar: " + adhar);
+        System.out.println("logic to  check Valid pan : " + pan);
+        System.out.println("logic to  check Valid age : " + age);
+    }
+}
+----------------------
+package com.nsa.Polymorphism;
+
+public class BandhanBank extends RBI {
+
+    @Override
+    public void approveLoan(double salary, double cibil) {
+
+        if (salary > 20000 && cibil > 500) {
+            System.out.println("approve the loan with rate of Interest : " + "12%");
+        } else {
+            System.out.println("reject the loan");
+        }
+    }
+
+    public static void main(String[] args) {
+
+        BandhanBank bandhan = new BandhanBank();
+        bandhan.doVerification("789654123", "abcs@123", 18);
+        bandhan.approveLoan(25000, 600);
+
+    }
+}
+
+In the Example:
+
+Superclass: RBI
+
+The RBI class acts as the superclass. It defines two methods:
+approveLoan(double salary, double cibil): This method defines the general loan approval criteria for RBI. It approves a loan if the salary is greater than 20000 and the CIBIL score is greater than 650, with a 7% interest rate.
+doVerification(String adhar, String pan, int age): This method outlines the general verification process.
+Subclass: BandhanBank
+
+The BandhanBank class extends the RBI class. This means BandhanBank inherits all the methods and properties of RBI.
+Overriding approveLoan: The BandhanBank class overrides the approveLoan method. It provides its own implementation of the loan approval logic. In this case, Bandhan Bank has a different CIBIL score requirement (500 instead of 650) and a different interest rate (12%). The @Override annotation is a good practice to indicate that you are intentionally overriding a method. It's not strictly required by the compiler, but it helps prevent accidental method creation instead of overriding.
+doVerification is not overridden. BandhanBank inherits the doVerification method directly from RBI without modification.
+main method:
+
+In the main method of BandhanBank, a BandhanBank object (bandhan) is created.
+bandhan.doVerification("789654123", "abcs@123", 18);: This calls the doVerification method. Since BandhanBank did not override this method, the doVerification method from the RBI class is executed.
+bandhan.approveLoan(25000, 600);: This calls the approveLoan method. Because BandhanBank did override this method, the approveLoan method defined in the BandhanBank class is executed. The loan is approved with a 12% interest rate, according to Bandhan Bank's specific logic.
+===================================
+			
+
+	Example-
+		package com.override.demo;
+		  public class A {
+			
+			void m1() {
+				System.out.println("class - A- m1 () method");
+			}
+		}
+		package com.override.demo;
+			public class B extends A {
+
+			@Override
+			void m1() {
+				System.out.println("class - B- m1 () method");
+			}
+
+			void m7() {
+				System.out.println("class- B- m7() method");
+			}
+			}
+			
+		package com.override.demo;
+		  public class TestMain {
+			
+			public static void main(String[] args) {
+				B b= new B();
+				b.m1();
+				b.m7();
+			}
+		}
+Output :class - B- m1 () method
+class- B- m7() method
+			
+Program Explaination-
+▪ In the above program, B is implementing the method m1 () with the same signature as super class A i.e m1 () of class B is overriding m1() of class A.
+▪ If you want to add new features to existing class, then you should not disturb the  existing class. You should always write the subclass of that class that is the best  practice.
+
+	Why we write the sub class
+		1. To add the new features
+		2. To inherit the existing functionality.
+		
+ 
+===========
+package com.nsa.ploymorphism.overriding;
+
+public class Father {
+
+	void getMarried(String name) {
+		System.out.println("beta get married with :" + name);
+	}
+}
+=================
+package com.nsa.ploymorphism.overriding;
+
+public class Son extends Father {
+
+	/*
+	 * void getMarried(String name) { System.out.println("beta get married with :" +
+	 * name); } This parent class method will be invisibly available here as well
+	 */
+
+	void getMarried(String name) {
+		System.out.println("Son will not get marred with : " + name);
+	}
+
+}
+
+=================
+package com.nsa.ploymorphism.overriding;
+
+public class TestMain {
+
+	
+	public static void main(String[] args) {
+		
+		Son s = new Son();
+		s.getMarried("JERRY"); 
+		
+	}
+}
+ 
+==================
+package com.nsa.ploymorphism.overriding;
+
+public class Testing {
+	public static void main(String[] args) {
+
+		Employee emp = new Employee("Jerry");
+		Employee emp1 = new Employee("Jerry");
+		
+		System.out.println(emp.equals(emp1)); //false 
+		//object class equals method compare object on the basis on == 
+		
+		String str = new String("Merry");
+		String str1 = new String("Merry");
+		
+		System.out.println(str.equals(str1)); //true
+		//String class equals method compare object on the basis of content 	
+		
+	}
+}
+
+NOte: Object class equals ( ) method will compare address of the objects where String class equals ( ) method will compare content of the objects.
+
+Note: String class overriding equals ( ) method.
+==================
+		
+		
+Subclass method's access modifier must be the same or higher than the superclass method 
+			
+			C
+
+   Parent/Super        Child/sub
+  -------------- 
+    public          :     public
+	protected       :     public, protected
+	default         :     public, protected, default
+	private         :     We can NOT override private method
+	
+	
+	Method Overriding- 
+Live Example-1
+
+	Class SBI {
+		void getSimpleIntereset(float simpleRate){
+			//logic here
+			}
+			}
+	
+	Class Axis extends SBI{
+		void getSimpleIntereset(float simpleRate){
+			//logic here
+			}
+			}
+	Class HDFC extends Axis {
+		void getSimpleIntereset(float simpleRate){
+			//logic here
+			}
+			}
+
+Live Example-2
+	Class FirstTier {
+		void getSeatAvailability(int seat){
+			//logic here
+			}
+			}
+	Class SecondTier extends FirstTier{
+		void getSeatAvailability(int seat){
+			//logic here
+			}
+			}
+	Class ThirdTier extends SecondTier {
+		void getSeatAvailability(int seat){
+			//logic here
+			}
+			}
+			
+			
+================================
+================================
+		Assignmnet Questions
+		
+================================
+================================
+Method Overloading:
+
+Calculator Class: Create a Calculator class with overloaded methods for addition, subtraction, multiplication, and division.  Implement these methods for different data types (int, float, double) and different numbers of arguments (e.g., adding two integers, adding three integers, adding two doubles).  Demonstrate the use of these overloaded methods in a Main class.
+
+Shape Area: Create a Shape class with overloaded methods to calculate the area of different shapes: calculateArea(int radius) for a circle, calculateArea(int length, int width) for a rectangle, and calculateArea(int base, int height) for a triangle.  In a Main class, create Shape objects and call the appropriate calculateArea method for each shape.
+
+Student Enrollment: Design a Student class with overloaded enroll methods.  One method should accept the student's name and major, while another should accept the name, major, and a list of courses.  A third method could accept the name, major, list of courses, and scholarship information.  Implement these methods and show how they are used.
+
+Banking System: Develop a BankAccount class with overloaded methods for depositing and withdrawing money.  One deposit method should accept only the amount, while another should accept the amount and a transaction description.  Similarly, create overloaded withdraw methods with varying parameters.
+
+String Manipulation: Create a StringUtils class with overloaded methods for string manipulation.  Implement methods for reversing a string, converting a string to uppercase, finding the length of a string, and concatenating two strings.  Demonstrate their usage.
+
+Method Overriding:
+
+Animal Hierarchy: Create a class hierarchy with Animal as the superclass.  Define a method makeSound() in the Animal class.  Create subclasses like Dog, Cat, and Bird that override the makeSound() method to provide their specific sounds.  Demonstrate polymorphism by creating an array of Animal objects and calling makeSound() on each object.
+
+Bank Loan:  Design a Loan class with a method calculateInterest().  Create subclasses like HomeLoan, CarLoan, and PersonalLoan that override calculateInterest() to implement different interest calculation logic.  Show how these different loan types can be handled polymorphically.
+
+Vehicle Class: Create a Vehicle class with methods like start(), stop(), and getFuelType().  Create subclasses like Car, Motorcycle, and Truck that override these methods to provide vehicle-specific implementations.  Test these classes.
+
+Employee Salary:  Develop an Employee class with a method calculateSalary().  Create subclasses like Manager, Programmer, and Clerk that override this method to calculate salaries based on their roles and responsibilities.
+
+Shape Drawing:  Design a Shape class with a method draw().  Create subclasses like Circle, Rectangle, and Square that override draw() to draw their respective shapes.  Demonstrate how different shapes can be drawn using a common interface.
+
+Combined Overloading and Overriding:
+
+Zoo Simulation: Create a Zoo class with overloaded methods for adding animals (different animal types, different numbers of animals).  Use an Animal hierarchy (as in the Animal Hierarchy question above) and demonstrate both method overloading (adding different types of animals) and method overriding (animal-specific sounds).
+
+Payment System: Design a Payment class with overloaded methods for making payments (different payment methods, different currencies).  Create subclasses for different payment types (e.g., CreditCardPayment, PayPalPayment) that override a processPayment() method.  Demonstrate how both overloading and overriding are used in this system.
+
+Challenging Questions:
+
+Dynamic Dispatch: Explain how dynamic dispatch works in Java in the context of method overriding.  How does the JVM decide which method to call at runtime?
+
+Covariant Return Types:  Explain what covariant return types are and how they can be used in method overriding. Provide an example.
+
+super Keyword:  Explain the use of the super keyword in method overriding.  How can it be used to call the superclass's version of an overridden method?		

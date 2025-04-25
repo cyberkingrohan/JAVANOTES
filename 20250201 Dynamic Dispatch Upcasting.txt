@@ -1,0 +1,288 @@
+								Java Full Stack Development
+									  01-07-2024
+								Mr.Akash(NSA IT-POINT)   
+===================================================================================================
+Inheritance w.r.t Variables
+
+public class User {
+
+	int id=11;
+	String name="vikas";
+	
+} 
+
+public class Student extends User{
+
+	int rank;
+	
+	public static void main(String[] args) {
+		// Accessing child class variable
+	 	Student s = new Student();
+	 	s.rank= 1;
+		
+	 	//How to access parent class variable	 	
+	 	System.out.println(s.rank +" : "+  s.id + " : " + s.name);
+	}
+	
+}
+
+*******************************************************************************************
+
+package com.inheritance;
+
+public class Student extends User{
+
+	int rank=2;
+	//int id;    //hidden  ->User class
+	//String name //hidden -> User class
+	
+	public static void main(String[] args) {
+		
+		User u = new User();
+		System.out.println(u.id);    //valid
+		System.out.println(u.name);  //valid
+		System.out.println(u.rank);  //invalid
+		
+	}
+	
+}
+
+--------------------------------------------------------------------------------
+for access child class variable (int rank) we need to create child class object
+Student s = new Student();
+System.out.println(s.rank);  //valid
+
+********************************************************************
+
+Inheritance w.r.t Constructor
+........................................................
+
+-> Whenever we create child class object, then it will first call parent class default/zero-param constructor and then it will execute Child class Constructor
+
+WHY parent class constructor is executing first ?
+-> So that Child class should be able to accesss parent class properties.
+---------------------------------------
+package com.inheritance.constructor;
+
+public class User {
+
+	int id;
+	String name;
+	
+	//Default Constructor 
+	public User(){ 
+		System.out.println("Parent class : User Constructor");
+	}
+}
+package com.inheritance.constructor;
+
+public class Student extends User {
+
+	double stipend;
+	// parent class variable present in child but it is hidden
+	// int id;
+	// String name;
+
+	// Child Class Constructor
+	public Student() {
+		System.out.println("Child Class : Student Constructor");
+	}
+
+	public static void main(String[] args) {
+		// create child class object to access both parent and child class properties
+		Student s = new Student();
+		s.stipend=100.5;
+		s.id=7;
+		s.name="mahi";
+		System.out.println("Stipend : " + s.stipend );
+		System.out.println("Id : " + s.id );
+		System.out.println("Name : " + s.name );
+		
+			}
+}
+//Output : Parent class : User Constructor
+Child Class : Student Constructor
+Stipend : 100.5
+Id : 7
+Name : mahi
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Inheritance w.r.t Method 
+
+package com.inheritance.method;
+
+public class User {
+
+	int id;
+	String name;
+	
+	void m1() {
+		System.out.println("Parent Class :: M1() Method");
+	}
+}
+
+package com.inheritance.method;
+
+public class Student extends User {
+
+	boolean isStudent; // true / false
+
+	public void m2() {
+		System.out.println("Child Class :: m() method");
+	}
+
+	public static void main(String[] args) {
+
+		Student s = new Student();
+
+		System.out.println(s.id = 10);
+		System.out.println(s.name = "aman");
+		System.out.println(s.isStudent = false);
+
+		// how to access child class method
+		s.m2();
+
+		// how to access parent class method
+		// parent class method present in child class invisibly
+		s.m1();
+
+	}
+}
+******************************************************************************
+When we call a method using child class Object, it will first check in current class for that method, if it is availble it will call that method directly. If method not availble in current class then it will check in parent class(it can be direct or indirect parent class).If method present in parent class then it will call parent class method. If parent class also dont have that method then it will throw the exception. 
+
+Note: In inheritance priority will always be given  to Child class object. If Child class doesn't have that method the priority will be given to parent class.
+
+Note : For every class "Object" class will act as a parent class either directly or indirectly.
+ 
+----------------------
+package com.inheritance.method;
+
+public class User {
+
+	void m1() {
+		System.out.println("Parent Class :: m1() Method");
+	}
+}
+package com.inheritance.method;
+
+public class Student extends User {
+
+	public void m1() {
+		System.out.println("Child Class :: m1() method");
+	}
+
+	public void m2() {
+		System.out.println("Child Class :: m2() method");
+	}
+
+	public static void main(String[] args) {
+
+		Student s = new Student();
+		s.m2(); // This will call Child class m2() method
+		s.m1(); // This will call Child class m1() method
+	
+
+	}
+}
+
+===========================
+***************************
+Dynamic Dispatch / upcasting
+***************************
+===========================
+The process of assigning child class reference to the parent class.
+
+                            class X{
+
+                                        }
+
+                    class Y extends X{
+
+
+                                      }
+
+             Parent p = new Child();
+                       X x = new Y(); 
+					   
+Upcasting refers to the act of casting a subclass (child class) to a superclass (parent class) reference. In this case, Y is a subclass of X, and the reference variable x of type X is being assigned an object of type Y. This is a common practice in object-oriented programming to take advantage of polymorphism, where the reference variable of a superclass can refer to an object of its subclass.
+
+Note:  →→ when thwere is a same variable or method is present in both child and parent class then Parent class variable and child class method will be called using dynamic dispatch.
+---------------------------------------------------------
+
+package com.inheritance.dyanamicdispatch;
+
+public class X {
+
+	int a = 10;
+	int b = 20;
+	
+	void m1() {
+		System.out.println("X class :: m1() method");
+	}
+	
+	void m2() {
+		System.out.println("X class :: m2() method");
+		
+	}
+}
+
+package com.inheritance.dyanamicdispatch;
+
+public class Y extends X{
+
+	int b = 30;
+	int c = 40;
+	
+	void m2() {
+		System.out.println("Y class :: m2() method");
+	}
+	void m3() {
+		System.out.println("Y class :: m3() method");
+	}
+}
+
+package com.inheritance.dyanamicdispatch;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// scenario 01
+		
+		  X x = new X(); 
+		  System.out.println(x.a); // 10 
+		  System.out.println(x.b); // 20
+	   // System.out.println(x.c); // 
+		  x.m1(); // x class m1() 
+		  x.m2(); // x cl m2() 
+	   // x.m3(); // error
+		 
+
+		// scenario 02
+			Y y = new Y();
+		System.out.println(y.a); // 10
+		System.out.println(y.b); // 30
+		System.out.println(y.c); // 40
+		y.m1(); // m1() x class
+		y.m2(); // m2() y class
+		y.m3(); // m3() y class
+	
+		//Scenario 3
+		X x = new Y();    //Dynamic Dispatch  
+		
+		System.out.println(x.a);    //10
+		System.out.println(x.b);    //20
+	//	System.out.println(x.c);    // error
+		x.m1();                     // m1() X class
+		x.m2();                     // m2() Y class
+	//	x.m3();                     // error 
+		
+		
+		
+
+	}
+}
+
+Y y = new X();    → Assigning parent class reference to child class not possible 
+
+*****************************************************
